@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{8cc3232c-eafc-4287-94f6-e71078dcff33}">
+		<property name="assetPath">
+			<value>Brush_Stroke-01.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.2066666666666668</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{0123acb1-1675-479b-a222-1a9dc67111e2}</destination>
+		</relationship>
+	</object>
+</objects>
