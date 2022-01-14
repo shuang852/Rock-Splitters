@@ -6,24 +6,41 @@ using UnityEngine.SceneManagement;
 namespace Managers
 {
     /// <summary>
-    /// This is essentially a manager locator but its more flexible.
+    /// This is essentially a MANAGER LOCATOR but its more flexible.
     /// </summary>
     public static class M
     {
-        private static readonly Dictionary<Type, IManager> Managers = new Dictionary<Type, IManager>();
+        private static readonly Dictionary<Type, IManager> managers = new Dictionary<Type, IManager>();
 
         /// <summary>
-        /// Basically assume that we can get a manager of a certain type. Otherwise throw an exception.
+        /// Basically assume that we can get a manager of a certain type. Otherwise it automatically throws an exception.
+        ///
+        /// <p>This should be the default when trying to get a manager</p>
         /// </summary>
         /// <exception cref="InvalidOperationException">No managers found for that type</exception>
         public static T GetOrThrow<T>() where T : IManager
+        {
+            return GetOrThrow<T>($"Trying to get manager {typeof(T).FullName}, but it is not ready!");
+        }
+        
+        /// <summary>
+        /// Basically assume that we can get a manager of a certain type. Otherwise throw an exception with an error message.
+        /// </summary>
+        public static T GetOrThrow<T>(string errorMessage) where T : IManager
+        {
+            return GetOrThrow<T>(new InvalidOperationException(errorMessage));
+        }
+        
+        /// <summary>
+        /// Basically assume that we can get a manager of a certain type. Otherwise throw an exception.
+        /// </summary>
+        public static T GetOrThrow<T>(Exception exception) where T : IManager
         {
             T manager = GetOrNull<T>();
 
             if (manager == null)
             {
-                throw new InvalidOperationException(
-                    $"Trying to get manager {typeof(T).FullName}, but it is not ready!");
+                throw exception;
             }
 
             return manager;
@@ -34,7 +51,7 @@ namespace Managers
         /// </summary>
         public static T GetOrNull<T>() where T : IManager
         {
-            return Managers.TryGetValue(typeof(T), out IManager manager) 
+            return managers.TryGetValue(typeof(T), out IManager manager) 
                 ? (T) manager 
                 : default;
         }
@@ -50,16 +67,16 @@ namespace Managers
             Type managerType = manager.GetType();
 
             // Check if there is an existing instance and it should be replaced
-            if (Managers.ContainsKey(managerType))
+            if (managers.ContainsKey(managerType))
             {
-                IManager existingManager = Managers[managerType];
+                IManager existingManager = managers[managerType];
 
                 // Ignore if the manager is already registered
                 if (existingManager == manager) return;
                 
                 if (existingManager.CanBeReplaced && !existingManager.PersistBetweenScenes)
                 {
-                    Managers[managerType].OnReplaced(manager);
+                    managers[managerType].OnReplaced(manager);
                 }
                 else
                 {
@@ -68,7 +85,7 @@ namespace Managers
                 }
             }
 
-            Managers[managerType] = manager;
+            managers[managerType] = manager;
             
             if (manager.PersistBetweenScenes && Application.IsPlaying(manager.gameObject))
                 GameObject.DontDestroyOnLoad(manager.gameObject);
@@ -79,9 +96,9 @@ namespace Managers
             Type managerType = manager.GetType();
 
             // We need to make sure we don't remove an existing manager in the process of destroying the passed in manager
-            if (Managers.TryGetValue(managerType, out IManager existingManager) && existingManager == manager)
+            if (managers.TryGetValue(managerType, out IManager existingManager) && existingManager == manager)
             {
-                Managers.Remove(managerType);
+                managers.Remove(managerType);
                 
                 if (manager.PersistBetweenScenes)
                     SceneManager.MoveGameObjectToScene(manager.gameObject, SceneManager.GetActiveScene());
