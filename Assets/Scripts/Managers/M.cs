@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Managers
 {
+    /// <summary>
+    /// This is essentially a manager locator but its more flexible.
+    /// </summary>
     public static class M
     {
         private static readonly Dictionary<Type, IManager> Managers = new Dictionary<Type, IManager>();
@@ -12,7 +16,7 @@ namespace Managers
         /// Basically assume that we can get a manager of a certain type. Otherwise throw an exception.
         /// </summary>
         /// <exception cref="InvalidOperationException">No managers found for that type</exception>
-        public static T Extort<T>() where T : IManager
+        public static T GetOrThrow<T>() where T : IManager
         {
             T manager = GetOrNull<T>();
 
@@ -38,6 +42,8 @@ namespace Managers
         /// <summary>
         /// Try to register a manager, may return false in cases where there is an existing manager and it cannot
         /// be replaced.
+        ///
+        /// <p>You can actually call this from anywhere at anytime, including before scene loads</p>
         /// </summary>
         public static void RegisterManager(IManager manager)
         {
@@ -75,7 +81,10 @@ namespace Managers
             // We need to make sure we don't remove an existing manager in the process of destroying the passed in manager
             if (Managers.TryGetValue(managerType, out IManager existingManager) && existingManager == manager)
             {
-                Managers.Remove(manager.GetType());
+                Managers.Remove(managerType);
+                
+                if (manager.PersistBetweenScenes)
+                    SceneManager.MoveGameObjectToScene(manager.gameObject, SceneManager.GetActiveScene());
             }
         }
     }
