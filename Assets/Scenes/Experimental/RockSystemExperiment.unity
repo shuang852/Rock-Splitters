@@ -383,6 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layerLength: 9
+  colorGradient: 4
   tilemapSortingLayer: Chunk
 --- !u!114 &1319664918
 MonoBehaviour:

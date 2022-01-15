@@ -11,7 +11,10 @@ namespace RockSystem
     [RequireComponent(typeof(Grid))]
     internal class ChunkMap : MonoBehaviour
     {
+        [Tooltip("How many tilemaps/layers should be generated")]
         [SerializeField] private int layerLength = 1;
+        [Tooltip("How different are colors between layers. Higher value means lesser difference")]
+        [SerializeField, Min(0)] private float colorGradient = 8f;
         [SerializeField] private string tilemapSortingLayer = "Default";
 
         private readonly List<Tilemap> layeredTilemaps = new List<Tilemap>();
@@ -34,9 +37,13 @@ namespace RockSystem
                 Tilemap tilemap = go.AddComponent<Tilemap>();
                 TilemapRenderer tilemapRenderer = go.AddComponent<TilemapRenderer>();
 
+                // Produce a darker color as we go deeper
+                float colorValue = 1f / ((layerLength - i) / colorGradient + 1f);
+                tilemap.color = new Color(colorValue, colorValue, colorValue, 1f);
+                
                 tilemapRenderer.sortingOrder = i;
                 tilemapRenderer.sortingLayerName = tilemapSortingLayer;
-                
+
                 layeredTilemaps.Add(tilemap);
             }
         }
