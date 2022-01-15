@@ -95,3 +95,9 @@ fmod_editor.log
 # FMOD 1.10.x (Legacy)
 /Assets/FMODAssets/*
 /Assets/FMODStudioCache.meta
+
+#Console stuff
+/[Pp]roject[Ss]ettings/GameCoreScarlettSettings.asset
+/[Pp]roject[Ss]ettings/GameCoreXboxOneSettings.asset
+/[Pp]roject[Ss]ettings/ScarlettGame.config
+/[Pp]roject[Ss]ettings/XboxOneGame.config
