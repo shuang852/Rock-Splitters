@@ -1,0 +1,8 @@
+{
+    "name": "UI",
+    "references": [
+        "Managers",
+        "RockSystem",
+        "Unity.InputSystem"
+    ]
+}
