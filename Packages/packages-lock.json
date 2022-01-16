@@ -7,8 +7,8 @@
       "dependencies": {},
       "hash": "50a67d8f419b6cea0398eff6c19cf0bbe11ed609"
     },
-    "com.jordantama.ui": {
-      "version": "file:UI-Framework",
+    "com.jordantama.ui-framework": {
+      "version": "file:com.jordantama.ui-framework",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
