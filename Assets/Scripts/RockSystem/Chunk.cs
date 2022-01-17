@@ -39,7 +39,7 @@ namespace RockSystem
         {
             if (amount <= 0) return;
             
-            Debug.Log($"Damaging by {amount} with chunk at layer {position.z}");
+            // Debug.Log($"Damaging by {amount} with chunk at layer {position.z}");
             currentHealth -= amount;
 
             if (currentHealth <= 0)
