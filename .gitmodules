@@ -1,4 +1,4 @@
 [submodule "Packages/com.jordantama.ui-framework"]
 	path = Packages/com.jordantama.ui-framework
-	url = git@github.com:JordanTama/com.jordantama.ui-framework.git
+	url = https://github.com/JordanTama/com.jordantama.ui-framework.git
 	branch = amg
