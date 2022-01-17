@@ -11,6 +11,7 @@ namespace RockSystem
 
         private readonly Vector3Int position;
         public Vector3Int Position => position;
+        public Vector2Int FlatPosition => (Vector2Int) position;
         
         private int currentHealth;
         public int Health => currentHealth;

@@ -11,12 +11,14 @@ namespace RockSystem
     {
         private readonly Dictionary<Vector3Int, Chunk> chunks = new Dictionary<Vector3Int, Chunk>();
         private readonly ChunkMap chunkMap;
+        private readonly Grid grid;
 
         public Vector2Int MinSize { get; }
         public Vector2Int MaxSize { get; }
 
-        internal ChunkStructure(Vector2Int size, ChunkMap chunkMap)
+        internal ChunkStructure(Vector2Int size, ChunkMap chunkMap, Grid grid)
         {
+            this.grid = grid;
             this.chunkMap = chunkMap;
 
             MinSize = new Vector2Int(Mathf.FloorToInt(size.x / -2f), Mathf.FloorToInt(size.y / -2f));
@@ -69,6 +71,10 @@ namespace RockSystem
 
             return null;
         }
+
+        public Vector3 CellToWorld(Vector2Int cell) => grid.GetCellCenterWorld((Vector3Int) cell);
+        
+        public Vector2Int WorldToCell(Vector3 worldPosition) => (Vector2Int) grid.WorldToCell(worldPosition);
 
         public IEnumerable<Vector2Int> GetFlatPositions()
         {
