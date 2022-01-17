@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb7d760d6c84d88ba53ebbaeb2271f7, type: 3}
   m_Name: SampleChunk
   m_EditorClassIdentifier: 
-  sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  sprite: {fileID: 2747690628134850419, guid: 5cd4fcb5c0a5f2fd79a80b5ef0cfdb8f, type: 3}
   offset: {x: 0, y: -0.3}
   damagedColor: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 0.25490198}
   health: 1
