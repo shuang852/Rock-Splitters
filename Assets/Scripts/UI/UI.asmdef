@@ -1,8 +1,19 @@
 {
     "name": "UI",
+    "rootNamespace": "",
     "references": [
         "Managers",
         "RockSystem",
-        "Unity.InputSystem"
-    ]
+        "Unity.InputSystem",
+        "com.jordantama.ui-framework"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
