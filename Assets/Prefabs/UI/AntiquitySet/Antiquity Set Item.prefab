@@ -328,6 +328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd8e852eb92b4b243976ce72f724d2de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockedColour: {r: 0.23529412, g: 0.23529412, b: 0.23529412, a: 1}
   icon: {fileID: 1250229592969834670}
   score: {fileID: 1250229593163305024}
 --- !u!114 &1250229593182910105

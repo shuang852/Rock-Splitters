@@ -45,7 +45,7 @@ namespace UI.AntiquitySets
             foreach (var antiquity in antiquitySet.SetItems)
             {
                 var obj = Instantiate(setItemPrefab, collection.transform);
-                //obj.GetComponent<FossilSetItem>().SetupSetItem(antiquity, inventory.get);
+                obj.GetComponent<AntiquitySetItemUI>().SetupSetItem(antiquity, inventory.Contains(antiquity));
             }
         }
     }
