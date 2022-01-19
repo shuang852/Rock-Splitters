@@ -15,3 +15,5 @@ MonoBehaviour:
   radius: 1
   action: 1
   damage: 1
+  unlocked: 1
+  startingTool: 1
