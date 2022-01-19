@@ -5,7 +5,7 @@ using Managers;
 using RockSystem.Fossils;
 using UnityEngine;
 
-namespace RockSystem
+namespace RockSystem.Chunks
 {
     /// <summary>
     /// Handles the implementation, functionality and access of chunks.
