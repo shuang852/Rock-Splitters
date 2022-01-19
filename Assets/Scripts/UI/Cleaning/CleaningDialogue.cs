@@ -8,6 +8,7 @@ namespace UI.Cleaning
     public class CleaningDialogue : Dialogue
     {
         [SerializeField] private GameObject cleaningResultsDialoguePrefab;
+        [SerializeField] private BrushInput brushInput;
 
         private CleaningManager cleaningManager;
 
@@ -15,12 +16,22 @@ namespace UI.Cleaning
         {
             cleaningManager = M.GetOrThrow<CleaningManager>();
 
+            cleaningManager.CleaningStarted.AddListener(OnCleaningStarted);
             cleaningManager.CleaningWon.AddListener(ShowResults);
             cleaningManager.CleaningLost.AddListener(ShowResults);
+
+            brushInput.enabled = false;
+        }
+
+        private void OnCleaningStarted()
+        {
+            brushInput.enabled = true;
         }
 
         private void ShowResults()
         {
+            brushInput.enabled = false;
+            
             Instantiate(cleaningResultsDialoguePrefab, transform.parent);
         }
 
