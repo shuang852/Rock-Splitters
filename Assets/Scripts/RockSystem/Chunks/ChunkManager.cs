@@ -63,7 +63,14 @@ namespace RockSystem.Chunks
                 }
                 else
                 {
-                    damageLayer.DisplayDamage(chunk.FlatPosition);
+                    fossil.DamageFossilChunk(chunk.FlatPosition, damage);
+                    float remainingHealth = fossil.GetFossilChunkHealth(chunk.FlatPosition);
+
+                    if (remainingHealth <= fossil.Antiquity.BreakingHealth)
+                    {
+                        float damagePercentage = 1f - (remainingHealth / fossil.Antiquity.MaxHealth);
+                        damageLayer.DisplayDamage(chunk.FlatPosition, damagePercentage);
+                    }
                 }
             }
         }

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Managers;
+using RockSystem.Chunks;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -8,19 +10,22 @@ namespace RockSystem.Fossils
 {
     public class DamageLayer : MonoBehaviour
     {
-        [SerializeField, Min(1)] private int damageLevelMin = 3;
-        [SerializeField] private int damageLevelMax = 5;
         [SerializeField] private string sortingLayer = "Chunk";
         [SerializeField] private int sortingOrder = 20;
         [SerializeField] private List<Sprite> damageSprites;
+        [SerializeField] private Sprite bustedDamageSprite;
 
-        private Dictionary<Vector2Int, int> damageLevels = new Dictionary<Vector2Int, int>();
-        private List<Tile> damageTiles = new List<Tile>();
+        private readonly List<Tile> damageTiles = new List<Tile>();
+        private Tile bustedDamageTile;
         private Tilemap tilemap;
 
         private void Awake()
         {
             CreateTilemap();
+        }
+
+        private void Start()
+        {
             CreateDamageTiles();
         }
 
@@ -41,6 +46,9 @@ namespace RockSystem.Fossils
             if (damageSprites.Count == 0)
                 throw new Exception("Missing damage sprites, they are not assigned!");
             
+            if (bustedDamageSprite == null)
+                throw new Exception("Missing busted damage sprite, they are not assigned!");
+            
             damageTiles.Clear();
 
             foreach (var sprite in damageSprites)
@@ -49,47 +57,27 @@ namespace RockSystem.Fossils
                 tile.sprite = sprite;
                 damageTiles.Add(tile);
             }
+            
+            bustedDamageTile = ScriptableObject.CreateInstance<Tile>();
+            bustedDamageTile.sprite = bustedDamageSprite;
         }
 
-        public void DisplayDamage(Vector2Int flatPosition)
+        public void DisplayDamage(Vector2Int flatPosition, float percentage)
         {
-            int level = AddAndGetDamageLevel(flatPosition);
-            Tile damageTile = GetDamageTileOrNull(level);
+            TileBase damageTile = GetDamageTile(percentage);
             tilemap.SetTile((Vector3Int) flatPosition, damageTile);
             
-            Debug.Log($"Displaying damage level {level} at {flatPosition}");
+            // Debug.Log($"Displaying damage level {level} at {flatPosition}");
         }
 
-        private Tile GetDamageTileOrNull(int level)
+        private TileBase GetDamageTile(float percentage)
         {
-            if (level <= 0)
-                throw new IndexOutOfRangeException($"No level below 0 exists for a damage tile!");
-            
-            if (level > damageLevelMax)
-                throw new IndexOutOfRangeException($"No level above {level} exists for a damage tile!");
+            if (percentage < 0 || percentage > 1)
+                throw new ArgumentException($"{percentage} is not a valid percentage!");
 
-            if (level <= damageLevelMin)
-                return null;
-
-            float range = damageLevelMax - damageLevelMin;
-            float start = level - damageLevelMin;
-            return damageTiles[Mathf.RoundToInt((start / range) * (damageTiles.Count - 1))];
-        }
-
-        private int GetDamageLevel(Vector2Int flatPosition)
-        {
-            return damageLevels.ContainsKey(flatPosition) ? damageLevels[flatPosition] : 0;
-        }
-
-        private int AddAndGetDamageLevel(Vector2Int flatPosition)
-        {
-            if (!damageLevels.ContainsKey(flatPosition))
-            {
-                damageLevels[flatPosition] = 0;
-            }
-
-            damageLevels[flatPosition] = Mathf.Min(damageLevelMax, damageLevels[flatPosition] + 1);
-            return damageLevels[flatPosition];
+            return percentage >= 1
+                ? bustedDamageTile
+                : damageTiles[Mathf.RoundToInt(percentage * (damageTiles.Count - 1))];
         }
     }
 }
