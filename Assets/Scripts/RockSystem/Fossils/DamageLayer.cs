@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -32,6 +33,7 @@ namespace RockSystem.Fossils
 
             tilemapRenderer.sortingLayerName = sortingLayer;
             tilemapRenderer.sortingOrder = sortingOrder;
+            tilemapRenderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
         }
 
         private void CreateDamageTiles()
@@ -44,7 +46,7 @@ namespace RockSystem.Fossils
                 tile.sprite = damageSprite;
                 float alphaValue = 1f / (i / alphaGradient + 1f);
                 tile.color = new Color(1f, 1f, 1f, alphaValue);
-                damageTiles.Add(tile);
+                damageTiles.Insert(0, tile);
             }
         }
 
@@ -54,7 +56,7 @@ namespace RockSystem.Fossils
             Tile damageTile = GetDamageTile(level);
             tilemap.SetTile((Vector3Int) flatPosition, damageTile);
             
-            Debug.Log($"Displaying damage at {flatPosition}");
+            // Debug.Log($"Displaying damage at {flatPosition}");
         }
 
         private Tile GetDamageTile(int level) => level >= 0 || level < damageLevelSize

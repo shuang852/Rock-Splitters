@@ -18,6 +18,7 @@ namespace RockSystem.Fossils
 
         private IEnumerable<Vector3Int> HitPositions =>
             hitFlatPositions.Select(p => new Vector3Int(p.x, p.y, layer));
+        private Sprite Sprite => spriteRenderer.sprite;
 
         private void Awake()
         {
@@ -46,14 +47,44 @@ namespace RockSystem.Fossils
 
             foreach (Vector2Int flatPosition in chunkManager.chunkStructure.GetFlatPositions())
             {
-                Vector3 worldPosition = chunkManager.chunkStructure.CellToWorld(flatPosition);
+                bool isHitPosition = false;
+                float radius = chunkManager.chunkStructure.CellSize.x / 2f;
+                Vector3 centerWorldPosition = chunkManager.chunkStructure.CellToWorld(flatPosition);
+                var cornerPositions = GetHexagonCornerPositions(centerWorldPosition, radius)
+                    .Append(flatPosition);
 
-                if (polyCollider.OverlapPoint(worldPosition))
+                foreach (var cornerPosition in cornerPositions)
                 {
-                    hitFlatPositions.Add(flatPosition);
+                    if (polyCollider.OverlapPoint(cornerPosition) && !isHitPosition)
+                    {
+                        Debug.Log($"hit corner {cornerPosition}");
+                        hitFlatPositions.Add(flatPosition);
+                        isHitPosition = true;
+                    }
                 }
             }
         }
+        
+        // TODO move this to utility class
+        private IEnumerable<Vector2> GetHexagonCornerPositions(Vector2 centerWorldPosition, float radius) => new[]
+        {
+            new Vector2(radius, 0),
+            new Vector2(-radius, 0),
+            new Vector2(radius * Mathf.Cos(Mathf.Deg2Rad * 60f), radius * Mathf.Sin(Mathf.Deg2Rad * 60f)),
+            new Vector2(radius * Mathf.Cos(Mathf.Deg2Rad * 120f), radius * Mathf.Sin(Mathf.Deg2Rad * 120f)),
+            new Vector2(radius * Mathf.Cos(Mathf.Deg2Rad * 240f), radius * Mathf.Sin(Mathf.Deg2Rad * 240f)),
+            new Vector2(radius * Mathf.Cos(Mathf.Deg2Rad * 300f), radius * Mathf.Sin(Mathf.Deg2Rad * 300f)),
+        }.Select(p => p + centerWorldPosition);
+
+        // private List<Vector2Int> CalculatePixelHitsWorldPositions(Sprite sprite)
+        // {
+        //     List<Vector2Int> pixel
+        //
+        //     foreach (var pixel in sprite.texture.GetPixels32())
+        //     {
+        //         if (pixel.r)
+        //     }
+        // }
 
         private void OnDrawGizmos()
         {
