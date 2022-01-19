@@ -1,20 +1,35 @@
 ﻿using Managers;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Cleaning
 {
-    public class CleaningTimer : MonoBehaviour
+    public class CleaningTimerManager : Manager
     {
         [SerializeField] private float startTime;
 
-        public float CurrentTime { get; private set; }
+        public UnityEvent TimeChanged = new UnityEvent();
+
+        public float CurrentTime
+        {
+            get => currentTime;
+            private set
+            {
+                currentTime = value;
+                
+                TimeChanged.Invoke();
+            }
+        }
 
         private bool timerActive;
 
         private CleaningManager cleaningManager;
+        private float currentTime;
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+            
             cleaningManager = M.GetOrThrow<CleaningManager>();
             
             cleaningManager.CleaningStarted.AddListener(ResetAndStartTimer);
@@ -22,8 +37,10 @@ namespace Cleaning
             cleaningManager.CleaningWon.AddListener(StopTimer);
         }
 
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
+            
             if (!timerActive) return;
             
             CurrentTime -= Time.deltaTime;
@@ -58,8 +75,10 @@ namespace Cleaning
             StartTimer();
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+            
             cleaningManager.CleaningStarted.RemoveListener(ResetAndStartTimer);
             cleaningManager.CleaningLost.RemoveListener(StopTimer);
             cleaningManager.CleaningWon.RemoveListener(StopTimer);

@@ -5,7 +5,7 @@ namespace Cleaning
 {
     public class CleaningScore : MonoBehaviour
     {
-        [SerializeField] private CleaningTimer timer;
+        [SerializeField] private CleaningTimerManager timer;
         [Tooltip("Multiplied by the time remaining in seconds.")]
         [SerializeField] private float timeBonusMultiplier;
 
