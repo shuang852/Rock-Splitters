@@ -13,6 +13,8 @@ namespace ToolSystem
 
        // private int currentToolIndex = 0;
 
+       [SerializeField] private Tool startingTool;
+
         public Tool CurrentTool { get; private set; }
 
         protected override void Start()
@@ -27,7 +29,6 @@ namespace ToolSystem
         /// </summary>
         public void ToolDown(Vector2 worldPosition)
         {
-            Debug.Log("Down");
             if (CurrentTool.action == Tool.ToolAction.Tap)
                 UseTool(worldPosition);
         }
