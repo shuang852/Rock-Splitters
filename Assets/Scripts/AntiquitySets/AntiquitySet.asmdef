@@ -1,15 +1,8 @@
 {
-    "name": "UI",
+    "name": "AntiquitySet",
     "rootNamespace": "",
     "references": [
-        "Managers",
-        "RockSystem",
-        "Unity.InputSystem",
-        "com.jordantama.ui-framework",
-        "ToolSystem",
-        "Unity.TextMeshPro",
-        "Stored",
-        "AntiquitySet"
+        "GUID:4a5009c9ca3b481d8bbbe7dad1b68b53"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

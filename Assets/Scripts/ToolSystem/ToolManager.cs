@@ -7,14 +7,8 @@ namespace ToolSystem
 {
     public class ToolManager : Manager
     {
-        //[SerializeField] private List<Tool> tools;
-
         private ChunkManager chunkManager;
-
-       // private int currentToolIndex = 0;
-
-       [SerializeField] private Tool startingTool;
-
+        
         public Tool CurrentTool { get; private set; }
 
         protected override void Start()
@@ -58,18 +52,6 @@ namespace ToolSystem
             }
         }
 
-        // // TODO: Temporary. Remove once tool selection UI is added.
-        // public void CycleTools()
-        // {
-        //     if (++currentToolIndex >= tools.Count)
-        //         currentToolIndex = 0;
-        //     
-        //     Debug.Log($"Switched to {CurrentTool.name}");
-        // }
-
-        public void SelectTool(Tool tool)
-        {
-            CurrentTool = tool;
-        }
+        public void SelectTool(Tool tool) => CurrentTool = tool;
     }
 }
