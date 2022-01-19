@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Cleaning
 {
-    public class CleaningScore : MonoBehaviour
+    public class CleaningScoreManager : Manager
     {
         [SerializeField] private CleaningTimerManager timer;
         [Tooltip("Multiplied by the time remaining in seconds.")]
@@ -13,8 +13,10 @@ namespace Cleaning
         
         public float Score { get; private set; }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+            
             cleaningManager = M.GetOrThrow<CleaningManager>();
 
             cleaningManager.CleaningLost.AddListener(CalculateScore);
@@ -27,8 +29,10 @@ namespace Cleaning
             Score = timer.CurrentTime * timeBonusMultiplier;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+            
             cleaningManager.CleaningLost.RemoveListener(CalculateScore);
             cleaningManager.CleaningWon.RemoveListener(CalculateScore);
         }

@@ -11,18 +11,18 @@ namespace UI.Cleaning
         private Button button;
 
         private CleaningManager cleaningManager;
+        
+        protected override void OnComponentAwake()
+        {
+            TryGetComponent(out button);
+            button.onClick.AddListener(OnSubmit);
+        }
 
         protected override void OnComponentStart()
         {
             base.OnComponentStart();
 
             cleaningManager = M.GetOrThrow<CleaningManager>();
-        }
-
-        protected override void OnComponentAwake()
-        {
-            TryGetComponent(out button);
-            button.onClick.AddListener(OnSubmit);
         }
         
         protected override void Subscribe() { }

@@ -5,14 +5,14 @@ namespace Cleaning
 {
     public class CleaningManager : Manager
     {
-        enum CleaningState
+        public enum CleaningState
         {
             InProgress,
             Won,
             Lost
         }
-        
-        private CleaningState cleaningState;
+
+        public CleaningState CurrentCleaningState { get; private set; }
 
         public UnityEvent CleaningStarted = new UnityEvent();
         public UnityEvent CleaningWon = new UnityEvent();
@@ -28,21 +28,21 @@ namespace Cleaning
 
         public void StartCleaning()
         {
-            cleaningState = CleaningState.InProgress;
+            CurrentCleaningState = CleaningState.InProgress;
             
             CleaningStarted.Invoke();    
         }
 
         public void LoseCleaning()
         {
-            cleaningState = CleaningState.Lost;
+            CurrentCleaningState = CleaningState.Lost;
             
             CleaningLost.Invoke();
         }
 
         public void WinCleaning()
         {
-            cleaningState = CleaningState.Won;
+            CurrentCleaningState = CleaningState.Won;
             
             CleaningWon.Invoke();
         }
