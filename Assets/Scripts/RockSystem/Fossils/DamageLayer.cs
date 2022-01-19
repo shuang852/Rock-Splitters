@@ -8,11 +8,11 @@ namespace RockSystem.Fossils
 {
     public class DamageLayer : MonoBehaviour
     {
-        [SerializeField] private int damageLevelSize = 5;
-        [SerializeField] private Sprite damageSprite;
-        [SerializeField] private float alphaGradient = 8f;
+        [SerializeField, Min(1)] private int damageLevelMin = 3;
+        [SerializeField] private int damageLevelMax = 5;
         [SerializeField] private string sortingLayer = "Chunk";
         [SerializeField] private int sortingOrder = 20;
+        [SerializeField] private List<Sprite> damageSprites;
 
         private Dictionary<Vector2Int, int> damageLevels = new Dictionary<Vector2Int, int>();
         private List<Tile> damageTiles = new List<Tile>();
@@ -38,30 +38,43 @@ namespace RockSystem.Fossils
 
         private void CreateDamageTiles()
         {
+            if (damageSprites.Count == 0)
+                throw new Exception("Missing damage sprites, they are not assigned!");
+            
             damageTiles.Clear();
 
-            for (int i = 0; i < damageLevelSize; i++)
+            foreach (var sprite in damageSprites)
             {
                 Tile tile = ScriptableObject.CreateInstance<Tile>();
-                tile.sprite = damageSprite;
-                float alphaValue = 1f / (i / alphaGradient + 1f);
-                tile.color = new Color(1f, 1f, 1f, alphaValue);
-                damageTiles.Insert(0, tile);
+                tile.sprite = sprite;
+                damageTiles.Add(tile);
             }
         }
 
         public void DisplayDamage(Vector2Int flatPosition)
         {
             int level = AddAndGetDamageLevel(flatPosition);
-            Tile damageTile = GetDamageTile(level);
+            Tile damageTile = GetDamageTileOrNull(level);
             tilemap.SetTile((Vector3Int) flatPosition, damageTile);
             
-            // Debug.Log($"Displaying damage at {flatPosition}");
+            Debug.Log($"Displaying damage level {level} at {flatPosition}");
         }
 
-        private Tile GetDamageTile(int level) => level >= 0 || level < damageLevelSize
-            ? damageTiles[level]
-            : throw new IndexOutOfRangeException($"No level above {level} or below 0 exists for a tile!");
+        private Tile GetDamageTileOrNull(int level)
+        {
+            if (level <= 0)
+                throw new IndexOutOfRangeException($"No level below 0 exists for a damage tile!");
+            
+            if (level > damageLevelMax)
+                throw new IndexOutOfRangeException($"No level above {level} exists for a damage tile!");
+
+            if (level <= damageLevelMin)
+                return null;
+
+            float range = damageLevelMax - damageLevelMin;
+            float start = level - damageLevelMin;
+            return damageTiles[Mathf.RoundToInt((start / range) * (damageTiles.Count - 1))];
+        }
 
         private int GetDamageLevel(Vector2Int flatPosition)
         {
@@ -75,7 +88,7 @@ namespace RockSystem.Fossils
                 damageLevels[flatPosition] = 0;
             }
 
-            damageLevels[flatPosition] = Mathf.Min(damageLevelSize - 1, damageLevels[flatPosition] + 1);
+            damageLevels[flatPosition] = Mathf.Min(damageLevelMax, damageLevels[flatPosition] + 1);
             return damageLevels[flatPosition];
         }
     }

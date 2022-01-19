@@ -414,10 +414,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageLevelSize: 5
-  damageSprite: {fileID: 2747690628134850419, guid: 460d300c11787d122a06e451b2d08f17, type: 3}
-  alphaGradient: 10
   sortingLayer: Chunk
   sortingOrder: 20
+  damageSprites:
+  - {fileID: 2747690628134850419, guid: 460d300c11787d122a06e451b2d08f17, type: 3}
+  - {fileID: 2747690628134850419, guid: ea92cedff614a44519357ae51acdc43d, type: 3}
 --- !u!1 &1355383187
 GameObject:
   m_ObjectHideFlags: 0
