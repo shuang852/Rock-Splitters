@@ -16,6 +16,10 @@ namespace Stored
         public int Size => items.Length;
         public int ItemCount => itemCount;
         public int SpaceLeftCount => Size - itemCount;
+        /// <summary>
+        /// Get all items that are in the inventory.
+        /// </summary>
+        public IEnumerable<Antiquity> Items => items.Where(i => i != null);
 
         public Inventory(int size)
         {
@@ -92,6 +96,12 @@ namespace Stored
             return true;
         }
 
+        public bool RemoveItem(Antiquity item)
+        {
+            int? slot = FindItemSlot(item);
+            return slot.HasValue && RemoveItem(slot.Value);
+        }
+
         /// <summary>
         /// Get an item at some slot, if nothing is there then it will return null.
         /// </summary>
@@ -102,6 +112,42 @@ namespace Stored
             return items[slot];
         }
 
+        /// <summary>
+        /// Get the item slot for a certain item. If the item does not exist in this inventory, return null.
+        /// </summary>
+        public int? FindItemSlot(Antiquity item)
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                if (items[i] == item)
+                {
+                    return i;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Check if a certain item exist in this inventory.
+        /// </summary>
+        public bool Contains(Antiquity item) => Items.Contains(item);
+
+        /// <summary>
+        /// Can we add more items into the inventory?
+        /// </summary>
+        public bool HasSpace() => lastEmptySlot != -1;
+
+        /// <summary>
+        /// Is there an item currently at that slot?
+        /// </summary>
+        public bool IsOccupiedAt(int slot) => items[slot] != null;
+
+        /// <summary>
+        /// Check if the slot exist, can be accessed in the inventory. It should be within the inventory size.
+        /// </summary>
+        public bool IsValidSlot(int slot) => slot >= 0 && slot < Size;
+        
         /// <summary>
         /// Try to get the next available empty slot after some slot.
         /// More efficient than <c>GetEmptySlot()</c>.
@@ -135,21 +181,6 @@ namespace Stored
 
             return -1;
         }
-
-        /// <summary>
-        /// Can we add more items into the inventory?
-        /// </summary>
-        public bool HasSpace() => lastEmptySlot != -1;
-
-        /// <summary>
-        /// Is there an item currently at that slot?
-        /// </summary>
-        public bool IsOccupiedAt(int slot) => items[slot] != null;
-
-        /// <summary>
-        /// Check if the slot exist, can be accessed in the inventory. It should be within the inventory size.
-        /// </summary>
-        public bool IsValidSlot(int slot) => slot >= 0 && slot < Size;
 
         /// <summary>
         /// Throw an error if such slot is not valid.
