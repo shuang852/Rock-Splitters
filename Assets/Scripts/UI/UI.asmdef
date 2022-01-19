@@ -6,7 +6,8 @@
         "RockSystem",
         "Unity.InputSystem",
         "com.jordantama.ui-framework",
-        "ToolSystem"
+        "ToolSystem",
+        "Cleaning"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
