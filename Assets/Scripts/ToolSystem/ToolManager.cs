@@ -1,21 +1,22 @@
 using System.Collections.Generic;
-using System.Linq;
 using Managers;
 using RockSystem;
+using RockSystem.Chunks;
 using UnityEngine;
 
 namespace ToolSystem
 {
     public class ToolManager : Manager
     {
-        [SerializeField] private List<Tool> tools;
+        //[SerializeField] private List<Tool> tools;
 
         private ChunkManager chunkManager;
 
-        private int currentToolIndex = 0;
+       // private int currentToolIndex = 0;
 
-        private Tool CurrentTool => tools.ElementAtOrDefault(currentToolIndex);
+       [SerializeField] private Tool startingTool;
 
+        public Tool CurrentTool { get; private set; }
 
         protected override void Start()
         {
@@ -58,13 +59,18 @@ namespace ToolSystem
             }
         }
 
-        // TODO: Temporary. Remove once tool selection UI is added.
-        public void CycleTools()
+        // // TODO: Temporary. Remove once tool selection UI is added.
+        // public void CycleTools()
+        // {
+        //     if (++currentToolIndex >= tools.Count)
+        //         currentToolIndex = 0;
+        //     
+        //     Debug.Log($"Switched to {CurrentTool.name}");
+        // }
+
+        public void SelectTool(Tool tool)
         {
-            if (++currentToolIndex >= tools.Count)
-                currentToolIndex = 0;
-            
-            Debug.Log($"Switched to {CurrentTool.name}");
+            CurrentTool = tool;
         }
     }
 }

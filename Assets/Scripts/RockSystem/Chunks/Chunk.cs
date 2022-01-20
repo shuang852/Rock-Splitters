@@ -1,8 +1,7 @@
-using Managers;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace RockSystem
+namespace RockSystem.Chunks
 {
     public class Chunk
     {
