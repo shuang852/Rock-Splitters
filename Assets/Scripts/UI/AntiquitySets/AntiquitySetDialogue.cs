@@ -42,11 +42,24 @@ namespace UI.AntiquitySets
             
             setImage.sprite = antiquitySet.Sprite;
             setNameText.text = antiquitySet.SetName;
+
+            // If we run into performance issues in the future for this, we can store a completed variable that skips has
+            // item.
+            int count = 0;
             foreach (var antiquity in antiquitySet.SetItems)
             {
                 var obj = Instantiate(setItemPrefab, collection.transform);
-                obj.GetComponent<AntiquitySetItemUI>().SetupSetItem(antiquity, inventory.Contains(antiquity));
+                var hasItem = inventory.Contains(antiquity);
+                obj.GetComponent<AntiquitySetItemUI>().SetupSetItem(antiquity, hasItem);
+                if (hasItem) count++;
             }
+
+            // TODO: Move this logic to when you pick up an antiquity
+            // Finds how much of a set you have and add it's total 
+            int unlockedPercentage = count / antiquitySet.SetItems.Length;
+            var bonus = unlockedPercentage % 1 * antiquitySet.SetBonus;
+            antiquityManager.AddSetStats(
+                unlockedPercentage * bonus * antiquitySet.SetIncomeRate, unlockedPercentage * bonus * antiquitySet.SetCapacity);
         }
     }
 }
