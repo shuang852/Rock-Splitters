@@ -383,7 +383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9e30b18cc3649cdb418e37c26c1b915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerLength: 20
+  layerLength: 6
   colorGradient: 8
   tilemapSortingLayer: Chunk
 --- !u!114 &1319664918
