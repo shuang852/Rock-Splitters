@@ -14,6 +14,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 3
   action: 0
-  damage: 3
+  damage: 5
   unlocked: 1
   startingTool: 0
+  damageFalloff:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0041656494
+      value: 1
+      inSlope: -0.011716317
+      outSlope: -0.011716317
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.3625
+    - serializedVersion: 3
+      time: 0.5971924
+      value: 1.000344
+      inSlope: 0.0088495985
+      outSlope: 0.0088495985
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.4680379
+      outWeight: 0.6400301
+    - serializedVersion: 3
+      time: 1.0208435
+      value: 0.002357483
+      inSlope: -3.2256532
+      outSlope: -3.2256532
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.040825866
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

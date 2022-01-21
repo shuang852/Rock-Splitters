@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace RockSystem
+namespace RockSystem.Chunks
 {
     /// <summary>
     /// Gives support for chunks to exist in a tilemap within a layering system.

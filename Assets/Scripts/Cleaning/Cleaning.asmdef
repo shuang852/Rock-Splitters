@@ -1,13 +1,9 @@
 {
-    "name": "UI",
+    "name": "Cleaning",
     "rootNamespace": "",
     "references": [
-        "Managers",
-        "RockSystem",
-        "Unity.InputSystem",
-        "com.jordantama.ui-framework",
-        "ToolSystem",
-        "Cleaning"
+        "GUID:ca6b7f6e52ca43cda52eef5f1dd650f0",
+        "GUID:66e6ff29cccd4bda819a206255f00af9"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
