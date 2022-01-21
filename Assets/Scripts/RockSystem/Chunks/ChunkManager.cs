@@ -51,15 +51,18 @@ namespace RockSystem.Chunks
 
         public void DamageChunk(Vector2Int flatPosition, int damage = 1)
         {
-            Chunk chunk = chunkStructure.GetOrNull(flatPosition);
-
-            if (chunk != null)
+            while (damage > 0)
             {
+                Chunk chunk = chunkStructure.GetOrNull(flatPosition);
+
+                if (chunk == null) break;
+                
                 FossilShape fossil = GetFossilAtPosition(chunk.Position);
 
                 if (fossil == null)
                 {
-                    chunk.DamageChunk(damage);
+                    int damageTaken = chunk.DamageChunk(damage);
+                    damage -= damageTaken;
                 }
                 else
                 {
@@ -71,6 +74,8 @@ namespace RockSystem.Chunks
                         float damagePercentage = 1f - (remainingHealth / fossil.Antiquity.MaxHealth);
                         damageLayer.DisplayDamage(chunk.FlatPosition, damagePercentage);
                     }
+
+                    break;
                 }
             }
         }
