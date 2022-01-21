@@ -132,9 +132,7 @@ namespace RockSystem.Chunks
         /// <returns>A list of odd-r chunk coordinates.</returns>
         public List<Vector2Int> GetChunksInRadius(Vector2 centreWorldPosition, float radius)
         {
-            // var chunksInRange = GetChunksInEnclosingRange(centreWorldPosition, radius);
-
-            var chunksInRange = GetChunksInRange(centreWorldPosition, 50);
+            var chunksInRange = GetChunksInEnclosingRange(centreWorldPosition, radius);
 
             List<Vector2Int> chunksInRadius = new List<Vector2Int>();
 
@@ -151,7 +149,6 @@ namespace RockSystem.Chunks
             return chunksInRadius;
         }
 
-        // TODO: Not currently working.
         /// <summary>
         /// Returns all the chunks in a range that encloses the given radius. Makes searching for chunks more efficient.
         /// </summary>
@@ -160,14 +157,16 @@ namespace RockSystem.Chunks
         /// <returns>A list of odd-r chunk coordinates.</returns>
         private List<Vector2Int> GetChunksInEnclosingRange(Vector2 centreWorldPosition, float radius)
         {
-            Vector2Int nearestChunk = (Vector2Int)grid.WorldToCell(centreWorldPosition);
+            Vector2Int oddrChunkCoord = (Vector2Int)grid.WorldToCell(centreWorldPosition);
+
+            Vector2Int axialChunkCoord = OddrToAxial(oddrChunkCoord);
 
             // The outer radius (measured centre to corner) of the hexagon that fully encloses the given radius
             float outerHexRadius = (float)(radius * 2 / Math.Sqrt(3));
             
             int outerHexRange = Mathf.CeilToInt(outerHexRadius / grid.cellSize.x);
 
-            List<Vector2Int> axialChunksInRange = GetChunksInRange(nearestChunk, outerHexRange);
+            List<Vector2Int> axialChunksInRange = GetChunksInRange(axialChunkCoord, outerHexRange);
 
             return axialChunksInRange.Select(AxialToOddr).ToList();
         }
