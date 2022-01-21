@@ -44,3 +44,6 @@ TagManager:
   - name: Chunk
     uniqueID: 3177490815
     locked: 0
+  - name: FX
+    uniqueID: 4074404999
+    locked: 0

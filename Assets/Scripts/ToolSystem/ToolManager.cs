@@ -19,6 +19,9 @@ namespace ToolSystem
 
         public Tool CurrentTool { get; private set; }
 
+        // TODO: Change this to an event system
+        public ToolVisuals toolVisuals;
+
         protected override void Start()
         {
             base.Start();
@@ -32,7 +35,10 @@ namespace ToolSystem
         public void ToolDown(Vector2 worldPosition)
         {
             if (CurrentTool.action == Tool.ToolAction.Tap)
+            {
                 UseTool(worldPosition);
+                toolVisuals.Clean(CurrentTool.action,worldPosition);
+            }
         }
 
         /// <summary>
@@ -42,13 +48,19 @@ namespace ToolSystem
         public void ToolInUse(Vector2 worldPosition)
         {
             if (CurrentTool.action == Tool.ToolAction.Continuous)
-                UseTool(worldPosition);
+            {
+                UseTool(worldPosition); 
+                toolVisuals.Clean(CurrentTool.action,worldPosition);
+            }
         }
 
         /// <summary>
         /// Called once when the tool stops being used. Similar to <c>Input.GetKeyUp</c>.
         /// </summary>
-        public void ToolUp(Vector2 worldPosition) {}
+        public void ToolUp(Vector2 worldPosition)
+        {
+            toolVisuals.StopClean();
+        }
 
         // TODO: Can be more efficient. Pass the function instead of looping through the chunks again.
         private void UseTool(Vector2 worldPosition)
