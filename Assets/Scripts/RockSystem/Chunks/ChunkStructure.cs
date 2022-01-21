@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace RockSystem
+namespace RockSystem.Chunks
 {
     /// <summary>
     /// Provides a way to manipulate, control and contain chunks.
@@ -15,6 +15,8 @@ namespace RockSystem
 
         public Vector2Int MinSize { get; }
         public Vector2Int MaxSize { get; }
+        // Flip x and y, so that it aligns with the proper world coordinate system. Remember that in the tilemap it's already inverted.
+        public Vector2 CellSize => new Vector2(grid.cellSize.y, grid.cellSize.x);
 
         internal ChunkStructure(Vector2Int size, ChunkMap chunkMap, Grid grid)
         {

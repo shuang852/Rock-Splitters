@@ -1,8 +1,7 @@
-using Managers;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace RockSystem
+namespace RockSystem.Chunks
 {
     public class Chunk
     {
@@ -21,6 +20,7 @@ namespace RockSystem
         {
             this.chunkDescription = chunkDescription;
             this.position = position;
+            currentHealth = chunkDescription.Health;
         }
 
         internal void AttachTo(ChunkStructure chunkStructure)
@@ -36,9 +36,16 @@ namespace RockSystem
             return tile;
         }
 
-        internal void DamageChunk(int amount)
+        /// <summary>
+        /// Deals the given amount of damage to the chunk and returns the damage taken.
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <returns>The amount of damage taken.</returns>
+        internal int DamageChunk(int amount)
         {
-            if (amount <= 0) return;
+            if (amount <= 0) return 0;
+
+            int damageTaken = Mathf.Min(amount, currentHealth);
             
             // Debug.Log($"Damaging by {amount} with chunk at layer {position.z}");
             currentHealth -= amount;
@@ -47,6 +54,8 @@ namespace RockSystem
             {
                 chunkStructure.Clear(position);
             }
+
+            return damageTaken;
         }
     }
 }

@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-namespace RockSystem
+namespace RockSystem.Chunks
 {
     [CreateAssetMenu(fileName = "Chunk", menuName = "Chunk Description", order = 0)]
     public class ChunkDescription : ScriptableObject
