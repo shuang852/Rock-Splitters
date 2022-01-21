@@ -205,5 +205,10 @@ namespace RockSystem.Chunks
             var row = axialChunkCoord.y;
             return new Vector2Int(col, row);
         }
+
+        public Vector2 GetChunkWorldPosition(Vector2Int oddrChunkCoord)
+        {
+            return grid.CellToWorld((Vector3Int)oddrChunkCoord);
+        }
     }
 }

@@ -49,24 +49,25 @@ namespace ToolSystem
         /// </summary>
         public void ToolUp(Vector2 worldPosition) {}
 
+        // TODO: Can be more efficient. Pass the function instead of looping through the chunks again.
         private void UseTool(Vector2 worldPosition)
         {
             List<Vector2Int> affectedChunks = chunkManager.GetChunksInRadius(worldPosition, CurrentTool.radius);
 
             foreach (var affectedChunk in affectedChunks)
             {
-                chunkManager.DamageChunk(affectedChunk, CurrentTool.damage);
+                float normalisedDistance =
+                    Vector2.Distance(chunkManager.GetChunkWorldPosition(affectedChunk), worldPosition) /
+                    CurrentTool.radius;
+
+                int calculatedDamage =
+                    Mathf.CeilToInt(CurrentTool.damageFalloff.Evaluate(normalisedDistance) * CurrentTool.damage);
+                
+                int clampedDamage = Mathf.Clamp(calculatedDamage, 0, CurrentTool.damage);
+
+                chunkManager.DamageChunk(affectedChunk, clampedDamage);
             }
         }
-
-        // // TODO: Temporary. Remove once tool selection UI is added.
-        // public void CycleTools()
-        // {
-        //     if (++currentToolIndex >= tools.Count)
-        //         currentToolIndex = 0;
-        //     
-        //     Debug.Log($"Switched to {CurrentTool.name}");
-        // }
 
         public void SelectTool(Tool tool)
         {
