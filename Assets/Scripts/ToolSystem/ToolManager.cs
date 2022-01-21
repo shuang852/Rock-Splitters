@@ -53,9 +53,9 @@ namespace ToolSystem
         // TODO: Can be more efficient. Pass the function instead of looping through the chunks again.
         private void UseTool(Vector2 worldPosition)
         {
-            List<Vector2Int> affectedChunks = chunkManager.GetChunksInRadius(worldPosition, CurrentTool.radius);
+            List<ChunkManager.OddrChunkCoord> affectedChunks = chunkManager.GetChunksInRadius(worldPosition, CurrentTool.radius);
 
-            Action<Vector2Int, int> damageMethod = chunkManager.DamageChunk;
+            Action<ChunkManager.OddrChunkCoord, int> damageMethod = chunkManager.DamageChunk;
 
             if (CurrentTool.artefactSafety && chunkManager.WillDamageRock(affectedChunks))
                 damageMethod = chunkManager.DamageChunkRockOnly;
