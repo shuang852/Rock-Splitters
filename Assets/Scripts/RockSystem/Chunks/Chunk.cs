@@ -20,7 +20,12 @@ namespace RockSystem.Chunks
         {
             this.chunkDescription = chunkDescription;
             this.position = position;
-            currentHealth = chunkDescription.Health;
+            
+            int healthVariation = Random.Range(-chunkDescription.HealthVariation, chunkDescription.HealthVariation + 1);
+            currentHealth = chunkDescription.Health + healthVariation;
+
+            if (currentHealth < 1)
+                currentHealth = 1;
         }
 
         internal void AttachTo(ChunkStructure chunkStructure)

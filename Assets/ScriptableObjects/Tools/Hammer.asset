@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc5474258d44318a3f35f96ff2b3e65, type: 3}
   m_Name: Hammer
   m_EditorClassIdentifier: 
-  radius: 3
+  radius: 2
   action: 0
-  damage: 5
+  damage: 12
   unlocked: 1
   startingTool: 0
   damageFalloff:
@@ -50,3 +50,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  artefactSafety: 0
