@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Managers;
 using RockSystem;
@@ -54,6 +55,11 @@ namespace ToolSystem
         {
             List<Vector2Int> affectedChunks = chunkManager.GetChunksInRadius(worldPosition, CurrentTool.radius);
 
+            Action<Vector2Int, int> damageMethod = chunkManager.DamageChunk;
+
+            if (CurrentTool.artefactSafety && chunkManager.WillDamageRock(affectedChunks))
+                damageMethod = chunkManager.DamageChunkRockOnly;
+
             foreach (var affectedChunk in affectedChunks)
             {
                 float normalisedDistance =
@@ -65,7 +71,7 @@ namespace ToolSystem
                 
                 int clampedDamage = Mathf.Clamp(calculatedDamage, 0, CurrentTool.damage);
 
-                chunkManager.DamageChunk(affectedChunk, clampedDamage);
+                damageMethod(affectedChunk, clampedDamage);
             }
         }
 

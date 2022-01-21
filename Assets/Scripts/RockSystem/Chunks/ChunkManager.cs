@@ -80,6 +80,29 @@ namespace RockSystem.Chunks
             }
         }
 
+        // TODO: Duplicate code. See DamageChunk.
+        public void DamageChunkRockOnly(Vector2Int flatPosition, int damage = 1)
+        {
+            while (damage > 0)
+            {
+                Chunk chunk = chunkStructure.GetOrNull(flatPosition);
+
+                if (chunk == null) break;
+                
+                FossilShape fossil = GetFossilAtPosition(chunk.Position);
+
+                if (fossil == null)
+                {
+                    int damageTaken = chunk.DamageChunk(damage);
+                    damage -= damageTaken;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
         private FossilShape GetFossilAtPosition(Vector3Int position) =>
             fossils.Find(f => f.IsHitAtPosition(position));
 
@@ -209,6 +232,23 @@ namespace RockSystem.Chunks
         public Vector2 GetChunkWorldPosition(Vector2Int oddrChunkCoord)
         {
             return grid.CellToWorld((Vector3Int)oddrChunkCoord);
+        }
+
+        public bool WillDamageRock(List<Vector2Int> oddrChunkCoords)
+        {
+            foreach (var oddrChunkCoord in oddrChunkCoords)
+            {
+                Chunk chunk = chunkStructure.GetOrNull(oddrChunkCoord);
+
+                if (chunk == null) continue;
+                
+                FossilShape fossil = GetFossilAtPosition(chunk.Position);
+
+                if (fossil == null)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

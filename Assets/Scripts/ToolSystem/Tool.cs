@@ -22,5 +22,7 @@ namespace ToolSystem
         [Tooltip("Start cleaning with this tool.")]
         public bool startingTool;
         public AnimationCurve damageFalloff;
+        [Tooltip("Will only damage the artefact if not damaging rock.")]
+        public bool artefactSafety;
     }
 }
