@@ -55,10 +55,7 @@ namespace ToolSystem
         {
             List<ChunkManager.OddrChunkCoord> affectedChunks = chunkManager.GetChunksInRadius(worldPosition, CurrentTool.radius);
 
-            Action<ChunkManager.OddrChunkCoord, int> damageMethod = chunkManager.DamageChunk;
-
-            if (CurrentTool.artefactSafety && chunkManager.WillDamageRock(affectedChunks))
-                damageMethod = chunkManager.DamageChunkRockOnly;
+            bool willDamageFossil = !(CurrentTool.artefactSafety && chunkManager.WillDamageRock(affectedChunks));
 
             foreach (var affectedChunk in affectedChunks)
             {
@@ -71,7 +68,7 @@ namespace ToolSystem
                 
                 int clampedDamage = Mathf.Clamp(calculatedDamage, 0, CurrentTool.damage);
 
-                damageMethod(affectedChunk, clampedDamage);
+                chunkManager.DamageChunk(affectedChunk, clampedDamage, willDamageFossil);
             }
         }
 
