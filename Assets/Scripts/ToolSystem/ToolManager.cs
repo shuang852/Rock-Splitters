@@ -65,12 +65,9 @@ namespace ToolSystem
         // TODO: Can be more efficient. Pass the function instead of looping through the chunks again.
         private void UseTool(Vector2 worldPosition)
         {
-            List<Vector2Int> affectedChunks = chunkManager.GetChunksInRadius(worldPosition, CurrentTool.radius);
+            List<ChunkManager.OddrChunkCoord> affectedChunks = chunkManager.GetChunksInRadius(worldPosition, CurrentTool.radius);
 
-            Action<Vector2Int, int> damageMethod = chunkManager.DamageChunk;
-
-            if (CurrentTool.artefactSafety && chunkManager.WillDamageRock(affectedChunks))
-                damageMethod = chunkManager.DamageChunkRockOnly;
+            bool willDamageFossil = !(CurrentTool.artefactSafety && chunkManager.WillDamageRock(affectedChunks));
 
             foreach (var affectedChunk in affectedChunks)
             {
@@ -83,7 +80,7 @@ namespace ToolSystem
                 
                 int clampedDamage = Mathf.Clamp(calculatedDamage, 0, CurrentTool.damage);
 
-                damageMethod(affectedChunk, clampedDamage);
+                chunkManager.DamageChunk(affectedChunk, clampedDamage, willDamageFossil);
             }
         }
 
