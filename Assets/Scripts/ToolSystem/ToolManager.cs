@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Managers;
 using RockSystem;
+using RockSystem.Chunks;
 using UnityEngine;
 
 namespace ToolSystem
@@ -10,6 +12,9 @@ namespace ToolSystem
         private ChunkManager chunkManager;
         
         public Tool CurrentTool { get; private set; }
+
+        // TODO: Change this to an event system
+        public ToolVisuals toolVisuals;
 
         protected override void Start()
         {
@@ -24,7 +29,10 @@ namespace ToolSystem
         public void ToolDown(Vector2 worldPosition)
         {
             if (CurrentTool.action == Tool.ToolAction.Tap)
+            {
                 UseTool(worldPosition);
+                toolVisuals.Clean(CurrentTool.action,worldPosition);
+            }
         }
 
         /// <summary>
@@ -34,21 +42,39 @@ namespace ToolSystem
         public void ToolInUse(Vector2 worldPosition)
         {
             if (CurrentTool.action == Tool.ToolAction.Continuous)
-                UseTool(worldPosition);
+            {
+                UseTool(worldPosition); 
+                toolVisuals.Clean(CurrentTool.action,worldPosition);
+            }
         }
 
         /// <summary>
         /// Called once when the tool stops being used. Similar to <c>Input.GetKeyUp</c>.
         /// </summary>
-        public void ToolUp(Vector2 worldPosition) {}
+        public void ToolUp(Vector2 worldPosition)
+        {
+            toolVisuals.StopClean();
+        }
 
+        // TODO: Can be more efficient. Pass the function instead of looping through the chunks again.
         private void UseTool(Vector2 worldPosition)
         {
-            List<Vector2Int> affectedChunks = chunkManager.GetChunksInRadius(worldPosition, CurrentTool.radius);
+            List<ChunkManager.OddrChunkCoord> affectedChunks = chunkManager.GetChunksInRadius(worldPosition, CurrentTool.radius);
+
+            bool willDamageFossil = !(CurrentTool.artefactSafety && chunkManager.WillDamageRock(affectedChunks));
 
             foreach (var affectedChunk in affectedChunks)
             {
-                chunkManager.DamageChunk(affectedChunk, CurrentTool.damage);
+                float normalisedDistance =
+                    Vector2.Distance(chunkManager.GetChunkWorldPosition(affectedChunk), worldPosition) /
+                    CurrentTool.radius;
+
+                int calculatedDamage =
+                    Mathf.CeilToInt(CurrentTool.damageFalloff.Evaluate(normalisedDistance) * CurrentTool.damage);
+                
+                int clampedDamage = Mathf.Clamp(calculatedDamage, 0, CurrentTool.damage);
+
+                chunkManager.DamageChunk(affectedChunk, clampedDamage, willDamageFossil);
             }
         }
 

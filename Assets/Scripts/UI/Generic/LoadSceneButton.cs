@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UI.Core;
+﻿using UI.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,7 +12,7 @@ namespace UI.Generic
         
         private Button button;
 
-        private static Coroutine currentCoroutine;
+        private static bool loadingInProgress;
         
         protected override void OnComponentAwake()
         {
@@ -27,7 +26,7 @@ namespace UI.Generic
 
         private void OnSubmit()
         {
-            if (currentCoroutine != null)
+            if (loadingInProgress)
             {
                 Debug.LogError("Tried loading scene while another was already being loaded!");
                 return;
@@ -35,16 +34,15 @@ namespace UI.Generic
                 
             Scene scene = SceneManager.GetSceneByBuildIndex(sceneIndexInBuild);
             Debug.Log($"Loading Scene '{scene.name}'.");
-            currentCoroutine = StartCoroutine(LoadSceneAsync(scene));
+
+            loadingInProgress = true;
+            
+            SceneManager.LoadSceneAsync(sceneIndexInBuild);
         }
-
-        private IEnumerator LoadSceneAsync(Scene scene)
+        
+        private void OnDestroy()
         {
-            AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndexInBuild);
-            while (!operation.isDone)
-                yield return null;
-
-            currentCoroutine = null;
+            loadingInProgress = false;
         }
     }
 }

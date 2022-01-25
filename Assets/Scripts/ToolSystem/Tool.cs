@@ -21,5 +21,8 @@ namespace ToolSystem
         // TODO: When a starting tool is selected, set all tools to false 
         [Tooltip("Start cleaning with this tool.")]
         public bool startingTool;
+        public AnimationCurve damageFalloff;
+        [Tooltip("Will only damage the artefact if not damaging rock.")]
+        public bool artefactSafety;
     }
 }

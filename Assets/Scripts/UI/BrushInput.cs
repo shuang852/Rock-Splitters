@@ -25,8 +25,6 @@ namespace UI
         private void Update()
         {
             ToolUsage();
-
-            //ToolCycling();
         }
 
         private void ToolUsage()
@@ -54,13 +52,6 @@ namespace UI
                     break;
             }
         }
-        
-        // // TODO: Temporary. Remove once tool selection UI is added.
-        // private void ToolCycling()
-        // {
-        //     if (Input.GetKeyDown(KeyCode.Q))
-        //         toolManager.CycleTools();
-        // }
 
         private void ToolDown(TouchControl touch)
         {

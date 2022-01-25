@@ -7,6 +7,7 @@
         "Unity.InputSystem",
         "com.jordantama.ui-framework",
         "ToolSystem",
+        "Cleaning"
         "Unity.TextMeshPro",
         "Stored",
         "AntiquitySet"
