@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0cc3e28d28c40069eaaef7ddc3fd635, type: 3}
   m_Name: Antiquity Sets Database
   m_EditorClassIdentifier: 
-  items: []
+  items:
+  - {fileID: 11400000, guid: d91db3f99ed179d4fb6a05460266acba, type: 2}

@@ -18,3 +18,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9a06897d45b590c46acec2a92f93c518, type: 2}
   - {fileID: 11400000, guid: 6ecaa133c0eb1b2419192a352459ab30, type: 2}
   - {fileID: 11400000, guid: 7163e4dd79057984b9878943f94b7522, type: 2}
+  baseSetIncomeRate: 1000
+  baseSetCapacity: 1000
+  setBonus: 1.3

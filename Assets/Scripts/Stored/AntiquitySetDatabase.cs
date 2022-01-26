@@ -1,4 +1,4 @@
-﻿using Fossils;
+﻿using System.Collections.Generic;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -8,12 +8,14 @@ using UnityEditor;
  * Created by Kryzarel from his Items inventory tutorial
  */
 
+// TODO: Make this generic so it can support any type of object.
 namespace Stored
 {
     [CreateAssetMenu(menuName = "SO/Item Database")]
     public class AntiquitySetDatabase : ScriptableObject
     {
-        [SerializeField] AntiquitySet[] items;
+        [SerializeField] private AntiquitySet[] items;
+        public AntiquitySet[] Items => items;
 
 #if UNITY_EDITOR
         private void OnValidate()
