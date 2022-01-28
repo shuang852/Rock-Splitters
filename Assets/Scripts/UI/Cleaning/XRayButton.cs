@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 namespace UI.Cleaning
 {
-    public class StartCleaningButton : DialogueComponent<CleaningDialogue>
+    public class XRayButton : DialogueComponent<CleaningDialogue>
     {
         private Button button;
 
-        private CleaningManager cleaningManager;
+        private XRayManager cleaningManager;
         
         protected override void OnComponentAwake()
         {
@@ -21,7 +21,7 @@ namespace UI.Cleaning
         {
             base.OnComponentStart();
 
-            cleaningManager = M.GetOrThrow<CleaningManager>();
+            cleaningManager = M.GetOrThrow<XRayManager>();
         }
         
         protected override void Subscribe() { }
@@ -30,7 +30,7 @@ namespace UI.Cleaning
         
         private void OnSubmit()
         {
-            cleaningManager.StartCleaning();
+            cleaningManager.ShowXRay();
         }
     }
 }

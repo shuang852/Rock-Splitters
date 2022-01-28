@@ -8,7 +8,8 @@ using UnityEngine;
 
 namespace RockSystem.Fossils
 {
-    public class FossilShape : MonoBehaviour
+    // TODO: Temporarily a manager to be accessed by XRayManager. May need reworking.
+    public class FossilShape : Manager
     {
         [SerializeField] private Antiquity fossil;
         [SerializeField] private int layer;
@@ -26,8 +27,10 @@ namespace RockSystem.Fossils
         private Sprite Sprite => Antiquity.Sprite;
         public Antiquity Antiquity => fossil;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+            
             spriteRenderer = GetComponent<SpriteRenderer>();
             spriteMask = GetComponent<SpriteMask>();
 
@@ -43,8 +46,10 @@ namespace RockSystem.Fossils
             polyCollider = gameObject.AddComponent<PolygonCollider2D>();
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+            
             SetupFossilChunks();
             ChunkManager chunkManager = M.GetOrThrow<ChunkManager>();
             chunkManager.RegisterFossil(this);
@@ -67,7 +72,7 @@ namespace RockSystem.Fossils
                 {
                     if (polyCollider.OverlapPoint(cornerPosition) && !isHitPosition)
                     {
-                        Debug.Log($"hit corner {cornerPosition}");
+                        // Debug.Log($"hit corner {cornerPosition}");
                         chunkHealths.Add(flatPosition, startingHealth);
                         isHitPosition = true;
                     }
