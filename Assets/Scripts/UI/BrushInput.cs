@@ -36,6 +36,8 @@ namespace UI
             switch (touch.phase.ReadValue())
             {
                 case TouchPhase.Began:
+                case TouchPhase.Moved:
+                case TouchPhase.Stationary:
                     if (!alreadyDown)
                         ToolDown(touch);
                     else
@@ -45,10 +47,6 @@ namespace UI
                 case TouchPhase.Canceled:
                     if (!alreadyUp)
                         ToolUp(touch);
-                    break;
-                case TouchPhase.Moved:
-                case TouchPhase.Stationary:
-                    ToolInUse(touch);
                     break;
             }
         }
