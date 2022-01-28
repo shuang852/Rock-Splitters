@@ -16,10 +16,19 @@ namespace ToolSystem
 
         private static readonly int cleaning = Animator.StringToHash("Cleaning");
 
-        private void Start() => toolManager = M.GetOrThrow<ToolManager>();
-
-        public void Clean(Tool.ToolAction toolAction, Vector3 position)
+        private void Start()
         {
+            toolManager = M.GetOrThrow<ToolManager>();
+            
+            toolManager.eToolDown.AddListener(worldPosition => Clean(worldPosition));
+            toolManager.eToolInUse.AddListener(worldPosition => Clean(worldPosition));
+            toolManager.eToolUp.AddListener(worldPosition => StopClean());
+        }
+
+        private void Clean(Vector3 position)
+        {
+            Tool.ToolAction toolAction = toolManager.CurrentTool.action;
+                
             transform.position = position;
             switch (toolAction)
             {
@@ -34,8 +43,8 @@ namespace ToolSystem
                     throw new ArgumentOutOfRangeException(nameof(toolAction), toolAction, null);
             }
         }
-    
-        public void StopClean()
+
+        private void StopClean()
         {
             // TODO: Replace this once UI takes priority over touch input
             drillAnimator.SetBool(cleaning, false);
