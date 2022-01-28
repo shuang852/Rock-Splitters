@@ -50,14 +50,6 @@ namespace UI.AntiquitySets
                 var hasItem = inventory.Contains(antiquity);
                 obj.GetComponent<AntiquitySetItemUI>().SetupSetItem(antiquity, hasItem);
             }
-
-            // TODO: Move this logic to when you pick up an antiquity
-            // Moved to antiquity set
-            // Finds how much of a set you have and add it's total 
-            // int unlockedPercentage = count / antiquitySet.SetItems.Length;
-            // var bonus = unlockedPercentage % 1 * antiquitySet.SetBonus;
-            // antiquityManager.AddSetStats(
-            //     unlockedPercentage * bonus * antiquitySet.SetIncomeRate, unlockedPercentage * bonus * antiquitySet.SetCapacity);
         }
     }
 }

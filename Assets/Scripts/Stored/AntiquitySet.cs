@@ -8,6 +8,7 @@ namespace Stored
     {
         [SerializeField] private string setName;
         [SerializeField] private Sprite sprite;
+        [SerializeField] private int prodID;
         [Tooltip("The items within the set. Ensure the order is correct as they will be displayed TOP to BOT. Go from Head to legs")]
         [SerializeField] private Antiquity[] setItems;
         [SerializeField] private float baseSetIncomeRate;
@@ -15,12 +16,13 @@ namespace Stored
         [SerializeField] private float setBonus = 1.3f;
 
         public string SetName => setName;
-        public Sprite Sprite => sprite; 
+        public Sprite Sprite => sprite;
+        public int ProdID => prodID;
         public Antiquity[] SetItems => setItems;
         public float BaseSetIncomeRate => baseSetIncomeRate;
         public float BaseSetCapacity => baseSetCapacity;
         public float SetBonus => setBonus;
-        
+
         // Non editor variables 
         public int Count { get; private set; }
         public bool BonusActive { get; private set; } // Could use this to display something when set is completed

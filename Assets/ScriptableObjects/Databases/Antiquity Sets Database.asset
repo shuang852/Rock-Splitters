@@ -13,4 +13,13 @@ MonoBehaviour:
   m_Name: Antiquity Sets Database
   m_EditorClassIdentifier: 
   items:
+  - {fileID: 11400000, guid: f710dde9e04b04d4595d7b28c4a66552, type: 2}
+  - {fileID: 11400000, guid: 10bab5d7b1a09db449a6e22aae50145f, type: 2}
+  - {fileID: 11400000, guid: 7b9646c02b484784e905929bade66db5, type: 2}
   - {fileID: 11400000, guid: d91db3f99ed179d4fb6a05460266acba, type: 2}
+  overrideOrder: 0
+  orderedItems:
+  - {fileID: 11400000, guid: d91db3f99ed179d4fb6a05460266acba, type: 2}
+  - {fileID: 11400000, guid: f710dde9e04b04d4595d7b28c4a66552, type: 2}
+  - {fileID: 11400000, guid: 7b9646c02b484784e905929bade66db5, type: 2}
+  - {fileID: 11400000, guid: 10bab5d7b1a09db449a6e22aae50145f, type: 2}
