@@ -22,6 +22,7 @@ namespace ToolSystem
         public UnityEvent<Vector2> eToolDown = new UnityEvent<Vector2>();
         public UnityEvent<Vector2> eToolInUse = new UnityEvent<Vector2>();
         public UnityEvent<Vector2> eToolUp = new UnityEvent<Vector2>();
+        public UnityEvent toolUsed = new UnityEvent();
 
         protected override void Start()
         {
@@ -85,6 +86,8 @@ namespace ToolSystem
 
                 chunkManager.DamageChunk(affectedChunk, clampedDamage, willDamageFossil);
             }
+            
+            toolUsed.Invoke();
         }
 
         public void SelectTool(Tool tool)

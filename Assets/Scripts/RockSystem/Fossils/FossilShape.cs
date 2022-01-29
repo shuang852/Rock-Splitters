@@ -21,6 +21,7 @@ namespace RockSystem.Fossils
         private SpriteRenderer spriteRenderer;
         private SpriteMask spriteMask;
         private PolygonCollider2D polyCollider;
+        private ChunkManager chunkManager;
 
         private IEnumerable<Vector3Int> HitPositions =>
             chunkHealths.Keys.Select(p => new Vector3Int(p.x, p.y, layer));
@@ -52,15 +53,14 @@ namespace RockSystem.Fossils
         protected override void Start()
         {
             base.Start();
-            
+
+            chunkManager = M.GetOrThrow<ChunkManager>();
             SetupFossilChunks();
-            ChunkManager chunkManager = M.GetOrThrow<ChunkManager>();
             chunkManager.RegisterFossil(this);
         }
 
         private void SetupFossilChunks()
         {
-            ChunkManager chunkManager = M.GetOrThrow<ChunkManager>();
             int startingHealth = fossil.MaxHealth;
             
             float radius = chunkManager.chunkStructure.CellSize.x / 2f;
@@ -141,6 +141,15 @@ namespace RockSystem.Fossils
             float maxTotalHealth = chunkHealths.Count * fossil.MaxHealth;
             
             return currentTotalHealth / maxTotalHealth;
+        }
+
+        public float FossilExposure()
+        {
+            int exposedChunks = chunkHealths.Keys.Count(i => chunkManager.GetFossilAtPosition(i) == this);
+            
+            int totalChunks = chunkHealths.Count;
+
+            return exposedChunks / (float) totalChunks;
         }
     }
 }

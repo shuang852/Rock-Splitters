@@ -117,6 +117,15 @@ namespace RockSystem.Chunks
             }
         }
 
+        public FossilShape GetFossilAtPosition(OddrChunkCoord oddrChunkCoord)
+        {
+            Chunk chunk = chunkStructure.GetOrNull((Vector2Int)oddrChunkCoord);
+
+            if (chunk == null) return null;
+                
+            return GetFossilAtPosition(chunk.Position);
+        }
+
         private FossilShape GetFossilAtPosition(Vector3Int position) =>
             fossils.Find(f => f.IsHitAtPosition(position));
 
@@ -249,19 +258,7 @@ namespace RockSystem.Chunks
 
         public bool WillDamageRock(List<OddrChunkCoord> oddrChunkCoords)
         {
-            foreach (var oddrChunkCoord in oddrChunkCoords)
-            {
-                Chunk chunk = chunkStructure.GetOrNull((Vector2Int)oddrChunkCoord);
-
-                if (chunk == null) continue;
-                
-                FossilShape fossil = GetFossilAtPosition(chunk.Position);
-
-                if (fossil == null)
-                    return true;
-            }
-
-            return false;
+            return oddrChunkCoords.Select(GetFossilAtPosition).Any(fossil => fossil == null);
         }
     }
 }
