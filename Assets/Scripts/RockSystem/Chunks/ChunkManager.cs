@@ -21,6 +21,7 @@ namespace RockSystem.Chunks
         private Grid grid;
         private DamageLayer damageLayer;
 
+        // TODO: ChunkManager should not also handle fossils. Maybe create ArtefactRockManager?
         private List<FossilShape> fossils = new List<FossilShape>();
 
         public struct OddrChunkCoord

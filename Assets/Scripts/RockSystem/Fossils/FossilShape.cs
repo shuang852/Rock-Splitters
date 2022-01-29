@@ -5,6 +5,7 @@ using Managers;
 using RockSystem.Chunks;
 using Stored;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RockSystem.Fossils
 {
@@ -26,6 +27,8 @@ namespace RockSystem.Fossils
         private IEnumerable<Vector2Int> HitFlatPositions => chunkHealths.Keys;
         private Sprite Sprite => Antiquity.Sprite;
         public Antiquity Antiquity => fossil;
+
+        public UnityEvent fossilDamaged = new UnityEvent();
 
         protected override void Awake()
         {
@@ -88,6 +91,8 @@ namespace RockSystem.Fossils
                 throw new IndexOutOfRangeException($"position {position} is not a valid fossil chunk");
 
             chunkHealths[position] = Mathf.Max(0, chunkHealths[position] - amount);
+            
+            fossilDamaged.Invoke();
         }
 
         public int GetFossilChunkHealth(Vector2Int position) =>
@@ -134,6 +139,15 @@ namespace RockSystem.Fossils
                     Gizmos.DrawSphere(worldPosition, 0.08f);
                 }
             }
+        }
+        
+        public float FossilHealth ()
+        {
+            float currentTotalHealth = chunkHealths.Values.Sum();
+
+            float maxTotalHealth = chunkHealths.Count * fossil.MaxHealth;
+            
+            return currentTotalHealth / maxTotalHealth;
         }
     }
 }
