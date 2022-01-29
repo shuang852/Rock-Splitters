@@ -62,24 +62,17 @@ namespace RockSystem.Fossils
         {
             ChunkManager chunkManager = M.GetOrThrow<ChunkManager>();
             int startingHealth = fossil.MaxHealth;
+            
+            float radius = chunkManager.chunkStructure.CellSize.x / 2f;
 
             foreach (Vector2Int flatPosition in chunkManager.chunkStructure.GetFlatPositions())
             {
-                bool isHitPosition = false;
-                float radius = chunkManager.chunkStructure.CellSize.x / 2f;
                 Vector3 centerWorldPosition = chunkManager.chunkStructure.CellToWorld(flatPosition);
                 var cornerPositions = GetHexagonCornerPositions(centerWorldPosition, radius)
                     .Append(flatPosition);
 
-                foreach (var cornerPosition in cornerPositions)
-                {
-                    if (polyCollider.OverlapPoint(cornerPosition) && !isHitPosition)
-                    {
-                        // Debug.Log($"hit corner {cornerPosition}");
-                        chunkHealths.Add(flatPosition, startingHealth);
-                        isHitPosition = true;
-                    }
-                }
+                if (cornerPositions.Any(cornerPosition => polyCollider.OverlapPoint(cornerPosition)))
+                    chunkHealths.Add(flatPosition, startingHealth);
             }
         }
 
