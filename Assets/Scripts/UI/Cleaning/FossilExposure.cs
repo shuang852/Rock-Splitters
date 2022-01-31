@@ -1,18 +1,15 @@
-﻿using System.Globalization;
-using Managers;
-using RockSystem.Chunks;
+﻿using Managers;
 using RockSystem.Fossils;
 using ToolSystem;
 using UI.Core;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 namespace UI.Cleaning
 {
     public class FossilExposure : DialogueComponent<CleaningDialogue>
     {
-        [SerializeField] private Text text;
+        [SerializeField] private Image image;
 
         private ToolManager toolManager;
         private FossilShape fossilShape;
@@ -24,15 +21,16 @@ namespace UI.Cleaning
             toolManager = M.GetOrThrow<ToolManager>();
             fossilShape = M.GetOrThrow<FossilShape>();
             
-            toolManager.toolUsed.AddListener(UpdateText);
+            toolManager.toolUsed.AddListener(UpdateExposure);
+            fossilShape.fossilDamaged.AddListener(UpdateExposure);
             
             // BUG: Race condition with FossilShape leads to NaN being displayed.
-            UpdateText();
+            UpdateExposure();
         }
 
-        private void UpdateText()
+        private void UpdateExposure()
         {
-            text.text = Mathf.Round(fossilShape.FossilExposure() * 100).ToString(CultureInfo.InvariantCulture);
+            image.fillAmount = fossilShape.FossilExposure() - (1 - fossilShape.FossilHealth());
         }
 
         protected override void Subscribe() { }

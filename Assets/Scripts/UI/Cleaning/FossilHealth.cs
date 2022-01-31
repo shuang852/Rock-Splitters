@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Managers;
+﻿using Managers;
 using RockSystem.Fossils;
 using UI.Core;
 using UnityEngine;
@@ -9,7 +8,7 @@ namespace UI.Cleaning
 {
     public class FossilHealth : DialogueComponent<CleaningDialogue>
     {
-        [SerializeField] private Text text;
+        [SerializeField] private Image image;
 
         private FossilShape fossilShape;
 
@@ -19,15 +18,15 @@ namespace UI.Cleaning
 
             fossilShape = M.GetOrThrow<FossilShape>();
             
-            fossilShape.fossilDamaged.AddListener(UpdateText);
+            fossilShape.fossilDamaged.AddListener(UpdateHealth);
             
             // BUG: Race condition with FossilShape leads to NaN being displayed.
-            UpdateText();
+            UpdateHealth();
         }
 
-        private void UpdateText()
+        private void UpdateHealth()
         {
-            text.text = Mathf.Round(fossilShape.FossilHealth() * 100).ToString(CultureInfo.InvariantCulture);
+            image.fillAmount = 1 - fossilShape.FossilHealth();
         }
 
         protected override void Subscribe() { }
