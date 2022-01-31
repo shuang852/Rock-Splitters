@@ -15,30 +15,35 @@ namespace UI.Generic
         [Tooltip("The content panel that holds the objects")]
         public Transform Panel;
 
-        private List<Vector3> scrollPositions;
+        private List<Vector3> scrollPositions = new List<Vector3>();
         private ScrollRect scrollRect;
+        private RectTransform scrollRectTransform;
         private bool isLerping;
         private bool isFindingClosest;
         private int index;
         [SerializeField] private float stopVelocity = 3f;
 
-        private void Start()
+        private void Awake()
         {
             scrollRect = gameObject.GetComponent<ScrollRect>();
+            scrollRectTransform = GetComponent<RectTransform>();
             isLerping = false;
             index = 0;
             
-            scrollPositions = new List<Vector3>();
-            CalculateChildren();
+            //scrollPositions = new List<Vector3>();
+            //CalculateChildren();
  
             ((RectTransform)Panel).position.Set(0, 0, 0);
         }
  
-        void CalculateChildren()
+        public void CalculateChildren()
         {
             scrollPositions.Clear();
             if (Panel.childCount > 0)
             {
+                Panel.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(
+                    RectTransform.Axis.Horizontal, 
+                    Panel.childCount * scrollRectTransform.rect.width);
                 float imgSize = Panel.GetComponent<FlexibleGridLayout>().cellSize.x;
          
                 for (int i = 0; i < Panel.childCount; ++i)

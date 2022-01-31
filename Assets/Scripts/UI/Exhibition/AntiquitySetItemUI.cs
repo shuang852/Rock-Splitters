@@ -17,7 +17,6 @@ namespace UI.AntiquitySets
 
         protected override void OnComponentAwake()
         {
-           
         }
 
         protected override void Subscribe() { }

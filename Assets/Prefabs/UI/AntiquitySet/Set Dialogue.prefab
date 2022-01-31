@@ -894,7 +894,7 @@ GameObject:
   - component: {fileID: 5008722204974078718}
   - component: {fileID: 5008722204974078713}
   m_Layer: 0
-  m_Name: Fossil Dialogue
+  m_Name: Set Dialogue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

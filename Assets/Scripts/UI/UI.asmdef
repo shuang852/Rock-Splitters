@@ -9,7 +9,8 @@
         "ToolSystem",
         "Cleaning",
         "Unity.TextMeshPro",
-        "Stored"
+        "Stored",
+        "UniTask"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

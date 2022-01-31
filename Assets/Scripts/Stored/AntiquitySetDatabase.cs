@@ -21,6 +21,8 @@ namespace Stored
         public AntiquitySet[] Items => items;
         public bool overrideOrder;
         [SerializeField] private AntiquitySet[] orderedItems;
+        public AntiquitySet[] OrderedItems => orderedItems;
+
 
 #if UNITY_EDITOR
         private void OnValidate()
