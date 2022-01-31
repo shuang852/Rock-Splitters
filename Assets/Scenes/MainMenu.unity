@@ -440,7 +440,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7012537837337303953, guid: 4dc09e5969e26fe4b988d3b09deb1632, type: 3}
       propertyPath: m_text
-      value: Sets
+      value: Exhibition
       objectReference: {fileID: 0}
     - target: {fileID: 7012537837337303953, guid: 4dc09e5969e26fe4b988d3b09deb1632, type: 3}
       propertyPath: m_fontStyle

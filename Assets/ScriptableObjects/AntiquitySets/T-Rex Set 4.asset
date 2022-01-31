@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c91581845e8245cfadd3d8854b344f19, type: 3}
   m_Name: T-Rex Set 4
   m_EditorClassIdentifier: 
-  setName: T-Rex
+  setName: T-Rex 2
   sprite: {fileID: 21300000, guid: cdef461190bddd702b1385c3b07302f7, type: 3}
+  prodID: 5
   setItems:
   - {fileID: 11400000, guid: 9a06897d45b590c46acec2a92f93c518, type: 2}
   - {fileID: 11400000, guid: 6ecaa133c0eb1b2419192a352459ab30, type: 2}
