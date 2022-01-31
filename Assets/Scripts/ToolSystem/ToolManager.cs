@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
 using Managers;
-using RockSystem;
 using RockSystem.Chunks;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ToolSystem
 {
@@ -13,8 +12,10 @@ namespace ToolSystem
         
         public Tool CurrentTool { get; private set; }
 
-        // TODO: Change this to an event system
-        public ToolVisuals toolVisuals;
+        // TODO: Better naming
+        public UnityEvent<Vector2> eToolDown = new UnityEvent<Vector2>();
+        public UnityEvent<Vector2> eToolInUse = new UnityEvent<Vector2>();
+        public UnityEvent<Vector2> eToolUp = new UnityEvent<Vector2>();
 
         protected override void Start()
         {
@@ -31,7 +32,8 @@ namespace ToolSystem
             if (CurrentTool.action == Tool.ToolAction.Tap)
             {
                 UseTool(worldPosition);
-                toolVisuals.Clean(CurrentTool.action,worldPosition);
+                
+                eToolDown.Invoke(worldPosition);
             }
         }
 
@@ -43,8 +45,9 @@ namespace ToolSystem
         {
             if (CurrentTool.action == Tool.ToolAction.Continuous)
             {
-                UseTool(worldPosition); 
-                toolVisuals.Clean(CurrentTool.action,worldPosition);
+                UseTool(worldPosition);
+                
+                eToolInUse.Invoke(worldPosition);
             }
         }
 
@@ -53,7 +56,7 @@ namespace ToolSystem
         /// </summary>
         public void ToolUp(Vector2 worldPosition)
         {
-            toolVisuals.StopClean();
+            eToolUp.Invoke(worldPosition);
         }
 
         // TODO: Can be more efficient. Pass the function instead of looping through the chunks again.

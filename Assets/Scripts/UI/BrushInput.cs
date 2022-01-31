@@ -1,6 +1,7 @@
 using Managers;
 using ToolSystem;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using TouchPhase = UnityEngine.InputSystem.TouchPhase;
@@ -36,6 +37,11 @@ namespace UI
             switch (touch.phase.ReadValue())
             {
                 case TouchPhase.Began:
+                case TouchPhase.Moved:
+                case TouchPhase.Stationary:
+                    if (IsPointerOverUI())
+                        break;
+
                     if (!alreadyDown)
                         ToolDown(touch);
                     else
@@ -46,11 +52,13 @@ namespace UI
                     if (!alreadyUp)
                         ToolUp(touch);
                     break;
-                case TouchPhase.Moved:
-                case TouchPhase.Stationary:
-                    ToolInUse(touch);
-                    break;
             }
+        }
+
+        private static bool IsPointerOverUI()
+        {
+            var touchId = Touchscreen.current.primaryTouch.touchId.ReadValue();
+            return EventSystem.current.IsPointerOverGameObject(touchId);
         }
 
         private void ToolDown(TouchControl touch)
