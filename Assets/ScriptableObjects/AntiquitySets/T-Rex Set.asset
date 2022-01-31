@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c91581845e8245cfadd3d8854b344f19, type: 3}
+  m_Name: T-Rex Set
+  m_EditorClassIdentifier: 
+  setName: T-Rex
+  sprite: {fileID: 21300000, guid: cdef461190bddd702b1385c3b07302f7, type: 3}
+  setItems:
+  - {fileID: 11400000, guid: 9a06897d45b590c46acec2a92f93c518, type: 2}
+  - {fileID: 11400000, guid: 6ecaa133c0eb1b2419192a352459ab30, type: 2}
+  - {fileID: 11400000, guid: 7163e4dd79057984b9878943f94b7522, type: 2}
+  baseSetIncomeRate: 1000
+  baseSetCapacity: 1000
+  setBonus: 1.3

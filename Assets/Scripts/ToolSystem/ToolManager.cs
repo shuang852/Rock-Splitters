@@ -8,14 +8,8 @@ namespace ToolSystem
 {
     public class ToolManager : Manager
     {
-        //[SerializeField] private List<Tool> tools;
-
         private ChunkManager chunkManager;
-
-       // private int currentToolIndex = 0;
-
-       [SerializeField] private Tool startingTool;
-
+        
         public Tool CurrentTool { get; private set; }
 
         // TODO: Better naming
@@ -87,9 +81,6 @@ namespace ToolSystem
             }
         }
 
-        public void SelectTool(Tool tool)
-        {
-            CurrentTool = tool;
-        }
+        public void SelectTool(Tool tool) => CurrentTool = tool;
     }
 }
