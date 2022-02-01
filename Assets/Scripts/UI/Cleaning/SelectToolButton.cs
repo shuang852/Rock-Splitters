@@ -4,14 +4,13 @@ using UI.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Generic
+namespace UI.Cleaning
 {
     [RequireComponent(typeof(Button))]
-    public class SelectToolButton : DialogueComponent<Dialogue>
+    public class SelectToolButton : DialogueComponent<CleaningDialogue>
     {
         [SerializeField] private Tool tool;
         [SerializeField] private Color activatedColor;
-        [SerializeField] private ToolsDialogue toolsDialogue;
         
         private ToolManager toolManager;
         
@@ -59,7 +58,7 @@ namespace UI.Generic
         {
             toolManager.SelectTool(tool);
             image.color = activatedColor;
-            toolsDialogue.DeselectToolButton(this);
+            Dialogue.DeselectToolButton(this);
         }
 
         public void DeselectButton()

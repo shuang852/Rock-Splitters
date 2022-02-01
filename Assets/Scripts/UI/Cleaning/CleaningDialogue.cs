@@ -11,6 +11,7 @@ namespace UI.Cleaning
         [SerializeField] private BrushInput brushInput;
 
         private CleaningManager cleaningManager;
+        private SelectToolButton activeToolButton;
 
         private void Start()
         {
@@ -45,6 +46,14 @@ namespace UI.Cleaning
         {
             cleaningManager.CleaningWon.RemoveListener(ShowResults);
             cleaningManager.CleaningLost.RemoveListener(ShowResults);
+        }
+        
+        public void DeselectToolButton(SelectToolButton selectToolButton)
+        {
+            if (activeToolButton)
+                activeToolButton.DeselectButton();
+            
+            activeToolButton = selectToolButton;
         }
     }
 }

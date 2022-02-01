@@ -415,7 +415,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9b7c5e62825464fb097b135e73c1116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneIndexInBuild: 0
+  sceneReference:
+    sceneAsset: {fileID: 102900000, guid: ddbb52029525352478d5ad4546b483cb, type: 3}
+    scenePath: Assets/Scenes/MainMenu.unity
 --- !u!1 &7618040247598422593
 GameObject:
   m_ObjectHideFlags: 0
