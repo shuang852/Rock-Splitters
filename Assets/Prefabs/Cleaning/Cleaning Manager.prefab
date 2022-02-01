@@ -43,6 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 154c960b246e4ef3b6334bd471ea3863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RequiredExposureForCompletion: 0.995
+  RequiredHealthForFailure: 0.5
   CleaningStarted:
     m_PersistentCalls:
       m_Calls: []

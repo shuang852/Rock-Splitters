@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using Cleaning;
 using Managers;
+using RockSystem.Fossils;
 using UI.Core;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,7 @@ namespace UI.Cleaning_Results
         private CleaningManager cleaningManager;
         private CleaningTimerManager timerManager;
         private CleaningScoreManager scoreManager;
+        private FossilShape fossilShape;
 
         protected override void OnComponentStart()
         {
@@ -27,11 +29,14 @@ namespace UI.Cleaning_Results
             cleaningManager = M.GetOrThrow<CleaningManager>();
             timerManager = M.GetOrThrow<CleaningTimerManager>();
             scoreManager = M.GetOrThrow<CleaningScoreManager>();
+            fossilShape = M.GetOrThrow<FossilShape>();
 
             winStateText.text = WinStateToString();
             baseFossilScoreText.text = "Not implemented";
-            fossilHealthText.text = "Not implemented";
-            fossilExposureText.text = "Not implemented";
+            fossilHealthText.text =
+                Mathf.Round(fossilShape.FossilHealth() * 100).ToString(CultureInfo.InvariantCulture) + "%";
+            fossilExposureText.text =
+                Mathf.Round(fossilShape.FossilExposure() * 100).ToString(CultureInfo.InvariantCulture) + "%";
             timeRemainingText.text = timerManager.CurrentTime.ToString(CultureInfo.InvariantCulture);
             totalScoreText.text = scoreManager.Score.ToString(CultureInfo.InvariantCulture);
         }
