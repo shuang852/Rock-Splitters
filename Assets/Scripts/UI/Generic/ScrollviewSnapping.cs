@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,8 +13,13 @@ namespace UI.Generic
     public class ScrollviewSnapping : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         // The content panel that
+
         [Tooltip("The content panel that holds the objects")]
         public Transform Panel;
+
+        [SerializeField] private float stopVelocity = 3f;
+        [SerializeField] private Button leftNavButton;
+        [SerializeField] private Button rightNavButton;
 
         private List<Vector3> scrollPositions = new List<Vector3>();
         private ScrollRect scrollRect;
@@ -21,7 +27,6 @@ namespace UI.Generic
         private bool isLerping;
         private bool isFindingClosest;
         private int index;
-        [SerializeField] private float stopVelocity = 3f;
 
         private void Awake()
         {
@@ -29,11 +34,6 @@ namespace UI.Generic
             scrollRectTransform = GetComponent<RectTransform>();
             isLerping = false;
             index = 0;
-            
-            //scrollPositions = new List<Vector3>();
-            //CalculateChildren();
- 
-            ((RectTransform)Panel).position.Set(0, 0, 0);
         }
  
         public void CalculateChildren()
@@ -44,12 +44,13 @@ namespace UI.Generic
                 Panel.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(
                     RectTransform.Axis.Horizontal, 
                     Panel.childCount * scrollRectTransform.rect.width);
-                float imgSize = Panel.GetComponent<FlexibleGridLayout>().cellSize.x;
-         
+                float imgSize = scrollRectTransform.rect.width;
+                
                 for (int i = 0; i < Panel.childCount; ++i)
                 {
                     scrollPositions.Add(new Vector3((imgSize / 2 + i * imgSize) * -1, 0, 0f));
                 }
+                Panel.localPosition = scrollPositions[0];
             }
         }
  
@@ -59,6 +60,25 @@ namespace UI.Generic
             {
                 FindClosestFrom(Panel.localPosition);
             }
+
+            if (index == 0)
+            {
+                leftNavButton.interactable = false;
+                if (!rightNavButton.IsInteractable()) 
+                    rightNavButton.interactable = true;
+            } else if (index == scrollPositions.Count -1)
+            {
+                rightNavButton.interactable = false;
+                if (!leftNavButton.IsInteractable()) 
+                    leftNavButton.interactable = true;
+            }
+            else
+            {
+                if (!leftNavButton.IsInteractable()) 
+                    leftNavButton.interactable = true;
+                if (!rightNavButton.IsInteractable()) 
+                    rightNavButton.interactable = true;
+            }
             
             if (isLerping && scrollRect.velocity.magnitude < stopVelocity) 
             {
@@ -67,6 +87,7 @@ namespace UI.Generic
                 if (Vector3.Distance(Panel.localPosition, scrollPositions[index]) < 0.001f)
                 {
                     isLerping = false;
+                    Panel.localPosition = scrollPositions[index];
                 }
             }
         }
@@ -121,6 +142,5 @@ namespace UI.Generic
         }
         
         #endregion
-        
     }
 }

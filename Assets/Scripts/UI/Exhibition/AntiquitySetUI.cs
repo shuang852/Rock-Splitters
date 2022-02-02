@@ -8,17 +8,27 @@ using UnityEngine.UI;
 
 namespace UI.Exhibition
 {
-    public class AntiquitySetUI : MonoBehaviour
+    public class AntiquitySetUI : DialogueComponent<ExhibitionDialogue>
     {
         public AntiquitySet antiquitySet;
-        [SerializeField] private GameObject collection;
+        
+        [Header("Left section")]
         [SerializeField] private Image setImage;
         [SerializeField] private TextMeshProUGUI setNameText;
+        [SerializeField] private TextMeshProUGUI setInfoNameText;
+        [SerializeField] private TextMeshProUGUI setDescriptionText;
+        [SerializeField] private TextMeshProUGUI setStatsText;
+        
+        [Header("Right Section")]
+        [SerializeField] private GameObject collection;
         [SerializeField] private GameObject setItemPrefab;
 
-        //private AntiquityManager antiquityManager;
         private Inventory inventory;
+        
+        protected override void Subscribe() {}
 
+        protected override void Unsubscribe() {}
+        
         public void Setup(AntiquitySet set)
         {
             inventory = M.GetOrThrow<AntiquityManager>().Inventory;
@@ -27,6 +37,9 @@ namespace UI.Exhibition
             
             setImage.sprite = antiquitySet.Sprite;
             setNameText.text = antiquitySet.SetName;
+            setInfoNameText.text = antiquitySet.SetName;
+            setDescriptionText.text = antiquitySet.Description;
+            setStatsText.text = $"Income/Capacity: {antiquitySet.CurrentSetIncome} / {antiquitySet.CurrentSetCapacity}";
 
             // If we run into performance issues in the future for this, we can store a completed variable in AntiquitySet
             foreach (var antiquity in antiquitySet.SetItems)

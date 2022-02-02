@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   setName: T-Rex
   sprite: {fileID: 21300000, guid: cdef461190bddd702b1385c3b07302f7, type: 3}
+  prodID: 0
+  description: This was a cool dino
   setItems:
   - {fileID: 11400000, guid: 9a06897d45b590c46acec2a92f93c518, type: 2}
   - {fileID: 11400000, guid: 6ecaa133c0eb1b2419192a352459ab30, type: 2}
   - {fileID: 11400000, guid: 7163e4dd79057984b9878943f94b7522, type: 2}
-  baseSetIncomeRate: 1000
-  baseSetCapacity: 1000
+  baseSetIncome: 1000
+  baseSetCapacity: 24000
   setBonus: 1.3

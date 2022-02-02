@@ -34,6 +34,7 @@ namespace UI.Exhibition
                 var go = Instantiate(setPrefab, scroll.Panel.transform);
                 go.GetComponent<AntiquitySetUI>().Setup(antiquitySet);
             }
+            await UniTask.Yield();
             scroll.CalculateChildren();
         }
     }

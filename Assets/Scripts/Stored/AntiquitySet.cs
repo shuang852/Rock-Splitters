@@ -3,36 +3,49 @@ using UnityEngine;
 
 namespace Stored
 {
-    [CreateAssetMenu(fileName = "FossilSet", menuName = "Antiquities/AntiquitySet", order = 0)]
+    [CreateAssetMenu(fileName = "FossilSet", menuName = "Scriptable Objects/Antiquities/AntiquitySet", order = 0)]
     public class AntiquitySet : ScriptableObject
     {
         [SerializeField] private string setName;
         [SerializeField] private Sprite sprite;
         [SerializeField] private int prodID;
+        [Tooltip("Description of the set")][Multiline]
+        [SerializeField] private string description;
+
         [Tooltip("The items within the set. Ensure the order is correct as they will be displayed TOP to BOT. Go from Head to legs")]
         [SerializeField] private Antiquity[] setItems;
-        [SerializeField] private float baseSetIncomeRate;
+
+        [Tooltip("The amount of money you gain per hour")]
+        [SerializeField] private float baseSetIncome;
+
+        [Tooltip("The amount of money you can gain offline until it stops. Usually 24 times the income")]
         [SerializeField] private float baseSetCapacity;
+
+        [Tooltip("Multiplier for income when entire set is collected. Default 1.3f")]
         [SerializeField] private float setBonus = 1.3f;
 
         public string SetName => setName;
         public Sprite Sprite => sprite;
         public int ProdID => prodID;
+        public string Description => description;
         public Antiquity[] SetItems => setItems;
-        public float BaseSetIncomeRate => baseSetIncomeRate;
+        public float BaseSetIncome => baseSetIncome;
         public float BaseSetCapacity => baseSetCapacity;
         public float SetBonus => setBonus;
 
         // Non editor variables 
         public int Count { get; private set; }
         public bool BonusActive { get; private set; } // Could use this to display something when set is completed
-        public float CurrentSetIncomeRate { get; private set; }
+        public float CurrentSetIncome { get; private set; }
         public float CurrentSetCapacity { get; private set; }
 
         private void OnValidate()
         {
+            if (setItems.Length <= 0) return;
+            
             foreach (var item in setItems)
-                if (!item.OverrideSet) item.AntiquitySet = this;
+                if (item is { OverrideSet: false })
+                    item.AntiquitySet = this;
         }
 
         // TODO: Possibly change this to only 1 item if we face optimisation problems. This would mean a version without resetting count
@@ -67,8 +80,8 @@ namespace Stored
                 bonus = 1f;
             }
             
-            CurrentSetIncomeRate = unlockedPercentage * bonus * BaseSetIncomeRate;
-            CurrentSetCapacity = unlockedPercentage * bonus * BaseSetCapacity;
+            CurrentSetIncome = unlockedPercentage * bonus * BaseSetIncome;
+            CurrentSetCapacity = unlockedPercentage * BaseSetCapacity;
         }
     }
 }
