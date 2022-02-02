@@ -10,7 +10,9 @@
         "Cleaning",
         "Unity.TextMeshPro",
         "Stored",
-        "UniTask"
+        "UniTask",
+        "DOTween.Modules",
+        "UniTask.DOTween"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

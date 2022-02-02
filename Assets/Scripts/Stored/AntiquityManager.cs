@@ -63,7 +63,7 @@ namespace Stored
             float capacity = 0f;
             foreach (var set in antiquitySetDatabase.Items)
             {
-                income += set.CurrentSetIncomeRate;
+                income += set.CurrentSetIncome;
                 capacity += set.CurrentSetCapacity;
             }
 

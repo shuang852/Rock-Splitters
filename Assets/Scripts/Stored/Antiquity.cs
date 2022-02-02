@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Stored
 {
-    [CreateAssetMenu(fileName = "Antiquity", menuName = "Window/Scriptable Objects/Antiquity", order = 0)]
+    [CreateAssetMenu(fileName = "Antiquity", menuName = "Scriptable Objects/Antiquities/Antiquity", order = 0)]
     public class Antiquity : ScriptableObject
     {
         [SerializeField] private string displayName;
