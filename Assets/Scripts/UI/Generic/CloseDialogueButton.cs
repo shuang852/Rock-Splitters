@@ -7,10 +7,6 @@ namespace UI.Generic
         protected override void Subscribe() { }
         protected override void Unsubscribe() { }
 
-        protected override void OnClick()
-        {
-            // BUG: Pop is internal.
-            // Manager.Pop();
-        }
+        protected override void OnClick() => Manager.Pop();
     }
 }

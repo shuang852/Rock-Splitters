@@ -30,6 +30,9 @@ namespace ToolSystem
         /// </summary>
         public void ToolDown(Vector2 worldPosition)
         {
+            if (!CurrentTool)
+                return;
+            
             if (CurrentTool.action == Tool.ToolAction.Tap)
             {
                 UseTool(worldPosition);
@@ -44,6 +47,9 @@ namespace ToolSystem
         /// <param name="worldPosition"></param>
         public void ToolInUse(Vector2 worldPosition)
         {
+            if (!CurrentTool)
+                return;
+            
             if (CurrentTool.action == Tool.ToolAction.Continuous)
             {
                 UseTool(worldPosition);
