@@ -1,5 +1,6 @@
 ﻿using Managers;
 using ToolSystem;
+using UI.Cleaning;
 using UI.Core;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 namespace UI.Generic
 {
     [RequireComponent(typeof(Button))]
-    public class SelectToolButton : DialogueComponent<Dialogue>
+    public class SelectToolButton : DialogueComponent<CleaningDialogue>
     {
         [SerializeField] private Tool tool;
         [SerializeField] private Color activatedColor;
@@ -36,7 +37,6 @@ namespace UI.Generic
 
             // Selects tool if its the starting tool. If multiple, whatever gets first then others will be set false.
             if (!tool || !tool.startingTool) return;
-            //if (!tool.startingTool) return;
             
             if (toolManager.CurrentTool == null)
                 SelectTool();
@@ -62,9 +62,6 @@ namespace UI.Generic
             toolsDialogue.DeselectToolButton(this);
         }
 
-        public void DeselectButton()
-        {
-            image.color = Color.white;
-        }
+        public void DeselectButton() => image.color = Color.white;
     }
 }
