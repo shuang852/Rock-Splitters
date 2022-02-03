@@ -10,14 +10,14 @@ namespace UI.Generic
     {
         [SerializeField] private SceneReference sceneReference;
         
-        private Button button;
+        private Button dialogueButton;
 
         private static bool loadingInProgress;
         
         protected override void OnComponentAwake()
         {
-            TryGetComponent(out button);
-            button.onClick.AddListener(OnSubmit);
+            TryGetComponent(out dialogueButton);
+            dialogueButton.onClick.AddListener(OnSubmit);
         }
         
         protected override void Subscribe() { }

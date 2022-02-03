@@ -15,15 +15,15 @@ namespace UI.Cleaning
         private ToolManager toolManager;
         
         private Image image;
-        private Button button;
+        private Button dialogueButton;
 
         protected override void OnComponentAwake()
         {
-            TryGetComponent(out button);
+            TryGetComponent(out dialogueButton);
             
-            if (!tool || !tool.unlocked) button.interactable = false;
+            if (!tool || !tool.unlocked) dialogueButton.interactable = false;
 
-            button.onClick.AddListener(OnSubmit);
+            dialogueButton.onClick.AddListener(OnSubmit);
         }
 
         protected override void OnComponentStart()
