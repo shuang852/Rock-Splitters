@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Experimental/FossilExperiment.unity
     guid: 9c813bb34d8219a64a0b6231ded1c570
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Experimental/FossilExperiment 1.unity
     guid: a94f4cb5d2f811a4786893c01612c89a
   - enabled: 1
