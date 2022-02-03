@@ -8,7 +8,7 @@ namespace UI.Generic
     [RequireComponent(typeof(Button))]
     public class LoadSceneButton : DialogueComponent<Dialogue>
     {
-        [SerializeField] private int sceneIndexInBuild;
+        [SerializeField] private SceneReference sceneReference;
         
         private Button dialogueButton;
 
@@ -32,12 +32,11 @@ namespace UI.Generic
                 return;
             }
                 
-            Scene scene = SceneManager.GetSceneByBuildIndex(sceneIndexInBuild);
-            Debug.Log($"Loading Scene '{scene.name}'.");
+            Debug.Log($"Loading Scene '{sceneReference.ScenePath}'.");
 
             loadingInProgress = true;
             
-            SceneManager.LoadSceneAsync(sceneIndexInBuild);
+            SceneManager.LoadSceneAsync(sceneReference);
         }
         
         private void OnDestroy()

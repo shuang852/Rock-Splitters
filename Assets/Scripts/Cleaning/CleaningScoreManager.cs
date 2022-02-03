@@ -5,12 +5,12 @@ namespace Cleaning
 {
     public class CleaningScoreManager : Manager
     {
-        [SerializeField] private CleaningTimerManager timer;
         [Tooltip("Multiplied by the time remaining in seconds.")]
         [SerializeField] private float timeBonusMultiplier;
 
         private CleaningManager cleaningManager;
-        
+        private CleaningTimerManager timer;
+
         public float Score { get; private set; }
 
         protected override void Start()
@@ -18,6 +18,7 @@ namespace Cleaning
             base.Start();
             
             cleaningManager = M.GetOrThrow<CleaningManager>();
+            timer = M.GetOrThrow<CleaningTimerManager>();
 
             cleaningManager.CleaningLost.AddListener(CalculateScore);
             cleaningManager.CleaningWon.AddListener(CalculateScore);

@@ -5,6 +5,7 @@ using Managers;
 using RockSystem.Chunks;
 using Stored;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RockSystem.Fossils
 {
@@ -20,12 +21,15 @@ namespace RockSystem.Fossils
         private SpriteRenderer spriteRenderer;
         private SpriteMask spriteMask;
         private PolygonCollider2D polyCollider;
+        private ChunkManager chunkManager;
 
         private IEnumerable<Vector3Int> HitPositions =>
             chunkHealths.Keys.Select(p => new Vector3Int(p.x, p.y, layer));
         private IEnumerable<Vector2Int> HitFlatPositions => chunkHealths.Keys;
         private Sprite Sprite => Antiquity.Sprite;
         public Antiquity Antiquity => fossil;
+
+        public UnityEvent fossilDamaged = new UnityEvent();
 
         protected override void Awake()
         {
@@ -49,34 +53,26 @@ namespace RockSystem.Fossils
         protected override void Start()
         {
             base.Start();
-            
+
+            chunkManager = M.GetOrThrow<ChunkManager>();
             SetupFossilChunks();
-            ChunkManager chunkManager = M.GetOrThrow<ChunkManager>();
             chunkManager.RegisterFossil(this);
         }
 
         private void SetupFossilChunks()
         {
-            ChunkManager chunkManager = M.GetOrThrow<ChunkManager>();
             int startingHealth = fossil.MaxHealth;
+            
+            float radius = chunkManager.chunkStructure.CellSize.x / 2f;
 
             foreach (Vector2Int flatPosition in chunkManager.chunkStructure.GetFlatPositions())
             {
-                bool isHitPosition = false;
-                float radius = chunkManager.chunkStructure.CellSize.x / 2f;
                 Vector3 centerWorldPosition = chunkManager.chunkStructure.CellToWorld(flatPosition);
                 var cornerPositions = GetHexagonCornerPositions(centerWorldPosition, radius)
                     .Append(flatPosition);
 
-                foreach (var cornerPosition in cornerPositions)
-                {
-                    if (polyCollider.OverlapPoint(cornerPosition) && !isHitPosition)
-                    {
-                        // Debug.Log($"hit corner {cornerPosition}");
-                        chunkHealths.Add(flatPosition, startingHealth);
-                        isHitPosition = true;
-                    }
-                }
+                if (cornerPositions.Any(cornerPosition => polyCollider.OverlapPoint(cornerPosition)))
+                    chunkHealths.Add(flatPosition, startingHealth);
             }
         }
 
@@ -88,6 +84,8 @@ namespace RockSystem.Fossils
                 throw new IndexOutOfRangeException($"position {position} is not a valid fossil chunk");
 
             chunkHealths[position] = Mathf.Max(0, chunkHealths[position] - amount);
+            
+            fossilDamaged.Invoke();
         }
 
         public int GetFossilChunkHealth(Vector2Int position) =>
@@ -134,6 +132,24 @@ namespace RockSystem.Fossils
                     Gizmos.DrawSphere(worldPosition, 0.08f);
                 }
             }
+        }
+        
+        public float FossilHealth ()
+        {
+            float currentTotalHealth = chunkHealths.Values.Sum();
+
+            float maxTotalHealth = chunkHealths.Count * fossil.MaxHealth;
+            
+            return currentTotalHealth / maxTotalHealth;
+        }
+
+        public float FossilExposure()
+        {
+            int exposedChunks = chunkHealths.Keys.Count(i => chunkManager.GetFossilAtPosition(i) == this);
+            
+            int totalChunks = chunkHealths.Count;
+
+            return exposedChunks / (float) totalChunks;
         }
     }
 }

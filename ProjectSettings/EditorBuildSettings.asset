@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Experimental/FossilExperiment 1.unity
     guid: a94f4cb5d2f811a4786893c01612c89a
   - enabled: 1
+    path: Assets/Scenes/Cleaning.unity
+    guid: 2ecb5c09760588746952a08e0ef85d6b
+  - enabled: 1
     path: Assets/Scenes/Exhibition.unity
     guid: 73c74a4b3d7be354fb91e01c8a291fa3
   m_configObjects: {}

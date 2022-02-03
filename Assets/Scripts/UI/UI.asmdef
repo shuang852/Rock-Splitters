@@ -12,7 +12,8 @@
         "Stored",
         "UniTask",
         "DOTween.Modules",
-        "UniTask.DOTween"
+        "UniTask.DOTween",
+        "UnitySceneReference"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
