@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 0.5
   action: 1
-  damage: 50
+  damage: 80
   unlocked: 1
   startingTool: 1
   damageFalloff:

@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f31319181b984cf78bbddd9c5fbe7165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 40, y: 90}
+  size: {x: 30, y: 70}
   rocks:
   - {fileID: 11400000, guid: e1f46564eb7d04062a1cb2e119403c01, type: 2}
 --- !u!114 &4991831999567798634

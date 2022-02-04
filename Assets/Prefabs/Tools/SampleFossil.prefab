@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3455711653952440908}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.025461938, y: 0.19093585, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -49,6 +49,9 @@ MonoBehaviour:
   layer: 2
   sortingLayer: Chunk
   enableDebug: 0
+  fossilDamaged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!212 &3455711653952440915
 SpriteRenderer:
   m_ObjectHideFlags: 0
