@@ -25,7 +25,6 @@ namespace Cleaning
         public UnityEvent CleaningWon = new UnityEvent();
         public UnityEvent CleaningLost = new UnityEvent();
         
-        private ToolManager toolManager;
         private FossilShape fossilShape;
 
         protected override void Start()
@@ -35,7 +34,6 @@ namespace Cleaning
             // TODO: Starting cleaning here creates a race condition.
             // StartCleaning();
             
-            toolManager = M.GetOrThrow<ToolManager>();
             fossilShape = M.GetOrThrow<FossilShape>();
         }
 
@@ -43,7 +41,7 @@ namespace Cleaning
         {
             CurrentCleaningState = CleaningState.InProgress;
             
-            toolManager.toolUsed.AddListener(CheckIfCleaningWon);
+            fossilShape.fossilExposed.AddListener(CheckIfCleaningWon);
             fossilShape.fossilDamaged.AddListener(CheckIfCleaningLost);
             
             CleaningStarted.Invoke();    
@@ -51,7 +49,7 @@ namespace Cleaning
         
         private void EndCleaning()
         {
-            toolManager.toolUsed.RemoveListener(CheckIfCleaningWon);
+            fossilShape.fossilExposed.RemoveListener(CheckIfCleaningWon);
             fossilShape.fossilDamaged.RemoveListener(CheckIfCleaningLost);
             
             CleaningEnded.Invoke();
@@ -77,13 +75,13 @@ namespace Cleaning
 
         public void CheckIfCleaningLost()
         {
-            if (fossilShape.FossilHealth() < RequiredHealthForFailure)
+            if (fossilShape.FossilHealth < RequiredHealthForFailure)
                 LoseCleaning();
         }
 
         public void CheckIfCleaningWon()
         {
-            if (fossilShape.FossilExposure() > RequiredExposureForCompletion)
+            if (fossilShape.FossilExposure > RequiredExposureForCompletion)
                 WinCleaning();
         }
     }

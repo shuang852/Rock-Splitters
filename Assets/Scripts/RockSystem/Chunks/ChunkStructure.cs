@@ -16,6 +16,7 @@ namespace RockSystem.Chunks
         private readonly ChunkMap chunkMap;
         private readonly Grid grid;
         private readonly Func<ChunkDescription> chunkDescriptionFactory;
+        private readonly Action<Chunk> chunkDestroyedBehaviour;
 
         public Vector2Int MinSize { get; }
         public Vector2Int MaxSize { get; }
@@ -24,11 +25,17 @@ namespace RockSystem.Chunks
         public IEnumerable<Vector2Int> FlatPositions { get; }
         public IEnumerable<Vector3Int> Positions { get; }
 
-        internal ChunkStructure(Vector2Int size, ChunkMap chunkMap, Grid grid, Func<ChunkDescription> chunkDescriptionFactory)
+        internal ChunkStructure(Vector2Int size, ChunkMap chunkMap, Grid grid, Func<ChunkDescription> chunkDescriptionFactory, Action<Chunk> chunkDestroyedBehaviour)
         {
             this.grid = grid;
             this.chunkMap = chunkMap;
             this.chunkDescriptionFactory = chunkDescriptionFactory;
+            this.chunkDestroyedBehaviour = chunk => 
+            {
+                ChunkDestroyedBehaviour(chunk);
+
+                chunkDestroyedBehaviour(chunk);
+            };
 
             MinSize = new Vector2Int(Mathf.FloorToInt(size.x / -2f), Mathf.FloorToInt(size.y / -2f));
             MaxSize = new Vector2Int(Mathf.FloorToInt(size.x / 2f), Mathf.FloorToInt(size.y / 2f));
@@ -43,9 +50,13 @@ namespace RockSystem.Chunks
 
                 for (int i = 0; i < chunkMap.LayerLength; i++)
                 {
-                    var chunk = new Chunk(chunkDescriptionFactory(), new Vector3Int(flatPosition.x, flatPosition.y, i));
+                    var chunk = new Chunk(
+                        this.chunkDescriptionFactory(),
+                        new Vector3Int(flatPosition.x, flatPosition.y, i),
+                        this.chunkDestroyedBehaviour
+                    );
+                    
                     chunks[flatPosition].AddLast(chunk);
-                    chunk.AttachTo(this);
                     
                     TileBase tile = chunk.CreateTile();
                     chunkMap.SetTileAtLayer(chunk.Position, tile);
@@ -75,7 +86,7 @@ namespace RockSystem.Chunks
         // }
 
         private bool IsInBounds(Vector2Int flatPosition) => flatPosition.x >= MinSize.x && flatPosition.y >= MinSize.y
-            && flatPosition.x <= MaxSize.y && flatPosition.y <= MaxSize.y;
+            && flatPosition.x <= MaxSize.x && flatPosition.y <= MaxSize.y;
         
         private bool IsInBounds(Vector3Int position) => position.x >= MinSize.x && position.y >= MinSize.y
             && position.x <= MaxSize.y && position.y <= MaxSize.y 
@@ -124,6 +135,11 @@ namespace RockSystem.Chunks
                     }
                 }
             }
+        }
+
+        private void ChunkDestroyedBehaviour(Chunk chunk)
+        {
+            Clear(chunk.FlatPosition);
         }
     }
 }

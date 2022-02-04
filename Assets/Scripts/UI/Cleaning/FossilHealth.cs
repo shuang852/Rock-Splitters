@@ -26,7 +26,7 @@ namespace UI.Cleaning
 
         private void UpdateHealth()
         {
-            image.fillAmount = 1 - fossilShape.FossilHealth();
+            image.fillAmount = 1 - fossilShape.FossilHealth;
         }
 
         protected override void Subscribe() { }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Managers;
 using RockSystem.Chunks;
+using RockSystem.Fossils;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,6 +10,7 @@ namespace ToolSystem
     public class ToolManager : Manager
     {
         private ChunkManager chunkManager;
+        private FossilShape fossilShape;
         
         public Tool CurrentTool { get; private set; }
 
@@ -23,6 +25,7 @@ namespace ToolSystem
             base.Start();
             
             chunkManager = M.GetOrThrow<ChunkManager>();
+            fossilShape = M.GetOrThrow<FossilShape>();
         }
 
         /// <summary>
@@ -82,6 +85,8 @@ namespace ToolSystem
 
                 chunkManager.DamageChunk(affectedChunk, clampedDamage, willDamageFossil);
             }
+            
+            fossilShape.CheckHealthAndExposure();
             
             toolUsed.Invoke();
         }

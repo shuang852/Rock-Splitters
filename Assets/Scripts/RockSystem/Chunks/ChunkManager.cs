@@ -4,6 +4,7 @@ using System.Linq;
 using Managers;
 using RockSystem.Fossils;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RockSystem.Chunks
 {
@@ -23,6 +24,8 @@ namespace RockSystem.Chunks
 
         // TODO: ChunkManager should not also handle fossils. Maybe create ArtefactRockManager?
         private List<FossilShape> fossils = new List<FossilShape>();
+
+        public UnityEvent<Chunk> chunkDestroyed = new UnityEvent<Chunk>();
 
         public struct OddrChunkCoord
         {
@@ -68,7 +71,13 @@ namespace RockSystem.Chunks
             if (rocks.Count < 1)
                 throw new InvalidOperationException($"No rocks assigned to the {nameof(ChunkManager)}!");
 
-            chunkStructure = new ChunkStructure(size, chunkMap, grid, () => PickRandomFromList(rocks));
+            chunkStructure = new ChunkStructure(
+                size,
+                chunkMap,
+                grid, 
+                () => PickRandomFromList(rocks),
+                ChunkDestroyedBehaviour
+            );
         }
 
         public void DamageChunk(Vector2 worldPosition, float damage)
@@ -77,6 +86,7 @@ namespace RockSystem.Chunks
             DamageChunk(flatPosition, damage);
         }
 
+        // TODO: Should be renamed to convey that it damages multiple chunks in a column.
         public void DamageChunk(OddrChunkCoord flatPosition, float damage, bool willDamageFossil = true)
         {
             while (damage > 0)
@@ -242,6 +252,11 @@ namespace RockSystem.Chunks
         public bool WillDamageRock(List<OddrChunkCoord> oddrChunkCoords)
         {
             return oddrChunkCoords.Select(GetFossilAtPosition).Any(fossil => fossil == null);
+        }
+
+        private void ChunkDestroyedBehaviour(Chunk chunk)
+        {
+            chunkDestroyed.Invoke(chunk);
         }
     }
 }

@@ -1,15 +1,16 @@
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 namespace RockSystem.Chunks
 {
     public class Chunk
     {
         private readonly ChunkDescription chunkDescription;
-        // TODO: Invert dependency.
-        private ChunkStructure chunkStructure;
 
         private readonly Vector3Int position;
+        private readonly Action<Chunk> chunkDestroyedBehaviour;
         public Vector3Int Position => position;
         public Vector2Int FlatPosition => (Vector2Int) position;
         
@@ -17,11 +18,12 @@ namespace RockSystem.Chunks
         public float Health => currentHealth;
         public float MaxHealth => chunkDescription.Health;
 
-        internal Chunk(ChunkDescription chunkDescription, Vector3Int position)
+        internal Chunk(ChunkDescription chunkDescription, Vector3Int position, Action<Chunk> chunkDestroyedBehaviour)
         {
             this.chunkDescription = chunkDescription;
             this.position = position;
-            
+            this.chunkDestroyedBehaviour = chunkDestroyedBehaviour;
+
             float healthVariation = Random.Range(-chunkDescription.HealthVariation, chunkDescription.HealthVariation + 1);
             currentHealth = chunkDescription.Health + healthVariation;
 
@@ -29,11 +31,6 @@ namespace RockSystem.Chunks
                 currentHealth = 0;
         }
 
-        internal void AttachTo(ChunkStructure chunkStructure)
-        {
-            this.chunkStructure = chunkStructure;
-        }
-        
         internal TileBase CreateTile()
         {
             Tile tile = ScriptableObject.CreateInstance<Tile>();
@@ -58,10 +55,15 @@ namespace RockSystem.Chunks
 
             if (currentHealth <= 0)
             {
-                chunkStructure.Clear(FlatPosition);
+                DestroyChunk();
             }
 
             return damageTaken;
+        }
+
+        private void DestroyChunk()
+        {
+            chunkDestroyedBehaviour.Invoke(this);
         }
     }
 }

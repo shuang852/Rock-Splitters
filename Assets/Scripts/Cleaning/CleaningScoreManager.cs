@@ -30,7 +30,7 @@ namespace Cleaning
         {
             // TODO: Incorporate rock difficulty.
             // TODO: Final score = Base * Health * Cleanliness * Rock Diff + (Time + bonuses)
-            Score = Mathf.Round(fossilShape.Antiquity.Score * fossilShape.FossilHealth() * fossilShape.FossilExposure() + timer.CurrentTime * timeBonusMultiplier);
+            Score = Mathf.Round(fossilShape.Antiquity.Score * fossilShape.FossilHealth * fossilShape.FossilExposure + timer.CurrentTime * timeBonusMultiplier);
         }
 
         protected override void OnDestroy()
