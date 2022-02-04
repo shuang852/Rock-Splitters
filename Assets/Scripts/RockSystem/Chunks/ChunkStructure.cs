@@ -83,6 +83,8 @@ namespace RockSystem.Chunks
 
         public Chunk GetOrNull(Vector2Int flatPosition)
         {
+            if (!IsInBounds(flatPosition)) return null;
+            
             return chunks[flatPosition].Last?.Value;
         }
         

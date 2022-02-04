@@ -17,7 +17,7 @@ namespace RockSystem.Fossils
         [SerializeField] private string sortingLayer = "Chunk";
         [SerializeField] private bool enableDebug;
 
-        private readonly Dictionary<Vector2Int, int> chunkHealths = new Dictionary<Vector2Int, int>();
+        private readonly Dictionary<Vector2Int, float> chunkHealths = new Dictionary<Vector2Int, float>();
         private SpriteRenderer spriteRenderer;
         private SpriteMask spriteMask;
         private PolygonCollider2D polyCollider;
@@ -59,7 +59,7 @@ namespace RockSystem.Fossils
 
         private void SetupFossilChunks()
         {
-            int startingHealth = fossil.MaxHealth;
+            float startingHealth = fossil.MaxHealth;
             
             float radius = chunkManager.chunkStructure.CellSize.x / 2f;
 
@@ -76,7 +76,7 @@ namespace RockSystem.Fossils
 
         #region Damage
 
-        public void DamageFossilChunk(Vector2Int position, int amount)
+        public void DamageFossilChunk(Vector2Int position, float amount)
         {
             if (!chunkHealths.ContainsKey(position))
                 throw new IndexOutOfRangeException($"position {position} is not a valid fossil chunk");
@@ -86,7 +86,7 @@ namespace RockSystem.Fossils
             fossilDamaged.Invoke();
         }
 
-        public int GetFossilChunkHealth(Vector2Int position) =>
+        public float GetFossilChunkHealth(Vector2Int position) =>
             chunkHealths.ContainsKey(position) ? chunkHealths[position] : 0;
 
         #endregion

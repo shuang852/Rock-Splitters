@@ -71,13 +71,13 @@ namespace RockSystem.Chunks
             chunkStructure = new ChunkStructure(size, chunkMap, grid, () => PickRandomFromList(rocks));
         }
 
-        public void DamageChunk(Vector2 worldPosition, int damage)
+        public void DamageChunk(Vector2 worldPosition, float damage)
         {
             OddrChunkCoord flatPosition = chunkStructure.WorldToCell(worldPosition);
             DamageChunk(flatPosition, damage);
         }
 
-        public void DamageChunk(OddrChunkCoord flatPosition, int damage, bool willDamageFossil = true)
+        public void DamageChunk(OddrChunkCoord flatPosition, float damage, bool willDamageFossil = true)
         {
             while (damage > 0)
             {
@@ -89,7 +89,7 @@ namespace RockSystem.Chunks
 
                 if (fossil == null)
                 {
-                    int damageTaken = chunk.DamageChunk(damage);
+                    float damageTaken = chunk.DamageChunk(damage);
                     damage -= damageTaken;
                 }
                 else
