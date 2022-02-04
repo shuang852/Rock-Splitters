@@ -20,8 +20,7 @@ namespace Cleaning
             cleaningManager = M.GetOrThrow<CleaningManager>();
             timer = M.GetOrThrow<CleaningTimerManager>();
 
-            cleaningManager.CleaningLost.AddListener(CalculateScore);
-            cleaningManager.CleaningWon.AddListener(CalculateScore);
+            cleaningManager.CleaningEnded.AddListener(CalculateScore);
         }
         
         private void CalculateScore()
@@ -34,8 +33,7 @@ namespace Cleaning
         {
             base.OnDestroy();
             
-            cleaningManager.CleaningLost.RemoveListener(CalculateScore);
-            cleaningManager.CleaningWon.RemoveListener(CalculateScore);
+            cleaningManager.CleaningEnded.RemoveListener(CalculateScore);
         }
     }
 }

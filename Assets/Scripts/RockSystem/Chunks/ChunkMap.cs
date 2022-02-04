@@ -18,6 +18,7 @@ namespace RockSystem.Chunks
 
         private readonly List<Tilemap> layeredTilemaps = new List<Tilemap>();
 
+        // TODO: Move this to the structure.
         public int LayerLength => layerLength;
 
         private void Awake()

@@ -23,8 +23,6 @@ namespace RockSystem.Fossils
         private PolygonCollider2D polyCollider;
         private ChunkManager chunkManager;
 
-        private IEnumerable<Vector3Int> HitPositions =>
-            chunkHealths.Keys.Select(p => new Vector3Int(p.x, p.y, layer));
         private IEnumerable<Vector2Int> HitFlatPositions => chunkHealths.Keys;
         private Sprite Sprite => Antiquity.Sprite;
         public Antiquity Antiquity => fossil;
@@ -65,7 +63,7 @@ namespace RockSystem.Fossils
             
             float radius = chunkManager.chunkStructure.CellSize.x / 2f;
 
-            foreach (Vector2Int flatPosition in chunkManager.chunkStructure.GetFlatPositions())
+            foreach (Vector2Int flatPosition in chunkManager.chunkStructure.FlatPositions)
             {
                 Vector3 centerWorldPosition = chunkManager.chunkStructure.CellToWorld(flatPosition);
                 var cornerPositions = GetHexagonCornerPositions(centerWorldPosition, radius)
@@ -92,10 +90,11 @@ namespace RockSystem.Fossils
             chunkHealths.ContainsKey(position) ? chunkHealths[position] : 0;
 
         #endregion
-        
-        public bool IsHitAtPosition(Vector3Int position) => HitPositions.Contains(position);
 
-        public bool IsHitAtFlatPosition(Vector2Int position) => HitFlatPositions.Contains(position);
+        public bool IsHitAtPosition(Vector3Int position) =>
+            position.z == layer && chunkHealths.ContainsKey(new Vector2Int(position.x, position.y));
+
+        public bool IsHitAtFlatPosition(Vector2Int position) => chunkHealths.ContainsKey(position);
         
         // TODO move this to utility class
         private IEnumerable<Vector2> GetHexagonCornerPositions(Vector2 centerWorldPosition, float radius) => new[]

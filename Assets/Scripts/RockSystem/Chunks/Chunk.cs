@@ -57,7 +57,7 @@ namespace RockSystem.Chunks
 
             if (currentHealth <= 0)
             {
-                chunkStructure.Clear(position);
+                chunkStructure.Clear(FlatPosition);
             }
 
             return damageTaken;

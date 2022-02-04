@@ -33,8 +33,7 @@ namespace Cleaning
             cleaningManager = M.GetOrThrow<CleaningManager>();
             
             cleaningManager.CleaningStarted.AddListener(ResetAndStartTimer);
-            cleaningManager.CleaningLost.AddListener(StopTimer);
-            cleaningManager.CleaningWon.AddListener(StopTimer);
+            cleaningManager.CleaningEnded.AddListener(StopTimer);
         }
 
         protected override void Update()
@@ -80,8 +79,7 @@ namespace Cleaning
             base.OnDestroy();
             
             cleaningManager.CleaningStarted.RemoveListener(ResetAndStartTimer);
-            cleaningManager.CleaningLost.RemoveListener(StopTimer);
-            cleaningManager.CleaningWon.RemoveListener(StopTimer);
+            cleaningManager.CleaningEnded.RemoveListener(StopTimer);
         }
     }
 }

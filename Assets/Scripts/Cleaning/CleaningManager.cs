@@ -21,6 +21,7 @@ namespace Cleaning
         public CleaningState CurrentCleaningState { get; private set; }
 
         public UnityEvent CleaningStarted = new UnityEvent();
+        public UnityEvent CleaningEnded = new UnityEvent();
         public UnityEvent CleaningWon = new UnityEvent();
         public UnityEvent CleaningLost = new UnityEvent();
         
@@ -36,21 +37,31 @@ namespace Cleaning
             
             toolManager = M.GetOrThrow<ToolManager>();
             fossilShape = M.GetOrThrow<FossilShape>();
-            
-            toolManager.toolUsed.AddListener(CheckIfCleaningWon);
-            fossilShape.fossilDamaged.AddListener(CheckIfCleaningLost);
         }
 
         public void StartCleaning()
         {
             CurrentCleaningState = CleaningState.InProgress;
             
+            toolManager.toolUsed.AddListener(CheckIfCleaningWon);
+            fossilShape.fossilDamaged.AddListener(CheckIfCleaningLost);
+            
             CleaningStarted.Invoke();    
+        }
+        
+        private void EndCleaning()
+        {
+            toolManager.toolUsed.RemoveListener(CheckIfCleaningWon);
+            fossilShape.fossilDamaged.RemoveListener(CheckIfCleaningLost);
+            
+            CleaningEnded.Invoke();
         }
 
         public void LoseCleaning()
         {
             CurrentCleaningState = CleaningState.Lost;
+            
+            EndCleaning();
             
             CleaningLost.Invoke();
         }
@@ -58,6 +69,8 @@ namespace Cleaning
         public void WinCleaning()
         {
             CurrentCleaningState = CleaningState.Won;
+            
+            EndCleaning();
             
             CleaningWon.Invoke();
         }

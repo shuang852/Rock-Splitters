@@ -68,16 +68,9 @@ namespace RockSystem.Chunks
             if (rocks.Count < 1)
                 throw new InvalidOperationException($"No rocks assigned to the {nameof(ChunkManager)}!");
 
-            chunkStructure = new ChunkStructure(size, chunkMap, grid);
+            chunkStructure = new ChunkStructure(size, chunkMap, grid, () => PickRandomFromList(rocks));
         }
 
-        protected override void Start()
-        {
-            base.Start();
-            
-            GenerateChunks();
-        }
-        
         public void DamageChunk(Vector2 worldPosition, int damage)
         {
             OddrChunkCoord flatPosition = chunkStructure.WorldToCell(worldPosition);
@@ -88,7 +81,7 @@ namespace RockSystem.Chunks
         {
             while (damage > 0)
             {
-                Chunk chunk = chunkStructure.GetOrNull((Vector2Int)flatPosition);
+                Chunk chunk = chunkStructure.GetOrNull(flatPosition);
 
                 if (chunk == null) break;
                 
@@ -119,7 +112,7 @@ namespace RockSystem.Chunks
 
         public FossilShape GetFossilAtPosition(OddrChunkCoord oddrChunkCoord)
         {
-            Chunk chunk = chunkStructure.GetOrNull((Vector2Int)oddrChunkCoord);
+            Chunk chunk = chunkStructure.GetOrNull(oddrChunkCoord);
 
             if (chunk == null) return null;
                 
@@ -132,16 +125,6 @@ namespace RockSystem.Chunks
         internal void RegisterFossil(FossilShape fossil)
         {
             fossils.Add(fossil);
-        }
-
-        private void GenerateChunks()
-        {
-            // Generate random rocks
-            foreach (Vector3Int position in chunkStructure.GetPositions())
-            {
-                ChunkDescription rockDescription = PickRandomFromList(rocks);
-                chunkStructure.Set(new Chunk(rockDescription, new Vector3Int(position.x, position.y, position.z)));
-            }
         }
 
         private T PickRandomFromList<T>(List<T> list) => 
