@@ -73,10 +73,12 @@ namespace ToolSystem
                     Vector2.Distance(chunkManager.GetChunkWorldPosition(affectedChunk), worldPosition) /
                     CurrentTool.radius;
 
-                int calculatedDamage =
-                    Mathf.CeilToInt(CurrentTool.damageFalloff.Evaluate(normalisedDistance) * CurrentTool.damage);
+                float calculatedDamage = CurrentTool.damageFalloff.Evaluate(normalisedDistance) * CurrentTool.damage;
                 
-                int clampedDamage = Mathf.Clamp(calculatedDamage, 0, CurrentTool.damage);
+                float clampedDamage = Mathf.Clamp(calculatedDamage, 0, CurrentTool.damage);
+                
+                if (CurrentTool.action == Tool.ToolAction.Continuous)
+                    clampedDamage *= Time.deltaTime;
 
                 chunkManager.DamageChunk(affectedChunk, clampedDamage, willDamageFossil);
             }
