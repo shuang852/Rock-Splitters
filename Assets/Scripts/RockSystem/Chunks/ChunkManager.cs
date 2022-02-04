@@ -5,6 +5,7 @@ using Managers;
 using RockSystem.Fossils;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Tilemaps;
 
 namespace RockSystem.Chunks
 {
@@ -14,7 +15,7 @@ namespace RockSystem.Chunks
     [RequireComponent(typeof(ChunkMap))]
     public class ChunkManager : Manager
     {
-        [SerializeField] private Vector2Int size = new Vector2Int(40, 90);
+        [SerializeField] private Vector3Int size = new Vector3Int(40, 90, 6);
         [SerializeField] private List<ChunkDescription> rocks;
 
         private ChunkMap chunkMap;
@@ -25,7 +26,7 @@ namespace RockSystem.Chunks
         // TODO: ChunkManager should not also handle fossils. Maybe create ArtefactRockManager?
         private List<FossilShape> fossils = new List<FossilShape>();
 
-        public UnityEvent<Chunk> chunkDestroyed = new UnityEvent<Chunk>();
+        public UnityEvent<Chunk> chunkCleared = new UnityEvent<Chunk>();
 
         public struct OddrChunkCoord
         {
@@ -70,13 +71,16 @@ namespace RockSystem.Chunks
 
             if (rocks.Count < 1)
                 throw new InvalidOperationException($"No rocks assigned to the {nameof(ChunkManager)}!");
+            
+            chunkMap.LayerLength = size.z;
+            chunkMap.CreateTilemaps();
 
             chunkStructure = new ChunkStructure(
                 size,
-                chunkMap,
                 grid, 
                 () => PickRandomFromList(rocks),
-                ChunkDestroyedBehaviour
+                ChunkSetBehaviour,
+                ChunkClearBehaviour
             );
         }
 
@@ -254,9 +258,23 @@ namespace RockSystem.Chunks
             return oddrChunkCoords.Select(GetFossilAtPosition).Any(fossil => fossil == null);
         }
 
-        private void ChunkDestroyedBehaviour(Chunk chunk)
+        private void ChunkSetBehaviour(Chunk chunk)
         {
-            chunkDestroyed.Invoke(chunk);
+            TileBase tile = chunk.CreateTile();
+            
+            chunkMap.SetTileAtLayer(chunk.Position, tile);
+        }
+
+        private void ChunkClearBehaviour(Chunk chunk)
+        {
+            chunkMap.ClearTileAtLayer(chunk.Position);
+            
+            chunkCleared.Invoke(chunk);
+        }
+
+        public void HideRock()
+        {
+            chunkMap.HideRock();
         }
     }
 }
