@@ -81,7 +81,7 @@ namespace RockSystem.Fossils
             chunkManager = M.GetOrThrow<ChunkManager>();
             SetupFossilChunks();
             chunkManager.RegisterFossil(this);
-            chunkManager.chunkDestroyed.AddListener(OnChunkDestroyed);
+            chunkManager.chunkCleared.AddListener(OnChunkDestroyed);
         }
         
         private void OnChunkDestroyed(Chunk chunk)

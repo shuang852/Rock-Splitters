@@ -10,27 +10,19 @@ namespace RockSystem.Chunks
     [RequireComponent(typeof(Grid))]
     internal class ChunkMap : MonoBehaviour
     {
-        [Tooltip("How many tilemaps/layers should be generated")]
-        [SerializeField] private int layerLength = 1;
         [Tooltip("How different are colors between layers. Higher value means lesser difference")]
         [SerializeField, Min(0)] private float colorGradient = 8f;
         [SerializeField] private string tilemapSortingLayer = "Default";
 
         private readonly List<Tilemap> layeredTilemaps = new List<Tilemap>();
 
-        // TODO: Move this to the structure.
-        public int LayerLength => layerLength;
+        public int LayerLength { get; set; }
 
-        private void Awake()
-        {
-            CreateTilemaps();
-        }
-
-        private void CreateTilemaps()
+        public void CreateTilemaps()
         {
             layeredTilemaps.Clear();
             
-            for (int i = 0; i < layerLength; i++)
+            for (int i = 0; i < LayerLength; i++)
             {
                 GameObject go = new GameObject($"Layered Tilemap [layer {i}]");
                 go.transform.parent = transform;
@@ -38,7 +30,7 @@ namespace RockSystem.Chunks
                 TilemapRenderer tilemapRenderer = go.AddComponent<TilemapRenderer>();
 
                 // Produce a darker color as we go deeper
-                float colorValue = 1f / ((layerLength - i) / colorGradient + 1f);
+                float colorValue = 1f / ((LayerLength - i) / colorGradient + 1f);
                 tilemap.color = new Color(colorValue, colorValue, colorValue, 1f);
                 
                 tilemapRenderer.sortingOrder = i;
@@ -56,6 +48,14 @@ namespace RockSystem.Chunks
         public void ClearTileAtLayer(Vector3Int position)
         {
             layeredTilemaps[position.z].SetTile(position, null);
+        }
+
+        public void HideRock()
+        {
+            foreach (var layeredTilemap in layeredTilemaps)
+            {
+                layeredTilemap.gameObject.SetActive(false);
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Managers;
+using RockSystem.Chunks;
 using RockSystem.Fossils;
-using ToolSystem;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -24,7 +24,8 @@ namespace Cleaning
         public UnityEvent CleaningEnded = new UnityEvent();
         public UnityEvent CleaningWon = new UnityEvent();
         public UnityEvent CleaningLost = new UnityEvent();
-        
+
+        private ChunkManager chunkManager;
         private FossilShape fossilShape;
 
         protected override void Start()
@@ -33,7 +34,8 @@ namespace Cleaning
             
             // TODO: Starting cleaning here creates a race condition.
             // StartCleaning();
-            
+
+            chunkManager = M.GetOrThrow<ChunkManager>();
             fossilShape = M.GetOrThrow<FossilShape>();
         }
 
@@ -67,6 +69,8 @@ namespace Cleaning
         public void WinCleaning()
         {
             CurrentCleaningState = CleaningState.Won;
+            
+            chunkManager.HideRock();
             
             EndCleaning();
             
