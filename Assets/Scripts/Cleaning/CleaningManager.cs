@@ -21,10 +21,10 @@ namespace Cleaning
         public CleaningState CurrentCleaningState { get; private set; }
 
         public UnityEvent CleaningStarted = new UnityEvent();
+        public UnityEvent CleaningEnded = new UnityEvent();
         public UnityEvent CleaningWon = new UnityEvent();
         public UnityEvent CleaningLost = new UnityEvent();
         
-        private ToolManager toolManager;
         private FossilShape fossilShape;
 
         protected override void Start()
@@ -34,23 +34,32 @@ namespace Cleaning
             // TODO: Starting cleaning here creates a race condition.
             // StartCleaning();
             
-            toolManager = M.GetOrThrow<ToolManager>();
             fossilShape = M.GetOrThrow<FossilShape>();
-            
-            toolManager.toolUsed.AddListener(CheckIfCleaningWon);
-            fossilShape.fossilDamaged.AddListener(CheckIfCleaningLost);
         }
 
         public void StartCleaning()
         {
             CurrentCleaningState = CleaningState.InProgress;
             
+            fossilShape.fossilExposed.AddListener(CheckIfCleaningWon);
+            fossilShape.fossilDamaged.AddListener(CheckIfCleaningLost);
+            
             CleaningStarted.Invoke();    
+        }
+        
+        private void EndCleaning()
+        {
+            fossilShape.fossilExposed.RemoveListener(CheckIfCleaningWon);
+            fossilShape.fossilDamaged.RemoveListener(CheckIfCleaningLost);
+            
+            CleaningEnded.Invoke();
         }
 
         public void LoseCleaning()
         {
             CurrentCleaningState = CleaningState.Lost;
+            
+            EndCleaning();
             
             CleaningLost.Invoke();
         }
@@ -59,18 +68,20 @@ namespace Cleaning
         {
             CurrentCleaningState = CleaningState.Won;
             
+            EndCleaning();
+            
             CleaningWon.Invoke();
         }
 
         public void CheckIfCleaningLost()
         {
-            if (fossilShape.FossilHealth() < RequiredHealthForFailure)
+            if (fossilShape.FossilHealth < RequiredHealthForFailure)
                 LoseCleaning();
         }
 
         public void CheckIfCleaningWon()
         {
-            if (fossilShape.FossilExposure() > RequiredExposureForCompletion)
+            if (fossilShape.FossilExposure > RequiredExposureForCompletion)
                 WinCleaning();
         }
     }

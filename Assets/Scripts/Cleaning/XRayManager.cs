@@ -25,9 +25,14 @@ namespace Cleaning
 
             fossilShape = M.GetOrThrow<FossilShape>();
             
+            var fossilSpriteTransform = fossilSprite.transform;
+            var fossilShapeTransform = fossilShape.transform;
+            
             // TODO: May need to rework how these are found and set.
             fossilSprite.sprite = fossilShape.Antiquity.Sprite;
-            fossilSprite.transform.position = fossilShape.transform.position;
+            fossilSpriteTransform.position = fossilShapeTransform.position;
+            fossilSpriteTransform.rotation = fossilShapeTransform.rotation;
+            fossilSpriteTransform.localScale = fossilShapeTransform.localScale;
         }
 
         public void ShowXRay()

@@ -9,7 +9,6 @@ using UnityEngine.Events;
 
 namespace RockSystem.Fossils
 {
-    // TODO: Temporarily a manager to be accessed by XRayManager. May need reworking.
     public class FossilShape : Manager
     {
         [SerializeField] private Antiquity fossil;
@@ -17,19 +16,44 @@ namespace RockSystem.Fossils
         [SerializeField] private string sortingLayer = "Chunk";
         [SerializeField] private bool enableDebug;
 
-        private readonly Dictionary<Vector2Int, int> chunkHealths = new Dictionary<Vector2Int, int>();
+        private readonly Dictionary<Vector2Int, float> chunkHealths = new Dictionary<Vector2Int, float>();
+        private readonly Dictionary<Vector2Int, bool> chunkExposure = new Dictionary<Vector2Int, bool>();
         private SpriteRenderer spriteRenderer;
         private SpriteMask spriteMask;
         private PolygonCollider2D polyCollider;
         private ChunkManager chunkManager;
 
-        private IEnumerable<Vector3Int> HitPositions =>
-            chunkHealths.Keys.Select(p => new Vector3Int(p.x, p.y, layer));
         private IEnumerable<Vector2Int> HitFlatPositions => chunkHealths.Keys;
         private Sprite Sprite => Antiquity.Sprite;
         public Antiquity Antiquity => fossil;
 
+        public UnityEvent fossilExposed = new UnityEvent();
         public UnityEvent fossilDamaged = new UnityEvent();
+
+        private bool exposureChanged;
+        private bool healthChanged;
+        private float fossilExposure;
+        private float fossilHealth;
+
+        public float FossilExposure
+        {
+            get => fossilExposure;
+            private set
+            {
+                fossilExposure = value;
+                fossilExposed.Invoke();
+            }
+        }
+
+        public float FossilHealth
+        {
+            get => fossilHealth;
+            private set
+            {
+                fossilHealth = value;
+                fossilDamaged.Invoke();
+            }
+        }
 
         protected override void Awake()
         {
@@ -57,15 +81,27 @@ namespace RockSystem.Fossils
             chunkManager = M.GetOrThrow<ChunkManager>();
             SetupFossilChunks();
             chunkManager.RegisterFossil(this);
+            chunkManager.chunkDestroyed.AddListener(OnChunkDestroyed);
+        }
+        
+        private void OnChunkDestroyed(Chunk chunk)
+        {
+            Vector3Int underChunk = chunk.Position + Vector3Int.back;
+
+            if (!IsHitAtPosition(underChunk)) return;
+            
+            exposureChanged = true;
+
+            chunkExposure[chunk.FlatPosition] = true;
         }
 
         private void SetupFossilChunks()
         {
-            int startingHealth = fossil.MaxHealth;
+            float startingHealth = fossil.MaxHealth;
             
             float radius = chunkManager.chunkStructure.CellSize.x / 2f;
 
-            foreach (Vector2Int flatPosition in chunkManager.chunkStructure.GetFlatPositions())
+            foreach (Vector2Int flatPosition in chunkManager.chunkStructure.FlatPositions)
             {
                 Vector3 centerWorldPosition = chunkManager.chunkStructure.CellToWorld(flatPosition);
                 var cornerPositions = GetHexagonCornerPositions(centerWorldPosition, radius)
@@ -78,24 +114,25 @@ namespace RockSystem.Fossils
 
         #region Damage
 
-        public void DamageFossilChunk(Vector2Int position, int amount)
+        public void DamageFossilChunk(Vector2Int position, float amount)
         {
             if (!chunkHealths.ContainsKey(position))
                 throw new IndexOutOfRangeException($"position {position} is not a valid fossil chunk");
 
             chunkHealths[position] = Mathf.Max(0, chunkHealths[position] - amount);
-            
-            fossilDamaged.Invoke();
+
+            healthChanged = true;
         }
 
-        public int GetFossilChunkHealth(Vector2Int position) =>
+        public float GetFossilChunkHealth(Vector2Int position) =>
             chunkHealths.ContainsKey(position) ? chunkHealths[position] : 0;
 
         #endregion
-        
-        public bool IsHitAtPosition(Vector3Int position) => HitPositions.Contains(position);
 
-        public bool IsHitAtFlatPosition(Vector2Int position) => HitFlatPositions.Contains(position);
+        public bool IsHitAtPosition(Vector3Int position) =>
+            position.z == layer && chunkHealths.ContainsKey(new Vector2Int(position.x, position.y));
+
+        public bool IsHitAtFlatPosition(Vector2Int position) => chunkHealths.ContainsKey(position);
         
         // TODO move this to utility class
         private IEnumerable<Vector2> GetHexagonCornerPositions(Vector2 centerWorldPosition, float radius) => new[]
@@ -133,23 +170,38 @@ namespace RockSystem.Fossils
                 }
             }
         }
-        
-        public float FossilHealth ()
+
+        private void UpdateFossilHealth ()
         {
             float currentTotalHealth = chunkHealths.Values.Sum();
 
             float maxTotalHealth = chunkHealths.Count * fossil.MaxHealth;
             
-            return currentTotalHealth / maxTotalHealth;
+            FossilHealth = currentTotalHealth / maxTotalHealth;
         }
 
-        public float FossilExposure()
+        private void UpdateFossilExposure()
         {
-            int exposedChunks = chunkHealths.Keys.Count(i => chunkManager.GetFossilAtPosition(i) == this);
+            int exposedChunks = chunkExposure.Count(i => i.Value);
             
             int totalChunks = chunkHealths.Count;
 
-            return exposedChunks / (float) totalChunks;
+            FossilExposure = exposedChunks / (float) totalChunks;
+        }
+
+        public void CheckHealthAndExposure()
+        {
+            if (exposureChanged)
+            {
+                UpdateFossilExposure();
+                exposureChanged = false;
+            }
+
+            if (healthChanged)
+            {
+                UpdateFossilHealth();
+                healthChanged = false;
+            }
         }
     }
 }

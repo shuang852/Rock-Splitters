@@ -1,38 +1,36 @@
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 namespace RockSystem.Chunks
 {
     public class Chunk
     {
         private readonly ChunkDescription chunkDescription;
-        private ChunkStructure chunkStructure;
 
         private readonly Vector3Int position;
+        private readonly Action<Chunk> chunkDestroyedBehaviour;
         public Vector3Int Position => position;
         public Vector2Int FlatPosition => (Vector2Int) position;
         
-        private int currentHealth;
-        public int Health => currentHealth;
-        public int MaxHealth => chunkDescription.Health;
+        private float currentHealth;
+        public float Health => currentHealth;
+        public float MaxHealth => chunkDescription.Health;
 
-        internal Chunk(ChunkDescription chunkDescription, Vector3Int position)
+        internal Chunk(ChunkDescription chunkDescription, Vector3Int position, Action<Chunk> chunkDestroyedBehaviour)
         {
             this.chunkDescription = chunkDescription;
             this.position = position;
-            
-            int healthVariation = Random.Range(-chunkDescription.HealthVariation, chunkDescription.HealthVariation + 1);
+            this.chunkDestroyedBehaviour = chunkDestroyedBehaviour;
+
+            float healthVariation = Random.Range(-chunkDescription.HealthVariation, chunkDescription.HealthVariation + 1);
             currentHealth = chunkDescription.Health + healthVariation;
 
-            if (currentHealth < 1)
-                currentHealth = 1;
+            if (currentHealth < 0)
+                currentHealth = 0;
         }
 
-        internal void AttachTo(ChunkStructure chunkStructure)
-        {
-            this.chunkStructure = chunkStructure;
-        }
-        
         internal TileBase CreateTile()
         {
             Tile tile = ScriptableObject.CreateInstance<Tile>();
@@ -46,21 +44,26 @@ namespace RockSystem.Chunks
         /// </summary>
         /// <param name="amount"></param>
         /// <returns>The amount of damage taken.</returns>
-        internal int DamageChunk(int amount)
+        internal float DamageChunk(float amount)
         {
             if (amount <= 0) return 0;
 
-            int damageTaken = Mathf.Min(amount, currentHealth);
+            float damageTaken = Mathf.Min(amount, currentHealth);
             
             // Debug.Log($"Damaging by {amount} with chunk at layer {position.z}");
             currentHealth -= amount;
 
             if (currentHealth <= 0)
             {
-                chunkStructure.Clear(position);
+                DestroyChunk();
             }
 
             return damageTaken;
+        }
+
+        private void DestroyChunk()
+        {
+            chunkDestroyedBehaviour.Invoke(this);
         }
     }
 }

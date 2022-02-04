@@ -8,13 +8,13 @@ namespace RockSystem.Chunks
         [SerializeField] private Sprite sprite;
         [SerializeField] private Vector2 offset;
         [SerializeField] private Color damagedColor = Color.clear;
-        [SerializeField] private int health;
+        [SerializeField] private float health;
         [Tooltip("A random number is generated between -X and X and added to the base chunk health.")]
-        [SerializeField] private int healthVariation;
+        [SerializeField] private float healthVariation;
 
         public Vector2 Offset => offset;
         public Sprite Sprite => sprite;
-        public int Health => health;
-        public int HealthVariation => healthVariation;
+        public float Health => health;
+        public float HealthVariation => healthVariation;
     }
 }

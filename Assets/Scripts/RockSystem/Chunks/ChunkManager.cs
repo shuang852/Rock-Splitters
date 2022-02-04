@@ -4,6 +4,7 @@ using System.Linq;
 using Managers;
 using RockSystem.Fossils;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RockSystem.Chunks
 {
@@ -23,6 +24,8 @@ namespace RockSystem.Chunks
 
         // TODO: ChunkManager should not also handle fossils. Maybe create ArtefactRockManager?
         private List<FossilShape> fossils = new List<FossilShape>();
+
+        public UnityEvent<Chunk> chunkDestroyed = new UnityEvent<Chunk>();
 
         public struct OddrChunkCoord
         {
@@ -68,27 +71,27 @@ namespace RockSystem.Chunks
             if (rocks.Count < 1)
                 throw new InvalidOperationException($"No rocks assigned to the {nameof(ChunkManager)}!");
 
-            chunkStructure = new ChunkStructure(size, chunkMap, grid);
+            chunkStructure = new ChunkStructure(
+                size,
+                chunkMap,
+                grid, 
+                () => PickRandomFromList(rocks),
+                ChunkDestroyedBehaviour
+            );
         }
 
-        protected override void Start()
-        {
-            base.Start();
-            
-            GenerateChunks();
-        }
-        
-        public void DamageChunk(Vector2 worldPosition, int damage)
+        public void DamageChunk(Vector2 worldPosition, float damage)
         {
             OddrChunkCoord flatPosition = chunkStructure.WorldToCell(worldPosition);
             DamageChunk(flatPosition, damage);
         }
 
-        public void DamageChunk(OddrChunkCoord flatPosition, int damage, bool willDamageFossil = true)
+        // TODO: Should be renamed to convey that it damages multiple chunks in a column.
+        public void DamageChunk(OddrChunkCoord flatPosition, float damage, bool willDamageFossil = true)
         {
             while (damage > 0)
             {
-                Chunk chunk = chunkStructure.GetOrNull((Vector2Int)flatPosition);
+                Chunk chunk = chunkStructure.GetOrNull(flatPosition);
 
                 if (chunk == null) break;
                 
@@ -96,7 +99,7 @@ namespace RockSystem.Chunks
 
                 if (fossil == null)
                 {
-                    int damageTaken = chunk.DamageChunk(damage);
+                    float damageTaken = chunk.DamageChunk(damage);
                     damage -= damageTaken;
                 }
                 else
@@ -119,7 +122,7 @@ namespace RockSystem.Chunks
 
         public FossilShape GetFossilAtPosition(OddrChunkCoord oddrChunkCoord)
         {
-            Chunk chunk = chunkStructure.GetOrNull((Vector2Int)oddrChunkCoord);
+            Chunk chunk = chunkStructure.GetOrNull(oddrChunkCoord);
 
             if (chunk == null) return null;
                 
@@ -132,16 +135,6 @@ namespace RockSystem.Chunks
         internal void RegisterFossil(FossilShape fossil)
         {
             fossils.Add(fossil);
-        }
-
-        private void GenerateChunks()
-        {
-            // Generate random rocks
-            foreach (Vector3Int position in chunkStructure.GetPositions())
-            {
-                ChunkDescription rockDescription = PickRandomFromList(rocks);
-                chunkStructure.Set(new Chunk(rockDescription, new Vector3Int(position.x, position.y, position.z)));
-            }
         }
 
         private T PickRandomFromList<T>(List<T> list) => 
@@ -259,6 +252,11 @@ namespace RockSystem.Chunks
         public bool WillDamageRock(List<OddrChunkCoord> oddrChunkCoords)
         {
             return oddrChunkCoords.Select(GetFossilAtPosition).Any(fossil => fossil == null);
+        }
+
+        private void ChunkDestroyedBehaviour(Chunk chunk)
+        {
+            chunkDestroyed.Invoke(chunk);
         }
     }
 }

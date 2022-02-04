@@ -1,4 +1,5 @@
 ﻿using Managers;
+using RockSystem.Fossils;
 using UnityEngine;
 
 namespace Cleaning
@@ -10,6 +11,7 @@ namespace Cleaning
 
         private CleaningManager cleaningManager;
         private CleaningTimerManager timer;
+        private FossilShape fossilShape;
 
         public float Score { get; private set; }
 
@@ -19,23 +21,23 @@ namespace Cleaning
             
             cleaningManager = M.GetOrThrow<CleaningManager>();
             timer = M.GetOrThrow<CleaningTimerManager>();
+            fossilShape = M.GetOrThrow<FossilShape>();
 
-            cleaningManager.CleaningLost.AddListener(CalculateScore);
-            cleaningManager.CleaningWon.AddListener(CalculateScore);
+            cleaningManager.CleaningEnded.AddListener(CalculateScore);
         }
         
         private void CalculateScore()
         {
-            // TODO: Incorporate rock health and exposure. Waiting for AMG-6.
-            Score = timer.CurrentTime * timeBonusMultiplier;
+            // TODO: Incorporate rock difficulty.
+            // TODO: Final score = Base * Health * Cleanliness * Rock Diff + (Time + bonuses)
+            Score = Mathf.Round(fossilShape.Antiquity.Score * fossilShape.FossilHealth * fossilShape.FossilExposure + timer.CurrentTime * timeBonusMultiplier);
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
             
-            cleaningManager.CleaningLost.RemoveListener(CalculateScore);
-            cleaningManager.CleaningWon.RemoveListener(CalculateScore);
+            cleaningManager.CleaningEnded.RemoveListener(CalculateScore);
         }
     }
 }

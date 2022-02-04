@@ -34,9 +34,9 @@ namespace UI.Cleaning_Results
             winStateText.text = WinStateToString();
             baseFossilScoreText.text = "Not implemented";
             fossilHealthText.text =
-                Mathf.Round(fossilShape.FossilHealth() * 100).ToString(CultureInfo.InvariantCulture) + "%";
+                Mathf.Round(fossilShape.FossilHealth * 100).ToString(CultureInfo.InvariantCulture) + "%";
             fossilExposureText.text =
-                Mathf.Round(fossilShape.FossilExposure() * 100).ToString(CultureInfo.InvariantCulture) + "%";
+                Mathf.Round(fossilShape.FossilExposure * 100).ToString(CultureInfo.InvariantCulture) + "%";
             timeRemainingText.text = timerManager.CurrentTime.ToString(CultureInfo.InvariantCulture);
             totalScoreText.text = scoreManager.Score.ToString(CultureInfo.InvariantCulture);
         }
