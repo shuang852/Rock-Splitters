@@ -25,6 +25,12 @@ namespace ToolSystem
             toolManager.eToolUp.AddListener(worldPosition => StopClean());
         }
 
+        /// <summary>
+        /// Activates the tools particle and visual system based on current tool
+        /// For tap it's a one shot particles. For continuous its continuous.
+        /// </summary>
+        /// <param name="position">Position of where the particles to be played</param>
+        /// <exception cref="ArgumentOutOfRangeException">Unknown tool</exception>
         private void Clean(Vector3 position)
         {
             Tool.ToolAction toolAction = toolManager.CurrentTool.action;
@@ -46,24 +52,8 @@ namespace ToolSystem
 
         private void StopClean()
         {
-            // TODO: Replace this once UI takes priority over touch input
             drillAnimator.SetBool(cleaning, false);
-            drillParticles.Stop(); 
-            
-            //var tool = toolManager.CurrentTool;
-            
-            // switch (tool.action)
-            // {
-            //     // Change to switch if there are different or tap requires extra work
-            //     case Tool.ToolAction.Continuous:
-            //         drillAnimator.SetBool(cleaning, false);
-            //         drillParticles.Stop();
-            //         break;
-            //     case Tool.ToolAction.Tap:
-            //         break;
-            //     default:
-            //         throw new ArgumentOutOfRangeException();
-            // }
+            drillParticles.Stop();
         }
     }
 }
