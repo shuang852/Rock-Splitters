@@ -100,32 +100,11 @@ namespace RockSystem.Fossils
         {
             float startingHealth = fossil.MaxHealth;
             
-            float radius = chunkManager.chunkStructure.CellSize.x / 2f;
-
-            var overlappingPositions =
-                GetOverlappingFlatPositions(chunkManager.chunkStructure.FlatPositions, radius, polyCollider);
-            
-            foreach (Vector2Int flatPosition in overlappingPositions)
-            {
-                chunkHealths.Add(flatPosition, startingHealth);
-            }
-        }
-
-        private IEnumerable<Vector2Int> GetOverlappingFlatPositions(IEnumerable<Vector2Int> flatPositions, float radius, Collider2D collider)
-        {
-            List<Vector2Int> output = new List<Vector2Int>();
-            
             foreach (Vector2Int flatPosition in chunkManager.chunkStructure.FlatPositions)
             {
-                Vector3 centerWorldPosition = chunkManager.chunkStructure.CellToWorld(flatPosition);
-                var cornerPositions = Hexagons.GetHexagonCornerPositions(centerWorldPosition, radius)
-                    .Append(flatPosition);
-
-                if (cornerPositions.Any(cornerPosition => polyCollider.OverlapPoint(cornerPosition)))
-                    output.Add(flatPosition);
+                if (Hexagons.HexagonOverlapsCollider(chunkManager.CurrentGrid, flatPosition, polyCollider))
+                    chunkHealths.Add(flatPosition, startingHealth);
             }
-
-            return output;
         }
 
         #region Damage

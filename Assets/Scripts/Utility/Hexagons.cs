@@ -129,16 +129,16 @@ namespace Utility
         {
             OddrChunkCoord oddrChunkCoord = grid.WorldToCell(centreWorldPosition);
 
-            AxialChunkCoord axialChunkCoord = Hexagons.OddrToAxial(oddrChunkCoord);
+            AxialChunkCoord axialChunkCoord = OddrToAxial(oddrChunkCoord);
 
             // The outer radius (measured centre to corner) of the hexagon that fully encloses the given radius
             float outerHexRadius = (float)(radius * 2 / Math.Sqrt(3));
             
             int outerHexRange = Mathf.CeilToInt(outerHexRadius / grid.cellSize.x);
 
-            List<AxialChunkCoord> axialChunksInRange = Hexagons.GetChunksInRange(axialChunkCoord, outerHexRange);
+            List<AxialChunkCoord> axialChunksInRange = GetChunksInRange(axialChunkCoord, outerHexRange);
 
-            return axialChunksInRange.Select(Hexagons.AxialToOddr).ToList();
+            return axialChunksInRange.Select(AxialToOddr).ToList();
         }
 
         /// <summary>
@@ -152,11 +152,22 @@ namespace Utility
         {
             OddrChunkCoord oddrChunkCoord = grid.WorldToCell(worldPosition);
 
-            AxialChunkCoord axialChunkCoord = Hexagons.OddrToAxial(oddrChunkCoord);
+            AxialChunkCoord axialChunkCoord = OddrToAxial(oddrChunkCoord);
             
-            List<AxialChunkCoord> axialChunksInRange = Hexagons.GetChunksInRange(axialChunkCoord, range);
+            List<AxialChunkCoord> axialChunksInRange = GetChunksInRange(axialChunkCoord, range);
 
-            return axialChunksInRange.Select(Hexagons.AxialToOddr).ToList();
+            return axialChunksInRange.Select(AxialToOddr).ToList();
+        }
+
+        public static bool HexagonOverlapsCollider(Grid grid, OddrChunkCoord flatPosition, Collider2D collider)
+        {
+            Vector3 centerWorldPosition = grid.CellToWorld(flatPosition);
+            float radius = grid.cellSize.x / 2f;
+            
+            var cornerPositions = GetHexagonCornerPositions(centerWorldPosition, radius)
+                .Append((Vector2Int) flatPosition);
+
+            return cornerPositions.Any(collider.OverlapPoint);
         }
     }
 }
