@@ -28,6 +28,9 @@ namespace RockSystem.Chunks
                 go.transform.parent = transform;
                 Tilemap tilemap = go.AddComponent<Tilemap>();
                 TilemapRenderer tilemapRenderer = go.AddComponent<TilemapRenderer>();
+                
+                // Fix tile offset from grid
+                tilemap.tileAnchor = Vector3.zero;
 
                 // Produce a darker color as we go deeper
                 float colorValue = 1f / ((LayerLength - i) / colorGradient + 1f);
