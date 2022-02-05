@@ -1,7 +1,18 @@
 {
     "name": "RockSystem",
+    "rootNamespace": "",
     "references": [
         "Managers",
-        "Stored"
-    ]
+        "Stored",
+        "Utility"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

@@ -6,6 +6,7 @@ using RockSystem.Chunks;
 using Stored;
 using UnityEngine;
 using UnityEngine.Events;
+using Utility;
 
 namespace RockSystem.Fossils
 {
@@ -101,15 +102,30 @@ namespace RockSystem.Fossils
             
             float radius = chunkManager.chunkStructure.CellSize.x / 2f;
 
+            var overlappingPositions =
+                GetOverlappingFlatPositions(chunkManager.chunkStructure.FlatPositions, radius, polyCollider);
+            
+            foreach (Vector2Int flatPosition in overlappingPositions)
+            {
+                chunkHealths.Add(flatPosition, startingHealth);
+            }
+        }
+
+        private IEnumerable<Vector2Int> GetOverlappingFlatPositions(IEnumerable<Vector2Int> flatPositions, float radius, Collider2D collider)
+        {
+            List<Vector2Int> output = new List<Vector2Int>();
+            
             foreach (Vector2Int flatPosition in chunkManager.chunkStructure.FlatPositions)
             {
                 Vector3 centerWorldPosition = chunkManager.chunkStructure.CellToWorld(flatPosition);
-                var cornerPositions = GetHexagonCornerPositions(centerWorldPosition, radius)
+                var cornerPositions = Hexagons.GetHexagonCornerPositions(centerWorldPosition, radius)
                     .Append(flatPosition);
 
                 if (cornerPositions.Any(cornerPosition => polyCollider.OverlapPoint(cornerPosition)))
-                    chunkHealths.Add(flatPosition, startingHealth);
+                    output.Add(flatPosition);
             }
+
+            return output;
         }
 
         #region Damage
@@ -134,17 +150,6 @@ namespace RockSystem.Fossils
 
         public bool IsHitAtFlatPosition(Vector2Int position) => chunkHealths.ContainsKey(position);
         
-        // TODO move this to utility class
-        private IEnumerable<Vector2> GetHexagonCornerPositions(Vector2 centerWorldPosition, float radius) => new[]
-        {
-            new Vector2(radius, 0),
-            new Vector2(-radius, 0),
-            new Vector2(radius * Mathf.Cos(Mathf.Deg2Rad * 60f), radius * Mathf.Sin(Mathf.Deg2Rad * 60f)),
-            new Vector2(radius * Mathf.Cos(Mathf.Deg2Rad * 120f), radius * Mathf.Sin(Mathf.Deg2Rad * 120f)),
-            new Vector2(radius * Mathf.Cos(Mathf.Deg2Rad * 240f), radius * Mathf.Sin(Mathf.Deg2Rad * 240f)),
-            new Vector2(radius * Mathf.Cos(Mathf.Deg2Rad * 300f), radius * Mathf.Sin(Mathf.Deg2Rad * 300f)),
-        }.Select(p => p + centerWorldPosition);
-
         // private List<Vector2Int> CalculatePixelHitsWorldPositions(Sprite sprite)
         // {
         //     List<Vector2Int> pixel
