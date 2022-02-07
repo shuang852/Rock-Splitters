@@ -1,0 +1,7 @@
+{
+    "name": "RockSystem",
+    "references": [
+        "Managers",
+        "Stored"
+    ]
+}

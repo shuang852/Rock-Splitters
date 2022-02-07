@@ -1,0 +1,4 @@
+[submodule "Packages/com.jordantama.ui-framework"]
+	path = Packages/com.jordantama.ui-framework
+	url = https://github.com/JordanTama/com.jordantama.ui-framework.git
+	branch = amg
