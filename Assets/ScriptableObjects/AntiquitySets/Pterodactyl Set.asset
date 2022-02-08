@@ -17,9 +17,9 @@ MonoBehaviour:
   prodID: 0
   description: This was a cool flying dino
   setItems:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 8c9a4007cfb0ad34fbe3a5e22f6b1921, type: 2}
+  - {fileID: 11400000, guid: cc03542e9167afa43a983bd3fadf5005, type: 2}
+  - {fileID: 11400000, guid: 45d2e200828bd844fa0bd9e2125f2703, type: 2}
   baseSetIncome: 0
   baseSetCapacity: 0
   setBonus: 1.3
