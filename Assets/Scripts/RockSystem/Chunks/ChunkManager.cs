@@ -50,9 +50,6 @@ namespace RockSystem.Chunks
                 flatPosition =>
                     Hexagons.HexagonOverlapsCollider(CurrentGrid, flatPosition, rockShapeMask.PolyCollider)
             );
-            
-            // TODO: Update fossil exposure
-            // fossils.ForEach(f => f.ForceUpdateFossilExposure());
         }
 
         public void DamageChunk(Vector2 worldPosition, float damage)

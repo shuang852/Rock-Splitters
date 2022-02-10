@@ -71,8 +71,6 @@ namespace RockSystem.Fossils
             
             // Setup colliders
             polyCollider = gameObject.AddComponent<PolygonCollider2D>();
-            
-            // TODO: Calculate exposure, requires 
         }
 
         protected override void Start()
@@ -84,6 +82,8 @@ namespace RockSystem.Fossils
             SetupFossilChunks();
             artefactManager.RegisterFossil(this);
             chunkManager.chunkCleared.AddListener(OnChunkDestroyed);
+            
+            ForceUpdateFossilExposure();
         }
         
         private void OnChunkDestroyed(Chunk chunk)
@@ -142,6 +142,13 @@ namespace RockSystem.Fossils
         //     }
         // }
 
+        public bool IsExposedAtFlatPosition(Vector2Int flatPosition)
+        {
+            if (!IsHitAtFlatPosition(flatPosition)) return false;
+
+            return chunkManager.chunkStructure.GetOrNull(flatPosition) == null;
+        }
+
         private void OnDrawGizmos()
         {
             ChunkManager chunkManager = M.GetOrNull<ChunkManager>();
@@ -183,7 +190,7 @@ namespace RockSystem.Fossils
             
             foreach (var flatPosition in chunkHealths.Keys)
             {
-                if (artefactManager.GetExposedFossilAtFlatPosition(flatPosition) == this)
+                if (IsExposedAtFlatPosition(flatPosition))
                 {
                     chunkExposure[flatPosition] = true;
 

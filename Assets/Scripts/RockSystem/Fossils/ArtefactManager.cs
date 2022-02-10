@@ -8,10 +8,11 @@ namespace RockSystem.Fossils
 {
     public class ArtefactManager : Manager
     {
+        // TODO: Invert dependency.
         private DamageLayer damageLayer;
         private ChunkManager chunkManager;
         
-        private List<FossilShape> fossils = new List<FossilShape>();
+        private readonly List<FossilShape> fossils = new List<FossilShape>();
         
         protected override void Start()
         {
@@ -44,28 +45,15 @@ namespace RockSystem.Fossils
         {
             fossils.Add(fossil);
         }
-        
-        // TODO: This function is never used, now I'm confused
-        public FossilShape GetFossilAtFlatPosition(Hexagons.OddrChunkCoord oddrChunkCoord)
-        {
-            Chunk chunk = chunkManager.chunkStructure.GetOrNull(oddrChunkCoord);
 
-            if (chunk == null) return fossils.Find(f => f.IsHitAtFlatPosition(oddrChunkCoord));
-                
-            return GetFossilAtPosition(chunk.Position);
-        }
-        
         public FossilShape GetExposedFossilAtFlatPosition(Hexagons.OddrChunkCoord oddrChunkCoord)
         {
             Chunk chunk = chunkManager.chunkStructure.GetOrNull(oddrChunkCoord);
 
             if (chunk == null)
                 return fossils.Find(f => f.IsHitAtFlatPosition(oddrChunkCoord));
-            
-            return GetFossilAtPosition(chunk.Position);
-        }
 
-        private FossilShape GetFossilAtPosition(Vector3Int position) =>
-            fossils.Find(f => f.IsHitAtPosition(position));
+            return null;
+        }
     }
 }
