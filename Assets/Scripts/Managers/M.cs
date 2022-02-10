@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace Managers
@@ -11,6 +14,8 @@ namespace Managers
     public static class M
     {
         private static readonly Dictionary<Type, IManager> managers = new Dictionary<Type, IManager>();
+        private static readonly Dictionary<Type, Dictionary<UniTask, UnityEvent>> listeners =
+            new Dictionary<Type, Dictionary<UniTask, UnityEvent>>();
 
         /// <summary>
         /// Basically assume that we can get a manager of a certain type. Otherwise it automatically throws an exception.
@@ -44,6 +49,43 @@ namespace Managers
             }
 
             return manager;
+        }
+
+        public static async UniTask<T> GetOrWait<T>(CancellationToken token) where T : IManager
+        {
+            UniTask task = UniTask.CompletedTask;
+            
+            var managerType = typeof(T);
+            
+            try
+            {
+                if (managers.TryGetValue(managerType, out IManager manager))
+                    return (T)manager;
+
+                if (!listeners.ContainsKey(managerType))
+                    listeners.Add(managerType, new Dictionary<UniTask, UnityEvent>());
+
+                var newEvent = new UnityEvent();
+
+                listeners[managerType].Add(UniTask.CompletedTask, newEvent);
+
+                await newEvent.OnInvokeAsync(token);
+
+                return GetOrThrow<T>();
+            }
+            catch (OperationCanceledException)
+            {
+                if (!listeners.ContainsKey(managerType))
+                    throw new OperationCanceledException();
+            
+                if (!listeners[managerType].ContainsKey(task))
+                    throw new OperationCanceledException();
+            
+                listeners[managerType][task].RemoveAllListeners();
+                listeners[managerType].Remove(task);
+                
+                throw new OperationCanceledException();
+            }
         }
 
         /// <summary>
@@ -86,6 +128,20 @@ namespace Managers
             }
 
             managers[managerType] = manager;
+            
+            // Check for listeners
+            if (listeners.ContainsKey(managerType))
+            {
+                foreach (var listenerDelegate in listeners[managerType].Values)
+                {
+                    listenerDelegate.Invoke();
+
+                    listenerDelegate.RemoveAllListeners();
+                }
+
+                listeners.Remove(managerType);
+            }
+                
             
             if (manager.PersistBetweenScenes && Application.IsPlaying(manager.gameObject))
                 GameObject.DontDestroyOnLoad(manager.gameObject);
