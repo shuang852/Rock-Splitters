@@ -13,9 +13,10 @@ namespace RockSystem.Fossils
     public class FossilShape : Manager
     {
         [SerializeField] private Antiquity fossil;
-        [SerializeField] private int layer;
-        [SerializeField] private string sortingLayer = "Chunk";
         [SerializeField] private bool enableDebug;
+        
+        // TODO: Changing the fossil layer is no longer supported.
+        private readonly int layer = 0;
 
         private readonly Dictionary<Vector2Int, float> chunkHealths = new Dictionary<Vector2Int, float>();
         private readonly Dictionary<Vector2Int, bool> chunkExposure = new Dictionary<Vector2Int, bool>();
@@ -64,10 +65,6 @@ namespace RockSystem.Fossils
             spriteRenderer = GetComponent<SpriteRenderer>();
             spriteMask = GetComponent<SpriteMask>();
 
-            // Note that this will override sprite renderer settings
-            spriteRenderer.sortingLayerName = sortingLayer;
-            spriteRenderer.sortingOrder = layer;
-            
             // Setup sprites according to antiquity
             spriteRenderer.sprite = Sprite;
             spriteMask.sprite = Sprite;

@@ -46,9 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fossil: {fileID: 11400000, guid: b78b5d6e4bc9e4859ab9cd2a54c393e2, type: 2}
-  layer: 2
-  sortingLayer: Chunk
   enableDebug: 0
+  fossilExposed:
+    m_PersistentCalls:
+      m_Calls: []
   fossilDamaged:
     m_PersistentCalls:
       m_Calls: []
@@ -89,7 +90,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1117476481
+  m_SortingLayerID: -1066467101
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}

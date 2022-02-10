@@ -13,3 +13,6 @@ MonoBehaviour:
   m_Name: Hexagon Shape
   m_EditorClassIdentifier: 
   rockShapeMask: {fileID: 2747690628134850419, guid: 5cd4fcb5c0a5f2fd79a80b5ef0cfdb8f, type: 3}
+  position: {x: 0, y: 0, z: 0}
+  rotation: {x: 0, y: 0, z: 0}
+  scale: {x: 40, y: 40, z: 1}

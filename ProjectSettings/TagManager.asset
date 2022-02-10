@@ -41,6 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Artefact
+    uniqueID: 3228500195
+    locked: 0
   - name: Chunk
     uniqueID: 3177490815
     locked: 0
