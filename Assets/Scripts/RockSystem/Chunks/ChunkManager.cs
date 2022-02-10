@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Managers;
 using UnityEngine;
 using UnityEngine.Events;
@@ -103,6 +104,11 @@ namespace RockSystem.Chunks
         public void HideRock()
         {
             chunkMap.HideRock();
+        }
+        
+        public bool WillDamageRock(List<OddrChunkCoord> oddrChunkCoords)
+        {
+            return oddrChunkCoords.Any(flatPosition => chunkStructure.GetOrNull(flatPosition) != null);
         }
     }
 }

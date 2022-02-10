@@ -67,20 +67,5 @@ namespace RockSystem.Fossils
 
         private FossilShape GetFossilAtPosition(Vector3Int position) =>
             fossils.Find(f => f.IsHitAtPosition(position));
-        
-        public bool WillDamageRock(List<Hexagons.OddrChunkCoord> oddrChunkCoords)
-        {
-            foreach (var flatPosition in oddrChunkCoords)
-            {
-                if (GetExposedFossilAtFlatPosition(flatPosition) != null) continue;
-                
-                if (chunkManager.chunkStructure.GetOrNull(flatPosition) == null) continue;
-
-                return true;
-            }
-
-            return false;
-        }
-
     }
 }
