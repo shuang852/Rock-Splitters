@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Managers;
-using RockSystem.Chunks;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace RockSystem.Fossils
 {
-    public class DamageLayer : MonoBehaviour
+    public class DamageLayer : Manager
     {
         [SerializeField] private string sortingLayer = "Chunk";
         [SerializeField] private int sortingOrder = 20;
@@ -19,13 +17,17 @@ namespace RockSystem.Fossils
         private Tile bustedDamageTile;
         private Tilemap tilemap;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+            
             CreateTilemap();
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+            
             CreateDamageTiles();
         }
 

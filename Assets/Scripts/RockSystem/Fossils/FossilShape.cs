@@ -23,6 +23,7 @@ namespace RockSystem.Fossils
         private SpriteMask spriteMask;
         private PolygonCollider2D polyCollider;
         private ChunkManager chunkManager;
+        private ArtefactManager artefactManager;
 
         private IEnumerable<Vector2Int> HitFlatPositions => chunkHealths.Keys;
         private Sprite Sprite => Antiquity.Sprite;
@@ -73,6 +74,8 @@ namespace RockSystem.Fossils
             
             // Setup colliders
             polyCollider = gameObject.AddComponent<PolygonCollider2D>();
+            
+            // TODO: Calculate exposure, requires 
         }
 
         protected override void Start()
@@ -80,8 +83,9 @@ namespace RockSystem.Fossils
             base.Start();
 
             chunkManager = M.GetOrThrow<ChunkManager>();
+            artefactManager = M.GetOrThrow<ArtefactManager>();
             SetupFossilChunks();
-            chunkManager.RegisterFossil(this);
+            artefactManager.RegisterFossil(this);
             chunkManager.chunkCleared.AddListener(OnChunkDestroyed);
         }
         
@@ -105,6 +109,8 @@ namespace RockSystem.Fossils
                 if (Hexagons.HexagonOverlapsCollider(chunkManager.CurrentGrid, flatPosition, polyCollider))
                     chunkHealths.Add(flatPosition, startingHealth);
             }
+
+            FossilHealth = 1;
         }
 
         #region Damage
@@ -168,6 +174,30 @@ namespace RockSystem.Fossils
         {
             int exposedChunks = chunkExposure.Count(i => i.Value);
             
+            int totalChunks = chunkHealths.Count;
+
+            FossilExposure = exposedChunks / (float) totalChunks;
+        }
+        
+        // TODO: Needs a better name.
+        public void ForceUpdateFossilExposure()
+        {
+            int exposedChunks = 0;
+            
+            foreach (var flatPosition in chunkHealths.Keys)
+            {
+                if (artefactManager.GetExposedFossilAtFlatPosition(flatPosition) == this)
+                {
+                    chunkExposure[flatPosition] = true;
+
+                    exposedChunks++;
+                }
+                else
+                {
+                    chunkExposure[flatPosition] = false;
+                }
+            }
+
             int totalChunks = chunkHealths.Count;
 
             FossilExposure = exposedChunks / (float) totalChunks;

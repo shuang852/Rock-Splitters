@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace Cleaning
 {
+    // TODO: Move to ToolSystem
     public class XRayManager : Manager
     {
         [SerializeField] private SpriteRenderer fossilSprite;

@@ -12,6 +12,7 @@ namespace ToolSystem
     {
         private ChunkManager chunkManager;
         private FossilShape fossilShape;
+        private ArtefactManager artefactManager;
         
         public Tool CurrentTool { get; private set; }
 
@@ -27,6 +28,7 @@ namespace ToolSystem
             
             chunkManager = M.GetOrThrow<ChunkManager>();
             fossilShape = M.GetOrThrow<FossilShape>();
+            artefactManager = M.GetOrThrow<ArtefactManager>();
         }
 
         /// <summary>
@@ -75,7 +77,7 @@ namespace ToolSystem
         {
             List<Hexagons.OddrChunkCoord> affectedChunks = Hexagons.GetChunksInRadius(chunkManager.CurrentGrid, worldPosition, CurrentTool.radius);
 
-            bool willDamageFossil = !(CurrentTool.artefactSafety && chunkManager.WillDamageRock(affectedChunks));
+            bool willDamageFossil = !(CurrentTool.artefactSafety && artefactManager.WillDamageRock(affectedChunks));
 
             foreach (var affectedChunk in affectedChunks)
             {

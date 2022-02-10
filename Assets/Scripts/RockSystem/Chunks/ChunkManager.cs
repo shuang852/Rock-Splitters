@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Managers;
-using RockSystem.Fossils;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
+using Utility;
 using OddrChunkCoord = Utility.Hexagons.OddrChunkCoord;
 
 namespace RockSystem.Chunks
@@ -18,15 +17,13 @@ namespace RockSystem.Chunks
     {
         [SerializeField] private Vector3Int size = new Vector3Int(40, 90, 6);
         [SerializeField] private List<ChunkDescription> rocks;
+        [SerializeField] private RockShapeMask rockShapeMask;
 
         private ChunkMap chunkMap;
         internal ChunkStructure chunkStructure;
         public Grid CurrentGrid { get; private set; }
-        private DamageLayer damageLayer;
 
-        // TODO: ChunkManager should not also handle fossils. Maybe create ArtefactRockManager?
-        private List<FossilShape> fossils = new List<FossilShape>();
-
+        public UnityEvent<Vector2Int, float> damageOverflow = new UnityEvent<Vector2Int, float>();
         public UnityEvent<Chunk> chunkCleared = new UnityEvent<Chunk>();
 
         protected override void Awake()
@@ -34,10 +31,11 @@ namespace RockSystem.Chunks
             base.Awake();
             chunkMap = GetComponent<ChunkMap>();
             CurrentGrid = GetComponent<Grid>();
-            damageLayer = GetComponent<DamageLayer>();
 
             if (rocks.Count < 1)
                 throw new InvalidOperationException($"No rocks assigned to the {nameof(ChunkManager)}!");
+
+            rockShapeMask.Setup();
             
             chunkMap.LayerLength = size.z;
             chunkMap.CreateTilemaps();
@@ -48,8 +46,12 @@ namespace RockSystem.Chunks
                 () => PickRandomFromList(rocks),
                 ChunkSetBehaviour,
                 ChunkClearBehaviour,
-                flatPosition => flatPosition.x < 0 
+                flatPosition =>
+                    Hexagons.HexagonOverlapsCollider(CurrentGrid, flatPosition, rockShapeMask.PolyCollider)
             );
+            
+            // TODO: Update fossil exposure
+            // fossils.ForEach(f => f.ForceUpdateFossilExposure());
         }
 
         public void DamageChunk(Vector2 worldPosition, float damage)
@@ -59,52 +61,21 @@ namespace RockSystem.Chunks
         }
 
         // TODO: Should be renamed to convey that it damages multiple chunks in a column.
-        public void DamageChunk(OddrChunkCoord flatPosition, float damage, bool willDamageFossil = true)
+        public void DamageChunk(OddrChunkCoord flatPosition, float damage, bool damageWillOverflow = true)
         {
             while (damage > 0)
             {
-                FossilShape fossil = GetFossilAtPosition(flatPosition);
-
-                if (fossil != null)
-                {
-                    if (!willDamageFossil) break;
-                    
-                    fossil.DamageFossilChunk(flatPosition, damage);
-                    float remainingHealth = fossil.GetFossilChunkHealth(flatPosition);
-
-                    if (remainingHealth <= fossil.Antiquity.BreakingHealth)
-                    {
-                        float damagePercentage = 1f - (remainingHealth / fossil.Antiquity.MaxHealth);
-                        damageLayer.DisplayDamage(flatPosition, damagePercentage);
-                    }
-
-                    break;
-                }
-                
                 Chunk chunk = chunkStructure.GetOrNull(flatPosition);
 
-                if (chunk == null) break;
+                if (chunk == null)
+                {
+                    if (damageWillOverflow) damageOverflow.Invoke(flatPosition, damage);
+                    break;
+                }
                 
                 float damageTaken = chunk.DamageChunk(damage);
                 damage -= damageTaken;
             }
-        }
-
-        public FossilShape GetFossilAtPosition(OddrChunkCoord oddrChunkCoord)
-        {
-            Chunk chunk = chunkStructure.GetOrNull(oddrChunkCoord);
-
-            if (chunk == null) return fossils.Find(f => f.IsHitAtFlatPosition(oddrChunkCoord));
-                
-            return GetFossilAtPosition(chunk.Position);
-        }
-
-        private FossilShape GetFossilAtPosition(Vector3Int position) =>
-            fossils.Find(f => f.IsHitAtPosition(position));
-
-        internal void RegisterFossil(FossilShape fossil)
-        {
-            fossils.Add(fossil);
         }
 
         private T PickRandomFromList<T>(List<T> list) => 
@@ -113,20 +84,6 @@ namespace RockSystem.Chunks
         public Vector2 GetChunkWorldPosition(OddrChunkCoord oddrChunkCoord)
         {
             return CurrentGrid.CellToWorld(oddrChunkCoord);
-        }
-
-        public bool WillDamageRock(List<OddrChunkCoord> oddrChunkCoords)
-        {
-            foreach (var flatPosition in oddrChunkCoords)
-            {
-                if (GetFossilAtPosition(flatPosition) != null) continue;
-                
-                if (chunkStructure.GetOrNull(flatPosition) == null) continue;
-
-                return true;
-            }
-
-            return false;
         }
 
         private void ChunkSetBehaviour(Chunk chunk)
