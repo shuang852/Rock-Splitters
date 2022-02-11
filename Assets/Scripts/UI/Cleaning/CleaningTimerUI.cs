@@ -1,17 +1,15 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using Cleaning;
 using Managers;
+using TMPro;
 using UI.Core;
-using UnityEngine;
-using UnityEngine.UI;
 
 namespace UI.Cleaning
 {
     public class CleaningTimerUI : DialogueComponent<CleaningDialogue>
     {
         private CleaningTimerManager timer;
-        private Text text;
+        private TextMeshProUGUI text;
 
         protected override void OnComponentAwake()
         {

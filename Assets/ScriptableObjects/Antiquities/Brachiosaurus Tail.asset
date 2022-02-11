@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20b418a66a9443978ad81769992aea96, type: 3}
-  m_Name: T-Rex Legs
+  m_Name: Brachiosaurus Tail
   m_EditorClassIdentifier: 
-  displayName: T-Rex Legs
-  sprite: {fileID: 21300000, guid: 8a8032a5f44e306448ed2c858c8fce31, type: 3}
+  displayName: Brachiosaurus Tail
+  sprite: {fileID: 21300000, guid: 847584e21ed8a454bbbcf16b271f0929, type: 3}
   breakingHealth: 0
   maxHealth: 0
   score: 0
   overrideSet: 0
-  AntiquitySet: {fileID: 11400000, guid: d91db3f99ed179d4fb6a05460266acba, type: 2}
+  AntiquitySet: {fileID: 11400000, guid: ffc2699d28d501f47805445e32a8ff7b, type: 2}
