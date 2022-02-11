@@ -890,10 +890,10 @@ RectTransform:
   m_Father: {fileID: 5008722205016738827}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 410, y: 100}
+  m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!1 &5008722204089095844
 GameObject:
@@ -1065,7 +1065,7 @@ MonoBehaviour:
   fitType: 4
   rows: 0
   columns: 1
-  cellSize: {x: 390, y: 80}
+  cellSize: {x: 440, y: 80}
   spacing: {x: 0, y: 0}
   fitX: 1
   fitY: 0
@@ -1131,7 +1131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15ecffb7e3fe708478d210b4f51498cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  antiquitySet: {fileID: 11400000, guid: d91db3f99ed179d4fb6a05460266acba, type: 2}
+  artefactSet: {fileID: 11400000, guid: d91db3f99ed179d4fb6a05460266acba, type: 2}
   setImage: {fileID: 5087021352346290863}
   setNameText: {fileID: 6428861946469075975}
   setInfoNameText: {fileID: 5008722205131388301}
