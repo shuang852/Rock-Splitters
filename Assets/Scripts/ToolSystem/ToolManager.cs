@@ -4,6 +4,7 @@ using RockSystem.Chunks;
 using RockSystem.Fossils;
 using UnityEngine;
 using UnityEngine.Events;
+using Utility;
 
 namespace ToolSystem
 {
@@ -72,7 +73,7 @@ namespace ToolSystem
         // TODO: Can be more efficient. Pass the function instead of looping through the chunks again.
         private void UseTool(Vector2 worldPosition)
         {
-            List<ChunkManager.OddrChunkCoord> affectedChunks = chunkManager.GetChunksInRadius(worldPosition, CurrentTool.radius);
+            List<Hexagons.OddrChunkCoord> affectedChunks = Hexagons.GetChunksInRadius(chunkManager.CurrentGrid, worldPosition, CurrentTool.radius);
 
             bool willDamageFossil = !(CurrentTool.artefactSafety && chunkManager.WillDamageRock(affectedChunks));
 

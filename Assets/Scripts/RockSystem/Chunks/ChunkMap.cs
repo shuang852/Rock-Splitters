@@ -10,6 +10,7 @@ namespace RockSystem.Chunks
     [RequireComponent(typeof(Grid))]
     internal class ChunkMap : MonoBehaviour
     {
+        [SerializeField] private Color rockColor;
         [Tooltip("How different are colors between layers. Higher value means lesser difference")]
         [SerializeField, Min(0)] private float colorGradient = 8f;
         [SerializeField] private string tilemapSortingLayer = "Default";
@@ -28,10 +29,18 @@ namespace RockSystem.Chunks
                 go.transform.parent = transform;
                 Tilemap tilemap = go.AddComponent<Tilemap>();
                 TilemapRenderer tilemapRenderer = go.AddComponent<TilemapRenderer>();
+                
+                // Fix tile offset from grid
+                tilemap.tileAnchor = Vector3.zero;
 
                 // Produce a darker color as we go deeper
                 float colorValue = 1f / ((LayerLength - i) / colorGradient + 1f);
-                tilemap.color = new Color(colorValue, colorValue, colorValue, 1f);
+                tilemap.color = new Color(
+                    rockColor.r * colorValue,
+                    rockColor.g * colorValue,
+                    rockColor.b * colorValue,
+                    1f
+                );
                 
                 tilemapRenderer.sortingOrder = i;
                 tilemapRenderer.sortingLayerName = tilemapSortingLayer;

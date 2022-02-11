@@ -6,15 +6,17 @@ using RockSystem.Chunks;
 using Stored;
 using UnityEngine;
 using UnityEngine.Events;
+using Utility;
 
 namespace RockSystem.Fossils
 {
     public class FossilShape : Manager
     {
         [SerializeField] private Antiquity fossil;
-        [SerializeField] private int layer;
-        [SerializeField] private string sortingLayer = "Chunk";
         [SerializeField] private bool enableDebug;
+        
+        // TODO: Changing the fossil layer is no longer supported.
+        private readonly int layer = 0;
 
         private readonly Dictionary<Vector2Int, float> chunkHealths = new Dictionary<Vector2Int, float>();
         private readonly Dictionary<Vector2Int, bool> chunkExposure = new Dictionary<Vector2Int, bool>();
@@ -22,6 +24,7 @@ namespace RockSystem.Fossils
         private SpriteMask spriteMask;
         private PolygonCollider2D polyCollider;
         private ChunkManager chunkManager;
+        private ArtefactManager artefactManager;
 
         private IEnumerable<Vector2Int> HitFlatPositions => chunkHealths.Keys;
         private Sprite Sprite => Antiquity.Sprite;
@@ -62,10 +65,6 @@ namespace RockSystem.Fossils
             spriteRenderer = GetComponent<SpriteRenderer>();
             spriteMask = GetComponent<SpriteMask>();
 
-            // Note that this will override sprite renderer settings
-            spriteRenderer.sortingLayerName = sortingLayer;
-            spriteRenderer.sortingOrder = layer;
-            
             // Setup sprites according to antiquity
             spriteRenderer.sprite = Sprite;
             spriteMask.sprite = Sprite;
@@ -79,9 +78,12 @@ namespace RockSystem.Fossils
             base.Start();
 
             chunkManager = M.GetOrThrow<ChunkManager>();
+            artefactManager = M.GetOrThrow<ArtefactManager>();
             SetupFossilChunks();
-            chunkManager.RegisterFossil(this);
+            artefactManager.RegisterFossil(this);
             chunkManager.chunkCleared.AddListener(OnChunkDestroyed);
+            
+            ForceUpdateFossilExposure();
         }
         
         private void OnChunkDestroyed(Chunk chunk)
@@ -99,17 +101,13 @@ namespace RockSystem.Fossils
         {
             float startingHealth = fossil.MaxHealth;
             
-            float radius = chunkManager.chunkStructure.CellSize.x / 2f;
-
             foreach (Vector2Int flatPosition in chunkManager.chunkStructure.FlatPositions)
             {
-                Vector3 centerWorldPosition = chunkManager.chunkStructure.CellToWorld(flatPosition);
-                var cornerPositions = GetHexagonCornerPositions(centerWorldPosition, radius)
-                    .Append(flatPosition);
-
-                if (cornerPositions.Any(cornerPosition => polyCollider.OverlapPoint(cornerPosition)))
+                if (Hexagons.HexagonOverlapsCollider(chunkManager.CurrentGrid, flatPosition, polyCollider))
                     chunkHealths.Add(flatPosition, startingHealth);
             }
+
+            FossilHealth = 1;
         }
 
         #region Damage
@@ -134,17 +132,6 @@ namespace RockSystem.Fossils
 
         public bool IsHitAtFlatPosition(Vector2Int position) => chunkHealths.ContainsKey(position);
         
-        // TODO move this to utility class
-        private IEnumerable<Vector2> GetHexagonCornerPositions(Vector2 centerWorldPosition, float radius) => new[]
-        {
-            new Vector2(radius, 0),
-            new Vector2(-radius, 0),
-            new Vector2(radius * Mathf.Cos(Mathf.Deg2Rad * 60f), radius * Mathf.Sin(Mathf.Deg2Rad * 60f)),
-            new Vector2(radius * Mathf.Cos(Mathf.Deg2Rad * 120f), radius * Mathf.Sin(Mathf.Deg2Rad * 120f)),
-            new Vector2(radius * Mathf.Cos(Mathf.Deg2Rad * 240f), radius * Mathf.Sin(Mathf.Deg2Rad * 240f)),
-            new Vector2(radius * Mathf.Cos(Mathf.Deg2Rad * 300f), radius * Mathf.Sin(Mathf.Deg2Rad * 300f)),
-        }.Select(p => p + centerWorldPosition);
-
         // private List<Vector2Int> CalculatePixelHitsWorldPositions(Sprite sprite)
         // {
         //     List<Vector2Int> pixel
@@ -154,6 +141,13 @@ namespace RockSystem.Fossils
         //         if (pixel.r)
         //     }
         // }
+
+        public bool IsExposedAtFlatPosition(Vector2Int flatPosition)
+        {
+            if (!IsHitAtFlatPosition(flatPosition)) return false;
+
+            return chunkManager.chunkStructure.GetOrNull(flatPosition) == null;
+        }
 
         private void OnDrawGizmos()
         {
@@ -184,6 +178,30 @@ namespace RockSystem.Fossils
         {
             int exposedChunks = chunkExposure.Count(i => i.Value);
             
+            int totalChunks = chunkHealths.Count;
+
+            FossilExposure = exposedChunks / (float) totalChunks;
+        }
+        
+        // TODO: Needs a better name.
+        public void ForceUpdateFossilExposure()
+        {
+            int exposedChunks = 0;
+            
+            foreach (var flatPosition in chunkHealths.Keys)
+            {
+                if (IsExposedAtFlatPosition(flatPosition))
+                {
+                    chunkExposure[flatPosition] = true;
+
+                    exposedChunks++;
+                }
+                else
+                {
+                    chunkExposure[flatPosition] = false;
+                }
+            }
+
             int totalChunks = chunkHealths.Count;
 
             FossilExposure = exposedChunks / (float) totalChunks;

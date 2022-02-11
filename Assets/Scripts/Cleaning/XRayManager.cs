@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace Cleaning
 {
+    // TODO: Move to ToolSystem
     public class XRayManager : Manager
     {
         [SerializeField] private SpriteRenderer fossilSprite;
@@ -19,12 +20,17 @@ namespace Cleaning
 
         private FossilShape fossilShape;
 
+        protected override async void Awake()
+        {
+            base.Awake();
+
+            fossilShape = await GetOrWait<FossilShape>();
+        }
+
         protected override void Start()
         {
             base.Start();
 
-            fossilShape = M.GetOrThrow<FossilShape>();
-            
             var fossilSpriteTransform = fossilSprite.transform;
             var fossilShapeTransform = fossilShape.transform;
             
