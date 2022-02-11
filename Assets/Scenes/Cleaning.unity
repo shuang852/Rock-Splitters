@@ -317,7 +317,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1190301352935460740, guid: 549e1a85517a24144a54d576c853731d, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 1190301352935460740, guid: 549e1a85517a24144a54d576c853731d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -611,10 +611,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4991831999567798633, guid: 4ddce1a7e92070b49a9047107691b43c, type: 3}
-      propertyPath: rockShape
-      value: 
-      objectReference: {fileID: 11400000, guid: ffd3fbfefa498c94a9975a003de5437d, type: 2}
     - target: {fileID: 4991831999567798633, guid: 4ddce1a7e92070b49a9047107691b43c, type: 3}
       propertyPath: rockShapeMask
       value: 
@@ -963,7 +959,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1543126528961789152, guid: 0ab79af66228beb479c54aef0e9ea6e0, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1543126528961789152, guid: 0ab79af66228beb479c54aef0e9ea6e0, type: 3}
       propertyPath: m_LocalPosition.x
