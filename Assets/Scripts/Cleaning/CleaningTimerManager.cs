@@ -60,7 +60,12 @@ namespace Cleaning
 
         public void StartTimer()
         {
-            timerActive = true;
+            // Prevents game ending when pausing the game without having started cleaning
+            // Can remove later if the cleaning phase doesn't start paused
+            if (currentTime != 0)
+            {
+                timerActive = true;
+            }
         }
 
         public void StopTimer()

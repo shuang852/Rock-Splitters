@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20b418a66a9443978ad81769992aea96, type: 3}
-  m_Name: T-Rex Legs
+  m_Name: Pterodactyl Body
   m_EditorClassIdentifier: 
-  displayName: T-Rex Legs
-  sprite: {fileID: 21300000, guid: 8a8032a5f44e306448ed2c858c8fce31, type: 3}
+  displayName: Pterodactyl Body
+  sprite: {fileID: 21300000, guid: dc1ed7ecb75e7a7479d1f306a2609da4, type: 3}
   breakingHealth: 0
   maxHealth: 0
   score: 0
   overrideSet: 0
-  AntiquitySet: {fileID: 11400000, guid: d91db3f99ed179d4fb6a05460266acba, type: 2}
+  AntiquitySet: {fileID: 11400000, guid: 33f0c696d450276479e7feba8c0154ea, type: 2}

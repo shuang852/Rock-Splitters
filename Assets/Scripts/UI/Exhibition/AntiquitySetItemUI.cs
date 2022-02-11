@@ -25,6 +25,7 @@ namespace UI.AntiquitySets
 
         public void SetupSetItem(Antiquity setItem, bool hasItem)
         {
+            //Debug.Log(setItem);
             icon.sprite = setItem.Sprite;
             if (!hasItem)
             {
