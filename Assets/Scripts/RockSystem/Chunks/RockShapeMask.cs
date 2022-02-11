@@ -10,7 +10,7 @@ namespace RockSystem.Chunks
         private SpriteRenderer spriteRenderer;
         public PolygonCollider2D PolyCollider { get; private set; }
 
-        public void Setup()
+        public void Initialise(RockShape rockShape)
         {
             transform.position = rockShape.position;
             transform.rotation = Quaternion.Euler(rockShape.rotation);

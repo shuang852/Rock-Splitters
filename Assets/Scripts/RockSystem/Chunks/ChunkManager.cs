@@ -17,7 +17,6 @@ namespace RockSystem.Chunks
     public class ChunkManager : Manager
     {
         [SerializeField] private Vector3Int size = new Vector3Int(40, 90, 6);
-        [SerializeField] private List<ChunkDescription> rocks;
         [SerializeField] private RockShapeMask rockShapeMask;
 
         private ChunkMap chunkMap;
@@ -26,25 +25,38 @@ namespace RockSystem.Chunks
 
         public UnityEvent<Vector2Int, float> damageOverflow = new UnityEvent<Vector2Int, float>();
         public UnityEvent<Chunk> chunkCleared = new UnityEvent<Chunk>();
+        
+        public RockShape RockShape { get; private set; }
+        public Color RockColor { get; private set; }
+        public ChunkDescription ChunkDescription { get; private set; }
 
         protected override void Awake()
         {
             base.Awake();
+            
             chunkMap = GetComponent<ChunkMap>();
             CurrentGrid = GetComponent<Grid>();
+        }
 
-            if (rocks.Count < 1)
-                throw new InvalidOperationException($"No rocks assigned to the {nameof(ChunkManager)}!");
-
-            rockShapeMask.Setup();
+        public void Initialise(RockShape rockShape, Color rockColor, ChunkDescription chunkDescription)
+        {
+            RockShape = rockShape;
+            RockColor = rockColor;
+            ChunkDescription = chunkDescription;
             
-            chunkMap.LayerLength = size.z;
-            chunkMap.CreateTilemaps();
+            Initialise();
+        }
+
+        public void Initialise()
+        {
+            rockShapeMask.Initialise(RockShape);
+            
+            chunkMap.Initialise(RockColor, size.z);
 
             chunkStructure = new ChunkStructure(
                 size,
                 CurrentGrid, 
-                () => PickRandomFromList(rocks),
+                ChunkDescription,
                 ChunkSetBehaviour,
                 ChunkClearBehaviour,
                 flatPosition =>
@@ -75,9 +87,6 @@ namespace RockSystem.Chunks
                 damage -= damageTaken;
             }
         }
-
-        private T PickRandomFromList<T>(List<T> list) => 
-            list[UnityEngine.Random.Range(0, list.Count - 1)];
 
         public Vector2 GetChunkWorldPosition(OddrChunkCoord oddrChunkCoord)
         {

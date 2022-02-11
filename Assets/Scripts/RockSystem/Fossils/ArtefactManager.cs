@@ -33,12 +33,17 @@ namespace RockSystem.Fossils
             fossil.DamageFossilChunk(flatPosition, damage);
             
             float remainingHealth = fossil.GetFossilChunkHealth(flatPosition);
-            
-            if (remainingHealth <= fossil.Antiquity.BreakingHealth)
+
+            if (fossil.Antiquity.MaxHealth <= 0)
             {
-                float damagePercentage = 1f - (remainingHealth / fossil.Antiquity.MaxHealth);
-                damageLayer.DisplayDamage(flatPosition, damagePercentage);
+                Debug.LogError($"{nameof(fossil.Antiquity.MaxHealth)} has not been set.");
+                return;
             }
+
+            if (!(remainingHealth <= fossil.Antiquity.BreakingHealth)) return;
+            
+            float damagePercentage = 1f - (remainingHealth / fossil.Antiquity.MaxHealth);
+            damageLayer.DisplayDamage(flatPosition, damagePercentage);
         }
         
         internal void RegisterFossil(FossilShape fossil)

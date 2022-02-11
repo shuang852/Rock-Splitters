@@ -4,9 +4,8 @@ using RockSystem.Fossils;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Cleaning
+namespace ToolSystem
 {
-    // TODO: Move to ToolSystem
     public class XRayManager : Manager
     {
         [SerializeField] private SpriteRenderer fossilSprite;
@@ -25,12 +24,17 @@ namespace Cleaning
             base.Awake();
 
             fossilShape = await GetOrWait<FossilShape>();
+            
+            fossilShape.initialised.AddListener(OnFossilShapeInitialised);
         }
 
-        protected override void Start()
+        private void OnFossilShapeInitialised()
         {
-            base.Start();
+            Initialise();
+        }
 
+        private void Initialise()
+        {
             var fossilSpriteTransform = fossilSprite.transform;
             var fossilShapeTransform = fossilShape.transform;
             

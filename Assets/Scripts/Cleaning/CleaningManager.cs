@@ -1,4 +1,5 @@
-﻿using Managers;
+﻿using System.Linq;
+using Managers;
 using RockSystem.Chunks;
 using RockSystem.Fossils;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace Cleaning
             Lost
         }
 
+        [SerializeField] private GenerationBracket generationBracket;
         [SerializeField] private float RequiredExposureForCompletion;
         [SerializeField] private float RequiredHealthForFailure;
  
@@ -27,6 +29,8 @@ namespace Cleaning
 
         private ChunkManager chunkManager;
         private FossilShape fossilShape;
+
+        public ArtefactRock CurrentArtefactRock { get; private set; }
 
         protected override void Start()
         {
@@ -45,8 +49,26 @@ namespace Cleaning
             
             fossilShape.fossilExposed.AddListener(CheckIfCleaningWon);
             fossilShape.fossilDamaged.AddListener(CheckIfCleaningLost);
+
+            CurrentArtefactRock = GenerateArtefactRock(generationBracket);
+            chunkManager.Initialise(CurrentArtefactRock.RockShape, CurrentArtefactRock.RockColor, CurrentArtefactRock.ChunkDescription);
+            fossilShape.Initialise(CurrentArtefactRock.Antiquity);
             
-            CleaningStarted.Invoke();    
+            CleaningStarted.Invoke();
+        }
+
+        public ArtefactRock GenerateArtefactRock(GenerationBracket generationBracket)
+        {
+            var antiquities = generationBracket.antiquities;
+            var rockShapes = generationBracket.rockShapes;
+            var chunkDescriptions = generationBracket.chunkDescriptions;
+            
+            return new ArtefactRock(
+                antiquities.ElementAtOrDefault(Random.Range(0, antiquities.Count)),
+                rockShapes.ElementAtOrDefault(Random.Range(0, rockShapes.Count)),
+                chunkDescriptions.ElementAtOrDefault(Random.Range(0, chunkDescriptions.Count)),
+                generationBracket.rockColor
+            );
         }
         
         private void EndCleaning()

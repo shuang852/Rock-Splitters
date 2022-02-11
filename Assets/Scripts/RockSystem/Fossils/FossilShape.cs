@@ -30,6 +30,7 @@ namespace RockSystem.Fossils
         private Sprite Sprite => Antiquity.Sprite;
         public Antiquity Antiquity => fossil;
 
+        public UnityEvent initialised = new UnityEvent();
         public UnityEvent fossilExposed = new UnityEvent();
         public UnityEvent fossilDamaged = new UnityEvent();
 
@@ -64,13 +65,6 @@ namespace RockSystem.Fossils
             
             spriteRenderer = GetComponent<SpriteRenderer>();
             spriteMask = GetComponent<SpriteMask>();
-
-            // Setup sprites according to antiquity
-            spriteRenderer.sprite = Sprite;
-            spriteMask.sprite = Sprite;
-            
-            // Setup colliders
-            polyCollider = gameObject.AddComponent<PolygonCollider2D>();
         }
 
         protected override void Start()
@@ -79,11 +73,28 @@ namespace RockSystem.Fossils
 
             chunkManager = M.GetOrThrow<ChunkManager>();
             artefactManager = M.GetOrThrow<ArtefactManager>();
+            
+            chunkManager.chunkCleared.AddListener(OnChunkDestroyed);
+        }
+
+        public void Initialise(Antiquity antiquity)
+        {
+            fossil = antiquity; 
+            
+            // Setup sprites according to antiquity
+
+            spriteRenderer.sprite = Sprite;
+            spriteMask.sprite = Sprite;
+            
+            // Setup colliders
+            polyCollider = gameObject.AddComponent<PolygonCollider2D>();
+            
             SetupFossilChunks();
             artefactManager.RegisterFossil(this);
-            chunkManager.chunkCleared.AddListener(OnChunkDestroyed);
             
             ForceUpdateFossilExposure();
+            
+            initialised.Invoke();
         }
         
         private void OnChunkDestroyed(Chunk chunk)
@@ -131,16 +142,6 @@ namespace RockSystem.Fossils
             position.z == layer && chunkHealths.ContainsKey(new Vector2Int(position.x, position.y));
 
         public bool IsHitAtFlatPosition(Vector2Int position) => chunkHealths.ContainsKey(position);
-        
-        // private List<Vector2Int> CalculatePixelHitsWorldPositions(Sprite sprite)
-        // {
-        //     List<Vector2Int> pixel
-        //
-        //     foreach (var pixel in sprite.texture.GetPixels32())
-        //     {
-        //         if (pixel.r)
-        //     }
-        // }
 
         public bool IsExposedAtFlatPosition(Vector2Int flatPosition)
         {

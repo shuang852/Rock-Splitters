@@ -562,6 +562,22 @@ PrefabInstance:
       propertyPath: rockShapeMask
       value: 
       objectReference: {fileID: 581684820}
+    - target: {fileID: 4991831999567798634, guid: 4ddce1a7e92070b49a9047107691b43c, type: 3}
+      propertyPath: rockColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4991831999567798634, guid: 4ddce1a7e92070b49a9047107691b43c, type: 3}
+      propertyPath: rockColor.b
+      value: 0.5801887
+      objectReference: {fileID: 0}
+    - target: {fileID: 4991831999567798634, guid: 4ddce1a7e92070b49a9047107691b43c, type: 3}
+      propertyPath: rockColor.g
+      value: 0.5801887
+      objectReference: {fileID: 0}
+    - target: {fileID: 4991831999567798634, guid: 4ddce1a7e92070b49a9047107691b43c, type: 3}
+      propertyPath: rockColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4991831999567798635, guid: 4ddce1a7e92070b49a9047107691b43c, type: 3}
       propertyPath: m_RootOrder
       value: 6
