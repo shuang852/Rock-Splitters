@@ -17,7 +17,7 @@ namespace RockSystem.Artefacts
         private Tile bustedDamageTile;
         private Tilemap tilemap;
 
-        private CleaningArtefactManager cleaningArtefactManager;
+        private ArtefactShapeManager artefactShapeManager;
 
         protected void Awake()
         {
@@ -28,9 +28,9 @@ namespace RockSystem.Artefacts
 
         protected void Start()
         {
-            cleaningArtefactManager = M.GetOrThrow<CleaningArtefactManager>();
+            artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
             
-            cleaningArtefactManager.artefactDamaged.AddListener(OnArtefactDamaged);
+            artefactShapeManager.artefactDamaged.AddListener(OnArtefactDamaged);
         }
 
         private void OnArtefactDamaged(ArtefactShape artefact, Vector2Int flatPosition)

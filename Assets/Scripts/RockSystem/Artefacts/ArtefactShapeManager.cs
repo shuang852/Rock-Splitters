@@ -7,7 +7,7 @@ using Utility;
 
 namespace RockSystem.Artefacts
 {
-    public class CleaningArtefactManager : Manager
+    public class ArtefactShapeManager : Manager
     {
         public UnityEvent<ArtefactShape, Vector2Int> artefactDamaged = new UnityEvent<ArtefactShape, Vector2Int>();
         

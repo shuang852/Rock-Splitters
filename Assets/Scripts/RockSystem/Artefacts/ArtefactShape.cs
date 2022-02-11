@@ -25,7 +25,7 @@ namespace RockSystem.Artefacts
         private SpriteMask spriteMask;
         private PolygonCollider2D polyCollider;
         private ChunkManager chunkManager;
-        private CleaningArtefactManager cleaningArtefactManager;
+        private ArtefactShapeManager artefactShapeManager;
 
         private IEnumerable<Vector2Int> HitFlatPositions => chunkHealths.Keys;
         private Sprite Sprite => Artefact.Sprite;
@@ -73,7 +73,7 @@ namespace RockSystem.Artefacts
             base.Start();
 
             chunkManager = M.GetOrThrow<ChunkManager>();
-            cleaningArtefactManager = M.GetOrThrow<CleaningArtefactManager>();
+            artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
             
             chunkManager.chunkCleared.AddListener(OnChunkDestroyed);
         }
@@ -91,7 +91,7 @@ namespace RockSystem.Artefacts
             polyCollider = gameObject.AddComponent<PolygonCollider2D>();
             
             SetupArtefactChunks();
-            cleaningArtefactManager.RegisterArtefact(this);
+            artefactShapeManager.RegisterArtefact(this);
             
             ForceUpdateArtefactExposure();
             
