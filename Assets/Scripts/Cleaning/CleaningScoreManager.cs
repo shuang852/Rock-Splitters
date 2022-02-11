@@ -23,7 +23,7 @@ namespace Cleaning
             timer = M.GetOrThrow<CleaningTimerManager>();
             artefactShape = M.GetOrThrow<ArtefactShape>();
 
-            cleaningManager.CleaningEnded.AddListener(CalculateScore);
+            cleaningManager.cleaningEnded.AddListener(CalculateScore);
         }
         
         private void CalculateScore()
@@ -37,7 +37,7 @@ namespace Cleaning
         {
             base.OnDestroy();
             
-            cleaningManager.CleaningEnded.RemoveListener(CalculateScore);
+            cleaningManager.cleaningEnded.RemoveListener(CalculateScore);
         }
     }
 }

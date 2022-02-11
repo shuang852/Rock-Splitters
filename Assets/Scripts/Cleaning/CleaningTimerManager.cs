@@ -8,7 +8,7 @@ namespace Cleaning
     {
         [SerializeField] private float startTime;
 
-        public UnityEvent TimeChanged = new UnityEvent();
+        public UnityEvent timeChanged = new UnityEvent();
 
         public float CurrentTime
         {
@@ -17,7 +17,7 @@ namespace Cleaning
             {
                 currentTime = value;
                 
-                TimeChanged.Invoke();
+                timeChanged.Invoke();
             }
         }
 
@@ -32,8 +32,8 @@ namespace Cleaning
             
             cleaningManager = M.GetOrThrow<CleaningManager>();
             
-            cleaningManager.CleaningStarted.AddListener(ResetAndStartTimer);
-            cleaningManager.CleaningEnded.AddListener(StopTimer);
+            cleaningManager.cleaningStarted.AddListener(ResetAndStartTimer);
+            cleaningManager.cleaningEnded.AddListener(StopTimer);
         }
 
         protected override void Update()
@@ -83,8 +83,8 @@ namespace Cleaning
         {
             base.OnDestroy();
             
-            cleaningManager.CleaningStarted.RemoveListener(ResetAndStartTimer);
-            cleaningManager.CleaningEnded.RemoveListener(StopTimer);
+            cleaningManager.cleaningStarted.RemoveListener(ResetAndStartTimer);
+            cleaningManager.cleaningEnded.RemoveListener(StopTimer);
         }
     }
 }

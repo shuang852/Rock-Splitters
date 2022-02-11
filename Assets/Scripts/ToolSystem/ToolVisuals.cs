@@ -20,9 +20,9 @@ namespace ToolSystem
         {
             toolManager = M.GetOrThrow<ToolManager>();
             
-            toolManager.eToolDown.AddListener(worldPosition => Clean(worldPosition));
-            toolManager.eToolInUse.AddListener(worldPosition => Clean(worldPosition));
-            toolManager.eToolUp.AddListener(worldPosition => StopClean());
+            toolManager.toolDown.AddListener(worldPosition => Clean(worldPosition));
+            toolManager.toolInUse.AddListener(worldPosition => Clean(worldPosition));
+            toolManager.toolUp.AddListener(worldPosition => StopClean());
         }
 
         /// <summary>

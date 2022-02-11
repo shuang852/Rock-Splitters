@@ -17,15 +17,15 @@ namespace Cleaning
         }
 
         [SerializeField] private GenerationBracket generationBracket;
-        [SerializeField] private float RequiredExposureForCompletion;
-        [SerializeField] private float RequiredHealthForFailure;
+        [SerializeField] private float requiredExposureForCompletion;
+        [SerializeField] private float requiredHealthForFailure;
  
         public CleaningState CurrentCleaningState { get; private set; }
 
-        public UnityEvent CleaningStarted = new UnityEvent();
-        public UnityEvent CleaningEnded = new UnityEvent();
-        public UnityEvent CleaningWon = new UnityEvent();
-        public UnityEvent CleaningLost = new UnityEvent();
+        public UnityEvent cleaningStarted = new UnityEvent();
+        public UnityEvent cleaningEnded = new UnityEvent();
+        public UnityEvent cleaningWon = new UnityEvent();
+        public UnityEvent cleaningLost = new UnityEvent();
 
         private ChunkManager chunkManager;
         private ArtefactShape artefactShape;
@@ -54,7 +54,7 @@ namespace Cleaning
             chunkManager.Initialise(CurrentArtefactRock.RockShape, CurrentArtefactRock.RockColor, CurrentArtefactRock.ChunkDescription);
             artefactShape.Initialise(CurrentArtefactRock.Artefact);
             
-            CleaningStarted.Invoke();
+            cleaningStarted.Invoke();
         }
 
         public ArtefactRock GenerateArtefactRock(GenerationBracket generationBracket)
@@ -76,7 +76,7 @@ namespace Cleaning
             artefactShape.artefactExposed.RemoveListener(CheckIfCleaningWon);
             artefactShape.artefactDamaged.RemoveListener(CheckIfCleaningLost);
             
-            CleaningEnded.Invoke();
+            cleaningEnded.Invoke();
         }
 
         public void LoseCleaning()
@@ -85,7 +85,7 @@ namespace Cleaning
             
             EndCleaning();
             
-            CleaningLost.Invoke();
+            cleaningLost.Invoke();
         }
 
         public void WinCleaning()
@@ -96,18 +96,18 @@ namespace Cleaning
             
             EndCleaning();
             
-            CleaningWon.Invoke();
+            cleaningWon.Invoke();
         }
 
         public void CheckIfCleaningLost()
         {
-            if (artefactShape.ArtefactHealth < RequiredHealthForFailure)
+            if (artefactShape.ArtefactHealth < requiredHealthForFailure)
                 LoseCleaning();
         }
 
         public void CheckIfCleaningWon()
         {
-            if (artefactShape.ArtefactExposure > RequiredExposureForCompletion)
+            if (artefactShape.ArtefactExposure > requiredExposureForCompletion)
                 WinCleaning();
         }
     }

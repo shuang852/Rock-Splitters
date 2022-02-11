@@ -15,10 +15,9 @@ namespace ToolSystem
         
         public Tool CurrentTool { get; private set; }
 
-        // TODO: Better naming
-        public UnityEvent<Vector2> eToolDown = new UnityEvent<Vector2>();
-        public UnityEvent<Vector2> eToolInUse = new UnityEvent<Vector2>();
-        public UnityEvent<Vector2> eToolUp = new UnityEvent<Vector2>();
+        public UnityEvent<Vector2> toolDown = new UnityEvent<Vector2>();
+        public UnityEvent<Vector2> toolInUse = new UnityEvent<Vector2>();
+        public UnityEvent<Vector2> toolUp = new UnityEvent<Vector2>();
         public UnityEvent toolUsed = new UnityEvent();
 
         protected override void Start()
@@ -41,7 +40,7 @@ namespace ToolSystem
             {
                 UseTool(worldPosition);
                 
-                eToolDown.Invoke(worldPosition);
+                toolDown.Invoke(worldPosition);
             }
         }
 
@@ -58,7 +57,7 @@ namespace ToolSystem
             {
                 UseTool(worldPosition);
                 
-                eToolInUse.Invoke(worldPosition);
+                toolInUse.Invoke(worldPosition);
             }
         }
 
@@ -67,7 +66,7 @@ namespace ToolSystem
         /// </summary>
         public void ToolUp(Vector2 worldPosition)
         {
-            eToolUp.Invoke(worldPosition);
+            toolUp.Invoke(worldPosition);
         }
 
         // TODO: Can be more efficient. Pass the function instead of looping through the chunks again.
