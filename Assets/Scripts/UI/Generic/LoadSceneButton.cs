@@ -17,12 +17,17 @@ namespace UI.Generic
         protected override void OnComponentAwake()
         {
             TryGetComponent(out dialogueButton);
+        }
+
+        protected override void Subscribe()
+        {
             dialogueButton.onClick.AddListener(OnSubmit);
         }
-        
-        protected override void Subscribe() { }
-        
-        protected override void Unsubscribe() { }
+
+        protected override void Unsubscribe()
+        {
+            dialogueButton.onClick.RemoveListener(OnSubmit);
+        }
 
         private void OnSubmit()
         {

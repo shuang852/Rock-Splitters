@@ -17,10 +17,17 @@ namespace UI.Exhibition
         protected override void OnComponentAwake()
         {
             TryGetComponent(out dialogueButton);
+        }
+
+        protected override void Subscribe()
+        {
             dialogueButton.onClick.AddListener(OnSubmit);
         }
 
-        protected override void Subscribe() { }
+        protected override void Unsubscribe()
+        {
+            dialogueButton.onClick.RemoveListener(OnSubmit);
+        }
 
         private void OnSubmit()
         {
@@ -32,7 +39,5 @@ namespace UI.Exhibition
             flipDown.gameObject.SetActive(index % 2 == 1);
             index++;
         }
-
-        protected override void Unsubscribe() { }
     }
 }

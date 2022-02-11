@@ -20,11 +20,11 @@ namespace ToolSystem
 
         private ArtefactShape artefactShape;
 
-        protected override async void Awake()
+        protected override void Start()
         {
-            base.Awake();
+            base.Start();
 
-            artefactShape = await GetOrWait<ArtefactShape>();
+            artefactShape = M.GetOrThrow<ArtefactShape>();
             
             artefactShape.initialised.AddListener(OnArtefactShapeInitialised);
         }
@@ -91,6 +91,13 @@ namespace ToolSystem
 
                 time += Time.deltaTime;
             }
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            artefactShape.initialised.RemoveListener(OnArtefactShapeInitialised);
         }
     }
 }

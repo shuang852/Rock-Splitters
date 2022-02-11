@@ -99,5 +99,10 @@ namespace RockSystem.Artefacts
                 ? bustedDamageTile
                 : damageTiles[Mathf.RoundToInt(percentage * (damageTiles.Count - 1))];
         }
+
+        private void OnDestroy()
+        {
+            artefactShapeManager.artefactDamaged.RemoveListener(OnArtefactDamaged);
+        }
     }
 }

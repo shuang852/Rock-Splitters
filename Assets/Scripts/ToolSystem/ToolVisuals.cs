@@ -20,9 +20,24 @@ namespace ToolSystem
         {
             toolManager = M.GetOrThrow<ToolManager>();
             
-            toolManager.toolDown.AddListener(worldPosition => Clean(worldPosition));
-            toolManager.toolInUse.AddListener(worldPosition => Clean(worldPosition));
-            toolManager.toolUp.AddListener(worldPosition => StopClean());
+            toolManager.toolDown.AddListener(OnToolDown);
+            toolManager.toolInUse.AddListener(OnToolInUse);
+            toolManager.toolUp.AddListener(OnToolUp);
+        }
+
+        private void OnToolDown(Vector2 worldPosition)
+        {
+            Clean(worldPosition);
+        }
+
+        private void OnToolInUse(Vector2 worldPosition)
+        {
+            Clean(worldPosition);
+        }
+
+        private void OnToolUp(Vector2 worldPosition)
+        {
+            StopClean();
         }
 
         /// <summary>
@@ -54,6 +69,13 @@ namespace ToolSystem
         {
             drillAnimator.SetBool(cleaning, false);
             drillParticles.Stop();
+        }
+
+        private void OnDestroy()
+        {
+            toolManager.toolDown.RemoveListener(OnToolDown);
+            toolManager.toolInUse.RemoveListener(OnToolInUse);
+            toolManager.toolUp.RemoveListener(OnToolUp);
         }
     }
 }

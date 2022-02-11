@@ -32,5 +32,10 @@ namespace UI.Cleaning
         protected override void Subscribe() { }
 
         protected override void Unsubscribe() { }
+
+        private void OnDestroy()
+        {
+            artefactShape.artefactDamaged.RemoveListener(UpdateHealth);
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Managers;
 using RockSystem.Artefacts;
-using ToolSystem;
 using UI.Core;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,5 +33,11 @@ namespace UI.Cleaning
         protected override void Subscribe() { }
 
         protected override void Unsubscribe() { }
+
+        private void OnDestroy()
+        {
+            artefactShape.artefactExposed.RemoveListener(UpdateExposure);
+            artefactShape.artefactDamaged.RemoveListener(UpdateExposure);
+        }
     }
 }

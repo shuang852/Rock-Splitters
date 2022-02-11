@@ -49,5 +49,12 @@ namespace RockSystem.Artefacts
 
             return null;
         }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            chunkManager.damageOverflow.RemoveListener(OnDamageOverflow);
+        }
     }
 }

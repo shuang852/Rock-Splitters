@@ -223,5 +223,12 @@ namespace RockSystem.Artefacts
                 healthChanged = false;
             }
         }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            chunkManager.chunkCleared.RemoveListener(OnChunkDestroyed);
+        }
     }
 }
