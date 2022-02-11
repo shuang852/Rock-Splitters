@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Stored
 {
-    [CreateAssetMenu(fileName = "Antiquity", menuName = "Scriptable Objects/Antiquities/Antiquity", order = 0)]
-    public class Antiquity : ScriptableObject
+    [CreateAssetMenu(fileName = "Artefact", menuName = "Scriptable Objects/Artefacts/Artefact", order = 0)]
+    public class Artefact : ScriptableObject
     {
         [SerializeField] private string displayName;
         [SerializeField] private Sprite sprite;
@@ -14,7 +15,7 @@ namespace Stored
         [Tooltip("The final score you get after cleaning the fossil")]
         [SerializeField] private float score;
         [Tooltip("Set to true to manually choose its set. Otherwise it'll automatically be assigned a set if a set" +
-                 "contains the antiquity.")]
+                 "contains the artefact.")]
         [SerializeField] private bool overrideSet;
 
         public string DisplayName => displayName;
@@ -23,6 +24,6 @@ namespace Stored
         public float MaxHealth => maxHealth;
         public bool OverrideSet => overrideSet;
         public float Score => score;
-        public AntiquitySet AntiquitySet;
+        [FormerlySerializedAs("AntiquitySet")] public ArtefactSet artefactSet;
     }
 }

@@ -7,12 +7,12 @@ namespace Stored
 #if UNITY_EDITOR
     public class ItemSetTest : MonoBehaviour
     {
-        [SerializeField] private Antiquity testItem;
-        private AntiquityManager manager;
+        [SerializeField] private Artefact testItem;
+        private ArtefactManager manager;
 
         private void Start()
         {
-            manager = M.GetOrThrow<AntiquityManager>();
+            manager = M.GetOrThrow<ArtefactManager>();
         }
         
         [ContextMenu("Add Item Test")]

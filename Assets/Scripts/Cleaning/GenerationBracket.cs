@@ -2,6 +2,7 @@
 using RockSystem.Chunks;
 using Stored;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Cleaning
 {
@@ -9,7 +10,7 @@ namespace Cleaning
     public class GenerationBracket : ScriptableObject
     {
         public int bracketLength;
-        public List<Antiquity> antiquities;
+        [FormerlySerializedAs("antiquities")] public List<Artefact> artefacts;
         public List<RockShape> rockShapes;
         public List<ChunkDescription> chunkDescriptions;
         public Color rockColor;

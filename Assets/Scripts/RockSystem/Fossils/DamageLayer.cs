@@ -17,7 +17,7 @@ namespace RockSystem.Fossils
         private Tile bustedDamageTile;
         private Tilemap tilemap;
 
-        private ArtefactManager artefactManager;
+        private CleaningArtefactManager cleaningArtefactManager;
 
         protected void Awake()
         {
@@ -28,24 +28,24 @@ namespace RockSystem.Fossils
 
         protected void Start()
         {
-            artefactManager = M.GetOrThrow<ArtefactManager>();
+            cleaningArtefactManager = M.GetOrThrow<CleaningArtefactManager>();
             
-            artefactManager.fossilDamaged.AddListener(OnFossilDamaged);
+            cleaningArtefactManager.fossilDamaged.AddListener(OnFossilDamaged);
         }
 
         private void OnFossilDamaged(FossilShape fossil, Vector2Int flatPosition)
         {
             float remainingHealth = fossil.GetFossilChunkHealth(flatPosition);
 
-            if (fossil.Antiquity.MaxHealth <= 0)
+            if (fossil.Artefact.MaxHealth <= 0)
             {
-                Debug.LogError($"{nameof(fossil.Antiquity.MaxHealth)} has not been set.");
+                Debug.LogError($"{nameof(fossil.Artefact.MaxHealth)} has not been set.");
                 return;
             }
 
-            if (!(remainingHealth <= fossil.Antiquity.BreakingHealth)) return;
+            if (!(remainingHealth <= fossil.Artefact.BreakingHealth)) return;
             
-            float damagePercentage = 1f - (remainingHealth / fossil.Antiquity.MaxHealth);
+            float damagePercentage = 1f - (remainingHealth / fossil.Artefact.MaxHealth);
             DisplayDamage(flatPosition, damagePercentage);
         }
 

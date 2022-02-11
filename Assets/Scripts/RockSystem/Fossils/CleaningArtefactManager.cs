@@ -7,7 +7,7 @@ using Utility;
 
 namespace RockSystem.Fossils
 {
-    public class ArtefactManager : Manager
+    public class CleaningArtefactManager : Manager
     {
         public UnityEvent<FossilShape, Vector2Int> fossilDamaged = new UnityEvent<FossilShape, Vector2Int>();
         

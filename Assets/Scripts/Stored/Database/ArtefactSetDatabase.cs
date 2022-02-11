@@ -1,21 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
-using Object = UnityEngine.Object;
 #if UNITY_EDITOR
-using System;
-using UnityEditor;
 #endif
 
-namespace Stored
+namespace Stored.Database
 {
-    [CreateAssetMenu(menuName = "SO/DB/AntiquitySetDB")]
-    public class AntiquitySetDatabase : AssetDatabase<AntiquitySet>
+    [CreateAssetMenu(menuName = "SO/DB/ArtefactSetDB")]
+    public class ArtefactSetDatabase : AssetDatabase<ArtefactSet>
     {
-        public AntiquitySet[] Items => items;
+        public ArtefactSet[] Items => items;
         public bool overrideOrder;
-        [SerializeField] private AntiquitySet[] orderedItems;
-        public AntiquitySet[] OrderedItems => orderedItems;
+        [SerializeField] private ArtefactSet[] orderedItems;
+        public ArtefactSet[] OrderedItems => orderedItems;
         
 #if UNITY_EDITOR
         private void OnValidate()

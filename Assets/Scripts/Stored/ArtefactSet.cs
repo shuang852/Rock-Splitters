@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Stored
 {
-    [CreateAssetMenu(fileName = "FossilSet", menuName = "Scriptable Objects/Antiquities/AntiquitySet", order = 0)]
-    public class AntiquitySet : ScriptableObject
+    [CreateAssetMenu(fileName = "FossilSet", menuName = "Scriptable Objects/Artefacts/ArtefactSet", order = 0)]
+    public class ArtefactSet : ScriptableObject
     {
         [SerializeField] private string setName;
         [SerializeField] private Sprite sprite;
@@ -13,7 +12,7 @@ namespace Stored
         [SerializeField] private string description;
 
         [Tooltip("The items within the set. Ensure the order is correct as they will be displayed TOP to BOT. Go from Head to legs")]
-        [SerializeField] private Antiquity[] setItems;
+        [SerializeField] private Artefact[] setItems;
 
         [Tooltip("The amount of money you gain per hour")]
         [SerializeField] private float baseSetIncome;
@@ -28,7 +27,7 @@ namespace Stored
         public Sprite Sprite => sprite;
         public int ProdID => prodID;
         public string Description => description;
-        public Antiquity[] SetItems => setItems;
+        public Artefact[] SetItems => setItems;
         public float BaseSetIncome => baseSetIncome;
         public float BaseSetCapacity => baseSetCapacity;
         public float SetBonus => setBonus;
@@ -45,7 +44,7 @@ namespace Stored
             
             foreach (var item in setItems)
                 if (item is { OverrideSet: false })
-                    item.AntiquitySet = this;
+                    item.artefactSet = this;
         }
 
         // TODO: Possibly change this to only 1 item if we face optimisation problems. This would mean a version without resetting count
@@ -53,7 +52,7 @@ namespace Stored
         /// <summary>
         /// Check if the player has the sets items then returns the income rate and capacity.
         /// </summary>
-        /// <param name="inventory">Inventory containing antiquities</param>
+        /// <param name="inventory">Inventory containing artefacts</param>
         /// <returns>The set's current income rate and capacity calculated after checking how many set items exist</returns>
         public void ValidateSet(Inventory inventory)
         {

@@ -39,7 +39,7 @@ namespace ToolSystem
             var fossilShapeTransform = fossilShape.transform;
             
             // TODO: May need to rework how these are found and set.
-            fossilSprite.sprite = fossilShape.Antiquity.Sprite;
+            fossilSprite.sprite = fossilShape.Artefact.Sprite;
             fossilSpriteTransform.position = fossilShapeTransform.position;
             fossilSpriteTransform.rotation = fossilShapeTransform.rotation;
             fossilSpriteTransform.localScale = fossilShapeTransform.localScale;

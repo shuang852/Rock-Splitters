@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace UI.Exhibition
 {
     [RequireComponent(typeof(Button))]
-    public class AntiquityInfoButton : DialogueComponent<ExhibitionDialogue>
+    public class ArtefactInfoButton : DialogueComponent<ExhibitionDialogue>
     {
         [SerializeField] private GameObject flipUp;
         [SerializeField] private GameObject flipDown;

@@ -52,19 +52,19 @@ namespace Cleaning
 
             CurrentArtefactRock = GenerateArtefactRock(generationBracket);
             chunkManager.Initialise(CurrentArtefactRock.RockShape, CurrentArtefactRock.RockColor, CurrentArtefactRock.ChunkDescription);
-            fossilShape.Initialise(CurrentArtefactRock.Antiquity);
+            fossilShape.Initialise(CurrentArtefactRock.Artefact);
             
             CleaningStarted.Invoke();
         }
 
         public ArtefactRock GenerateArtefactRock(GenerationBracket generationBracket)
         {
-            var antiquities = generationBracket.antiquities;
+            var artefacts = generationBracket.artefacts;
             var rockShapes = generationBracket.rockShapes;
             var chunkDescriptions = generationBracket.chunkDescriptions;
             
             return new ArtefactRock(
-                antiquities.ElementAtOrDefault(Random.Range(0, antiquities.Count)),
+                artefacts.ElementAtOrDefault(Random.Range(0, artefacts.Count)),
                 rockShapes.ElementAtOrDefault(Random.Range(0, rockShapes.Count)),
                 chunkDescriptions.ElementAtOrDefault(Random.Range(0, chunkDescriptions.Count)),
                 generationBracket.rockColor

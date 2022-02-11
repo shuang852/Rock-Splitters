@@ -12,7 +12,7 @@ namespace RockSystem.Fossils
 {
     public class FossilShape : Manager
     {
-        [SerializeField] private Antiquity fossil;
+        [SerializeField] private Artefact fossil;
         [SerializeField] private bool enableDebug;
         
         // TODO: Changing the fossil layer is no longer supported.
@@ -24,11 +24,11 @@ namespace RockSystem.Fossils
         private SpriteMask spriteMask;
         private PolygonCollider2D polyCollider;
         private ChunkManager chunkManager;
-        private ArtefactManager artefactManager;
+        private CleaningArtefactManager cleaningArtefactManager;
 
         private IEnumerable<Vector2Int> HitFlatPositions => chunkHealths.Keys;
-        private Sprite Sprite => Antiquity.Sprite;
-        public Antiquity Antiquity => fossil;
+        private Sprite Sprite => Artefact.Sprite;
+        public Artefact Artefact => fossil;
 
         public UnityEvent initialised = new UnityEvent();
         public UnityEvent fossilExposed = new UnityEvent();
@@ -72,16 +72,16 @@ namespace RockSystem.Fossils
             base.Start();
 
             chunkManager = M.GetOrThrow<ChunkManager>();
-            artefactManager = M.GetOrThrow<ArtefactManager>();
+            cleaningArtefactManager = M.GetOrThrow<CleaningArtefactManager>();
             
             chunkManager.chunkCleared.AddListener(OnChunkDestroyed);
         }
 
-        public void Initialise(Antiquity antiquity)
+        public void Initialise(Artefact artefact)
         {
-            fossil = antiquity; 
+            fossil = artefact; 
             
-            // Setup sprites according to antiquity
+            // Setup sprites according to the artefact
 
             spriteRenderer.sprite = Sprite;
             spriteMask.sprite = Sprite;
@@ -90,7 +90,7 @@ namespace RockSystem.Fossils
             polyCollider = gameObject.AddComponent<PolygonCollider2D>();
             
             SetupFossilChunks();
-            artefactManager.RegisterFossil(this);
+            cleaningArtefactManager.RegisterFossil(this);
             
             ForceUpdateFossilExposure();
             

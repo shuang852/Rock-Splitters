@@ -7,7 +7,7 @@ namespace Cleaning
     public class ArtefactRock
     {
         // Artefact Properties
-        public Antiquity Antiquity { get; }
+        public Artefact Artefact { get; }
         // public Vector2 Position;
         // public Vector2 Rotation;
         // public Vector2 Scale;
@@ -17,9 +17,9 @@ namespace Cleaning
         public ChunkDescription ChunkDescription { get; }
         public Color RockColor { get; }
 
-        public ArtefactRock(Antiquity antiquity, RockShape rockShape, ChunkDescription chunkDescription, Color rockColor)
+        public ArtefactRock(Artefact artefact, RockShape rockShape, ChunkDescription chunkDescription, Color rockColor)
         {
-            Antiquity = antiquity;
+            Artefact = artefact;
             RockShape = rockShape;
             ChunkDescription = chunkDescription;
             RockColor = rockColor;
