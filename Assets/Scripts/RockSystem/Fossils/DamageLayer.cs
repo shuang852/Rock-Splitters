@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 
 namespace RockSystem.Fossils
 {
-    public class DamageLayer : Manager
+    public class DamageLayer : MonoBehaviour
     {
         [SerializeField] private string sortingLayer = "Chunk";
         [SerializeField] private int sortingOrder = 20;
@@ -17,18 +17,36 @@ namespace RockSystem.Fossils
         private Tile bustedDamageTile;
         private Tilemap tilemap;
 
-        protected override void Awake()
-        {
-            base.Awake();
-            
-            CreateTilemap();
-        }
+        private ArtefactManager artefactManager;
 
-        protected override void Start()
+        protected void Awake()
         {
-            base.Start();
+            CreateTilemap();
             
             CreateDamageTiles();
+        }
+
+        protected void Start()
+        {
+            artefactManager = M.GetOrThrow<ArtefactManager>();
+            
+            artefactManager.fossilDamaged.AddListener(OnFossilDamaged);
+        }
+
+        private void OnFossilDamaged(FossilShape fossil, Vector2Int flatPosition)
+        {
+            float remainingHealth = fossil.GetFossilChunkHealth(flatPosition);
+
+            if (fossil.Antiquity.MaxHealth <= 0)
+            {
+                Debug.LogError($"{nameof(fossil.Antiquity.MaxHealth)} has not been set.");
+                return;
+            }
+
+            if (!(remainingHealth <= fossil.Antiquity.BreakingHealth)) return;
+            
+            float damagePercentage = 1f - (remainingHealth / fossil.Antiquity.MaxHealth);
+            DisplayDamage(flatPosition, damagePercentage);
         }
 
         private void CreateTilemap()
