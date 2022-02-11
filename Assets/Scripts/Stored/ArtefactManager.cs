@@ -1,15 +1,17 @@
 using Managers;
+using Stored.Database;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Stored
 {
-    public class AntiquityManager : Manager
+    public class ArtefactManager : Manager
     {
         public Inventory Inventory { get; } = new Inventory(100);
         public override bool PersistBetweenScenes => true;
         public float TotalIncome { private set;  get; }
         public float TotalCapacity { private set;  get; }
-        public AntiquitySetDatabase antiquitySetDatabase;
+        [FormerlySerializedAs("antiquitySetDatabase")] public ArtefactSetDatabase artefactSetDatabase;
 
         protected override void Start()
         {
@@ -17,7 +19,7 @@ namespace Stored
             ValidateAllSets();
         }
 
-        public bool AddItem(Antiquity item)
+        public bool AddItem(Artefact item)
         {
             bool success;
             if (!Inventory.HasSpace()) return false;
@@ -31,14 +33,14 @@ namespace Stored
             {
                 Debug.Log("No item");
                 success = Inventory.AddItem(item);
-                item.AntiquitySet.ValidateSet(Inventory);
+                item.artefactSet.ValidateSet(Inventory);
                 CalculateStats();
             }
             return success;
         }
         
         // TODO: Figure if you can sell and how to sell it
-        public bool RemoveItem(Antiquity item)
+        public bool RemoveItem(Artefact item)
         {
             if (!Inventory.Contains(item))
             {
@@ -51,7 +53,7 @@ namespace Stored
             // Don't think is is support so not sure why I have it. Player can't go below 1 of an item.
             // Update the item set as it no longer contains the item.
             if (Inventory.Contains(item)) return success;
-            item.AntiquitySet.ValidateSet(Inventory);
+            item.artefactSet.ValidateSet(Inventory);
             CalculateStats();
 
             return success;
@@ -61,7 +63,7 @@ namespace Stored
         {
             float income = 0f;
             float capacity = 0f;
-            foreach (var set in antiquitySetDatabase.Items)
+            foreach (var set in artefactSetDatabase.Items)
             {
                 income += set.CurrentSetIncome;
                 capacity += set.CurrentSetCapacity;
@@ -76,10 +78,10 @@ namespace Stored
         /// Should be called on startup or when we need to validate all sets.
         /// Can use context menu for a manual call.
         /// </summary>
-        [ContextMenu("Validate all AntiquitySets")]
+        [ContextMenu("Validate all ArtefactSets")]
         public void ValidateAllSets()
         {
-            foreach (var set in antiquitySetDatabase.Items)
+            foreach (var set in artefactSetDatabase.Items)
             {
                 set.ValidateSet(Inventory);
                 CalculateStats();
@@ -88,7 +90,7 @@ namespace Stored
 
         protected override void OnValidate()
         {
-            if (ReferenceEquals(antiquitySetDatabase, null))
+            if (ReferenceEquals(artefactSetDatabase, null))
             {
                 Debug.Log("Database is empty. Please manually assign!");
             }

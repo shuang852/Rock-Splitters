@@ -4,10 +4,10 @@ using UI.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.AntiquitySets
+namespace UI.Exhibition
 {
     [RequireComponent(typeof(Button))]
-    public class AntiquitySetItemUI : DialogueComponent<Dialogue>
+    public class ArtefactSetItemUI : DialogueComponent<Dialogue>
     {
 
         // private Button button;
@@ -15,15 +15,13 @@ namespace UI.AntiquitySets
         [SerializeField] private Image icon;
         [SerializeField] private TextMeshProUGUI score;
 
-        protected override void OnComponentAwake()
-        {
-        }
+        protected override void OnComponentAwake() { }
 
         protected override void Subscribe() { }
     
         protected override void Unsubscribe() { }
 
-        public void SetupSetItem(Antiquity setItem, bool hasItem)
+        public void SetupSetItem(Artefact setItem, bool hasItem)
         {
             //Debug.Log(setItem);
             icon.sprite = setItem.Sprite;

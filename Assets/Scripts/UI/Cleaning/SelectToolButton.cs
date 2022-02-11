@@ -23,8 +23,6 @@ namespace UI.Cleaning
             TryGetComponent(out dialogueButton);
             
             if (!tool || !tool.unlocked) dialogueButton.interactable = false;
-
-            dialogueButton.onClick.AddListener(OnSubmit);
         }
 
         protected override void OnComponentStart()
@@ -43,9 +41,15 @@ namespace UI.Cleaning
                 tool.startingTool = false;
         }
 
-        protected override void Subscribe() { }
+        protected override void Subscribe()
+        {
+            dialogueButton.onClick.AddListener(OnSubmit);
+        }
 
-        protected override void Unsubscribe() { }
+        protected override void Unsubscribe()
+        {
+            dialogueButton.onClick.RemoveListener(OnSubmit);
+        }
 
         private void OnSubmit()
         {

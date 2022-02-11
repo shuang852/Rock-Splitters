@@ -12,7 +12,7 @@ namespace RockSystem.Chunks
         private readonly Dictionary<Vector2Int, LinkedList<Chunk>> chunks =
             new Dictionary<Vector2Int, LinkedList<Chunk>>();
         private readonly Grid grid;
-        private readonly Func<ChunkDescription> chunkDescriptionFactory;
+        private readonly ChunkDescription chunkDescription;
         private readonly Action<Chunk> chunkSetBehaviour;
         private readonly Action<Chunk> chunkClearBehaviour;
         private readonly Func<Vector2Int, bool> rockShapeMask;
@@ -27,10 +27,10 @@ namespace RockSystem.Chunks
         public IEnumerable<Vector2Int> FlatPositions { get; }
         public IEnumerable<Vector3Int> Positions { get; }
 
-        internal ChunkStructure(Vector3Int size, Grid grid, Func<ChunkDescription> chunkDescriptionFactory, Action<Chunk>chunkSetBehaviour, Action<Chunk> chunkClearBehaviour, Func<Vector2Int, bool> rockShapeMask)
+        internal ChunkStructure(Vector3Int size, Grid grid, ChunkDescription chunkDescription, Action<Chunk>chunkSetBehaviour, Action<Chunk> chunkClearBehaviour, Func<Vector2Int, bool> rockShapeMask)
         {
             this.grid = grid;
-            this.chunkDescriptionFactory = chunkDescriptionFactory;
+            this.chunkDescription = chunkDescription;
             this.chunkSetBehaviour = chunkSetBehaviour;
             this.chunkClearBehaviour = chunk => 
             {
@@ -64,7 +64,7 @@ namespace RockSystem.Chunks
         private void Set(Vector3Int position)
         {
             var chunk = new Chunk(
-                chunkDescriptionFactory(),
+                chunkDescription,
                 position,
                 chunkClearBehaviour
             );

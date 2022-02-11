@@ -2,7 +2,7 @@ using UI.Core;
 
 namespace UI
 {
-    public class FossilSelectDialogue : Dialogue
+    public class ArtefactSelectDialogue : Dialogue
     {
         protected override void OnClose()
         {

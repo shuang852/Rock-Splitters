@@ -8,9 +8,6 @@ namespace UI.Pause
     {
         [SerializeField] private int mainMenuIndex;
 
-        protected override void Subscribe() { }
-        protected override void Unsubscribe() { }
-
         protected override void OnClick()
         {
             Dialogue.Abandoned?.Invoke();

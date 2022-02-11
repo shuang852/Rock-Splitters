@@ -22,7 +22,7 @@ namespace UI.Cleaning
 
             timer = M.GetOrThrow<CleaningTimerManager>();
             
-            timer.TimeChanged.AddListener(OnTimeChanged);
+            timer.timeChanged.AddListener(OnTimeChanged);
         }
 
         protected override void Subscribe() { }
@@ -36,7 +36,7 @@ namespace UI.Cleaning
 
         private void OnDestroy()
         {
-            timer.TimeChanged.RemoveListener(OnTimeChanged);
+            timer.timeChanged.RemoveListener(OnTimeChanged);
         }
     }
 }

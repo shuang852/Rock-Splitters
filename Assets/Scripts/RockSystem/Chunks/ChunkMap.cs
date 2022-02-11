@@ -17,13 +17,21 @@ namespace RockSystem.Chunks
 
         private readonly List<Tilemap> layeredTilemaps = new List<Tilemap>();
 
-        public int LayerLength { get; set; }
+        private int layerLength;
 
-        public void CreateTilemaps()
+        public void Initialise(Color rockColor, int layerLength)
+        {
+            this.rockColor = rockColor;
+            this.layerLength = layerLength;
+            
+            Initialise();
+        }
+
+        public void Initialise()
         {
             layeredTilemaps.Clear();
             
-            for (int i = 0; i < LayerLength; i++)
+            for (int i = 0; i < layerLength; i++)
             {
                 GameObject go = new GameObject($"Layered Tilemap [layer {i}]");
                 go.transform.parent = transform;
@@ -34,7 +42,7 @@ namespace RockSystem.Chunks
                 tilemap.tileAnchor = Vector3.zero;
 
                 // Produce a darker color as we go deeper
-                float colorValue = 1f / ((LayerLength - i) / colorGradient + 1f);
+                float colorValue = 1f / ((layerLength - i) / colorGradient + 1f);
                 tilemap.color = new Color(
                     rockColor.r * colorValue,
                     rockColor.g * colorValue,
@@ -47,7 +55,7 @@ namespace RockSystem.Chunks
 
                 layeredTilemaps.Add(tilemap);
             }
-        }
+        } 
 
         public void SetTileAtLayer(Vector3Int position, TileBase tile)
         {

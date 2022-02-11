@@ -4,9 +4,9 @@ using Managers;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace RockSystem.Fossils
+namespace RockSystem.Artefacts
 {
-    public class DamageLayer : Manager
+    public class DamageLayer : MonoBehaviour
     {
         [SerializeField] private string sortingLayer = "Chunk";
         [SerializeField] private int sortingOrder = 20;
@@ -17,18 +17,36 @@ namespace RockSystem.Fossils
         private Tile bustedDamageTile;
         private Tilemap tilemap;
 
-        protected override void Awake()
-        {
-            base.Awake();
-            
-            CreateTilemap();
-        }
+        private ArtefactShapeManager artefactShapeManager;
 
-        protected override void Start()
+        protected void Awake()
         {
-            base.Start();
+            CreateTilemap();
             
             CreateDamageTiles();
+        }
+
+        protected void Start()
+        {
+            artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
+            
+            artefactShapeManager.artefactDamaged.AddListener(OnArtefactDamaged);
+        }
+
+        private void OnArtefactDamaged(ArtefactShape artefact, Vector2Int flatPosition)
+        {
+            float remainingHealth = artefact.GetArtefactChunkHealth(flatPosition);
+
+            if (artefact.Artefact.MaxHealth <= 0)
+            {
+                Debug.LogError($"{nameof(artefact.Artefact.MaxHealth)} has not been set.");
+                return;
+            }
+
+            if (!(remainingHealth <= artefact.Artefact.BreakingHealth)) return;
+            
+            float damagePercentage = 1f - (remainingHealth / artefact.Artefact.MaxHealth);
+            DisplayDamage(flatPosition, damagePercentage);
         }
 
         private void CreateTilemap()
@@ -80,6 +98,11 @@ namespace RockSystem.Fossils
             return percentage >= 1
                 ? bustedDamageTile
                 : damageTiles[Mathf.RoundToInt(percentage * (damageTiles.Count - 1))];
+        }
+
+        private void OnDestroy()
+        {
+            artefactShapeManager.artefactDamaged.RemoveListener(OnArtefactDamaged);
         }
     }
 }

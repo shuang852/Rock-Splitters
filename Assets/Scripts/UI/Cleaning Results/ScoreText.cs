@@ -1,9 +1,10 @@
 ﻿using System.Globalization;
 using Cleaning;
 using Managers;
-using RockSystem.Fossils;
+using RockSystem.Artefacts;
 using UI.Core;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.Cleaning_Results
@@ -11,16 +12,16 @@ namespace UI.Cleaning_Results
     public class ScoreText : DialogueComponent<CleaningResultsDialogue>
     {
         [SerializeField] private Text winStateText;
-        [SerializeField] private Text baseFossilScoreText;
-        [SerializeField] private Text fossilHealthText;
-        [SerializeField] private Text fossilExposureText;
+        [FormerlySerializedAs("baseFossilScoreText")] [SerializeField] private Text baseArtefactScoreText;
+        [FormerlySerializedAs("fossilHealthText")] [SerializeField] private Text artefactHealthText;
+        [FormerlySerializedAs("fossilExposureText")] [SerializeField] private Text artefactExposureText;
         [SerializeField] private Text timeRemainingText;
         [SerializeField] private Text totalScoreText;
 
         private CleaningManager cleaningManager;
         private CleaningTimerManager timerManager;
         private CleaningScoreManager scoreManager;
-        private FossilShape fossilShape;
+        private ArtefactShape artefactShape;
 
         protected override void OnComponentStart()
         {
@@ -29,14 +30,14 @@ namespace UI.Cleaning_Results
             cleaningManager = M.GetOrThrow<CleaningManager>();
             timerManager = M.GetOrThrow<CleaningTimerManager>();
             scoreManager = M.GetOrThrow<CleaningScoreManager>();
-            fossilShape = M.GetOrThrow<FossilShape>();
+            artefactShape = M.GetOrThrow<ArtefactShape>();
 
             winStateText.text = WinStateToString();
-            baseFossilScoreText.text = "Not implemented";
-            fossilHealthText.text =
-                Mathf.Round(fossilShape.FossilHealth * 100).ToString(CultureInfo.InvariantCulture) + "%";
-            fossilExposureText.text =
-                Mathf.Round(fossilShape.FossilExposure * 100).ToString(CultureInfo.InvariantCulture) + "%";
+            baseArtefactScoreText.text = "Not implemented";
+            artefactHealthText.text =
+                Mathf.Round(artefactShape.ArtefactHealth * 100).ToString(CultureInfo.InvariantCulture) + "%";
+            artefactExposureText.text =
+                Mathf.Round(artefactShape.ArtefactExposure * 100).ToString(CultureInfo.InvariantCulture) + "%";
             timeRemainingText.text = timerManager.CurrentTime.ToString(CultureInfo.InvariantCulture);
             totalScoreText.text = scoreManager.Score.ToString(CultureInfo.InvariantCulture);
         }
