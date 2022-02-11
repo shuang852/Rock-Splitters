@@ -1,53 +1,54 @@
 ﻿using System.Collections;
 using Managers;
-using RockSystem.Fossils;
+using RockSystem.Artefacts;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace ToolSystem
 {
     public class XRayManager : Manager
     {
-        [SerializeField] private SpriteRenderer fossilSprite;
-        [SerializeField] private AnimationCurve fossilFadeCurve;
-        [SerializeField] private float fossilFadeDuration;
+        [FormerlySerializedAs("fossilSprite")] [SerializeField] private SpriteRenderer artefactSpriteRenderer;
+        [FormerlySerializedAs("fossilFadeCurve")] [SerializeField] private AnimationCurve artefactFadeCurve;
+        [FormerlySerializedAs("fossilFadeDuration")] [SerializeField] private float artefactFadeDuration;
         [SerializeField] private Image flashImage;
         [SerializeField] private AnimationCurve flashFadeCurve;
         [SerializeField] private float flashFadeDuration;
 
         private Coroutine coroutine;
 
-        private FossilShape fossilShape;
+        private ArtefactShape artefactShape;
 
         protected override async void Awake()
         {
             base.Awake();
 
-            fossilShape = await GetOrWait<FossilShape>();
+            artefactShape = await GetOrWait<ArtefactShape>();
             
-            fossilShape.initialised.AddListener(OnFossilShapeInitialised);
+            artefactShape.initialised.AddListener(OnArtefactShapeInitialised);
         }
 
-        private void OnFossilShapeInitialised()
+        private void OnArtefactShapeInitialised()
         {
             Initialise();
         }
 
         private void Initialise()
         {
-            var fossilSpriteTransform = fossilSprite.transform;
-            var fossilShapeTransform = fossilShape.transform;
+            var artefactSpriteTransform = artefactSpriteRenderer.transform;
+            var artefactShapeTransform = artefactShape.transform;
             
             // TODO: May need to rework how these are found and set.
-            fossilSprite.sprite = fossilShape.Artefact.Sprite;
-            fossilSpriteTransform.position = fossilShapeTransform.position;
-            fossilSpriteTransform.rotation = fossilShapeTransform.rotation;
-            fossilSpriteTransform.localScale = fossilShapeTransform.localScale;
+            artefactSpriteRenderer.sprite = artefactShape.Artefact.Sprite;
+            artefactSpriteTransform.position = artefactShapeTransform.position;
+            artefactSpriteTransform.rotation = artefactShapeTransform.rotation;
+            artefactSpriteTransform.localScale = artefactShapeTransform.localScale;
         }
 
         public void ShowXRay()
         {
-            fossilSprite.color = Color.white;
+            artefactSpriteRenderer.color = Color.white;
             flashImage.color = Color.white;
 
             if (coroutine != null)
@@ -60,17 +61,17 @@ namespace ToolSystem
         {
             float time = 0;
 
-            while (time < Mathf.Max(fossilFadeDuration, flashFadeDuration))
+            while (time < Mathf.Max(artefactFadeDuration, flashFadeDuration))
             {
-                if (time < fossilFadeDuration)
+                if (time < artefactFadeDuration)
                 {
-                    var fossilColor = fossilSprite.color;
+                    var artefactColor = artefactSpriteRenderer.color;
 
-                    fossilSprite.color = new Color(
-                        fossilColor.r,
-                        fossilColor.r,
-                        fossilColor.r,
-                        fossilFadeCurve.Evaluate(time / fossilFadeDuration)
+                    artefactSpriteRenderer.color = new Color(
+                        artefactColor.r,
+                        artefactColor.r,
+                        artefactColor.r,
+                        artefactFadeCurve.Evaluate(time / artefactFadeDuration)
                     );
                 }
 

@@ -6,16 +6,17 @@ using RockSystem.Chunks;
 using Stored;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Utility;
 
-namespace RockSystem.Fossils
+namespace RockSystem.Artefacts
 {
-    public class FossilShape : Manager
+    public class ArtefactShape : Manager
     {
-        [SerializeField] private Artefact fossil;
+        [FormerlySerializedAs("fossil")] [SerializeField] private Artefact artefact;
         [SerializeField] private bool enableDebug;
         
-        // TODO: Changing the fossil layer is no longer supported.
+        // TODO: Changing the artefact layer is no longer supported.
         private readonly int layer = 0;
 
         private readonly Dictionary<Vector2Int, float> chunkHealths = new Dictionary<Vector2Int, float>();
@@ -28,34 +29,34 @@ namespace RockSystem.Fossils
 
         private IEnumerable<Vector2Int> HitFlatPositions => chunkHealths.Keys;
         private Sprite Sprite => Artefact.Sprite;
-        public Artefact Artefact => fossil;
+        public Artefact Artefact => artefact;
 
         public UnityEvent initialised = new UnityEvent();
-        public UnityEvent fossilExposed = new UnityEvent();
-        public UnityEvent fossilDamaged = new UnityEvent();
+        public UnityEvent artefactExposed = new UnityEvent();
+        public UnityEvent artefactDamaged = new UnityEvent();
 
         private bool exposureChanged;
         private bool healthChanged;
-        private float fossilExposure;
-        private float fossilHealth;
+        private float artefactExposure;
+        private float artefactHealth;
 
-        public float FossilExposure
+        public float ArtefactExposure
         {
-            get => fossilExposure;
+            get => artefactExposure;
             private set
             {
-                fossilExposure = value;
-                fossilExposed.Invoke();
+                artefactExposure = value;
+                artefactExposed.Invoke();
             }
         }
 
-        public float FossilHealth
+        public float ArtefactHealth
         {
-            get => fossilHealth;
+            get => artefactHealth;
             private set
             {
-                fossilHealth = value;
-                fossilDamaged.Invoke();
+                artefactHealth = value;
+                artefactDamaged.Invoke();
             }
         }
 
@@ -79,7 +80,7 @@ namespace RockSystem.Fossils
 
         public void Initialise(Artefact artefact)
         {
-            fossil = artefact; 
+            this.artefact = artefact; 
             
             // Setup sprites according to the artefact
 
@@ -89,10 +90,10 @@ namespace RockSystem.Fossils
             // Setup colliders
             polyCollider = gameObject.AddComponent<PolygonCollider2D>();
             
-            SetupFossilChunks();
-            cleaningArtefactManager.RegisterFossil(this);
+            SetupArtefactChunks();
+            cleaningArtefactManager.RegisterArtefact(this);
             
-            ForceUpdateFossilExposure();
+            ForceUpdateArtefactExposure();
             
             initialised.Invoke();
         }
@@ -108,9 +109,9 @@ namespace RockSystem.Fossils
             chunkExposure[chunk.FlatPosition] = true;
         }
 
-        private void SetupFossilChunks()
+        private void SetupArtefactChunks()
         {
-            float startingHealth = fossil.MaxHealth;
+            float startingHealth = artefact.MaxHealth;
             
             foreach (Vector2Int flatPosition in chunkManager.chunkStructure.FlatPositions)
             {
@@ -118,22 +119,22 @@ namespace RockSystem.Fossils
                     chunkHealths.Add(flatPosition, startingHealth);
             }
 
-            FossilHealth = 1;
+            ArtefactHealth = 1;
         }
 
         #region Damage
 
-        public void DamageFossilChunk(Vector2Int position, float amount)
+        public void DamageArtefactChunk(Vector2Int position, float amount)
         {
             if (!chunkHealths.ContainsKey(position))
-                throw new IndexOutOfRangeException($"position {position} is not a valid fossil chunk");
+                throw new IndexOutOfRangeException($"position {position} is not a valid artefact chunk");
 
             chunkHealths[position] = Mathf.Max(0, chunkHealths[position] - amount);
 
             healthChanged = true;
         }
 
-        public float GetFossilChunkHealth(Vector2Int position) =>
+        public float GetArtefactChunkHealth(Vector2Int position) =>
             chunkHealths.ContainsKey(position) ? chunkHealths[position] : 0;
 
         #endregion
@@ -166,26 +167,26 @@ namespace RockSystem.Fossils
             }
         }
 
-        private void UpdateFossilHealth ()
+        private void UpdateArtefactHealth ()
         {
             float currentTotalHealth = chunkHealths.Values.Sum();
 
-            float maxTotalHealth = chunkHealths.Count * fossil.MaxHealth;
+            float maxTotalHealth = chunkHealths.Count * artefact.MaxHealth;
             
-            FossilHealth = currentTotalHealth / maxTotalHealth;
+            ArtefactHealth = currentTotalHealth / maxTotalHealth;
         }
 
-        private void UpdateFossilExposure()
+        private void UpdateArtefactExposure()
         {
             int exposedChunks = chunkExposure.Count(i => i.Value);
             
             int totalChunks = chunkHealths.Count;
 
-            FossilExposure = exposedChunks / (float) totalChunks;
+            ArtefactExposure = exposedChunks / (float) totalChunks;
         }
         
         // TODO: Needs a better name.
-        public void ForceUpdateFossilExposure()
+        public void ForceUpdateArtefactExposure()
         {
             int exposedChunks = 0;
             
@@ -205,20 +206,20 @@ namespace RockSystem.Fossils
 
             int totalChunks = chunkHealths.Count;
 
-            FossilExposure = exposedChunks / (float) totalChunks;
+            ArtefactExposure = exposedChunks / (float) totalChunks;
         }
 
         public void CheckHealthAndExposure()
         {
             if (exposureChanged)
             {
-                UpdateFossilExposure();
+                UpdateArtefactExposure();
                 exposureChanged = false;
             }
 
             if (healthChanged)
             {
-                UpdateFossilHealth();
+                UpdateArtefactHealth();
                 healthChanged = false;
             }
         }

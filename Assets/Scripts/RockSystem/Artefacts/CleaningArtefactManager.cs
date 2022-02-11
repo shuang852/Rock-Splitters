@@ -5,15 +5,15 @@ using UnityEngine;
 using UnityEngine.Events;
 using Utility;
 
-namespace RockSystem.Fossils
+namespace RockSystem.Artefacts
 {
     public class CleaningArtefactManager : Manager
     {
-        public UnityEvent<FossilShape, Vector2Int> fossilDamaged = new UnityEvent<FossilShape, Vector2Int>();
+        public UnityEvent<ArtefactShape, Vector2Int> artefactDamaged = new UnityEvent<ArtefactShape, Vector2Int>();
         
         private ChunkManager chunkManager;
         
-        private readonly List<FossilShape> fossils = new List<FossilShape>();
+        private readonly List<ArtefactShape> artefacts = new List<ArtefactShape>();
         
         protected override void Start()
         {
@@ -26,26 +26,26 @@ namespace RockSystem.Fossils
 
         private void OnDamageOverflow(Vector2Int flatPosition, float damage)
         {
-            FossilShape fossil = GetExposedFossilAtFlatPosition(flatPosition);
+            ArtefactShape artefact = GetExposedArtefactAtFlatPosition(flatPosition);
 
-            if (fossil == null) return;
+            if (artefact == null) return;
             
-            fossil.DamageFossilChunk(flatPosition, damage);
+            artefact.DamageArtefactChunk(flatPosition, damage);
             
-            fossilDamaged.Invoke(fossil, flatPosition);
+            artefactDamaged.Invoke(artefact, flatPosition);
         }
         
-        internal void RegisterFossil(FossilShape fossil)
+        internal void RegisterArtefact(ArtefactShape artefact)
         {
-            fossils.Add(fossil);
+            artefacts.Add(artefact);
         }
 
-        public FossilShape GetExposedFossilAtFlatPosition(Hexagons.OddrChunkCoord oddrChunkCoord)
+        public ArtefactShape GetExposedArtefactAtFlatPosition(Hexagons.OddrChunkCoord oddrChunkCoord)
         {
             Chunk chunk = chunkManager.chunkStructure.GetOrNull(oddrChunkCoord);
 
             if (chunk == null)
-                return fossils.Find(f => f.IsHitAtFlatPosition(oddrChunkCoord));
+                return artefacts.Find(f => f.IsHitAtFlatPosition(oddrChunkCoord));
 
             return null;
         }

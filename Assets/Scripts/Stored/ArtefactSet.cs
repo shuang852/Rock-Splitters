@@ -2,7 +2,7 @@
 
 namespace Stored
 {
-    [CreateAssetMenu(fileName = "FossilSet", menuName = "Scriptable Objects/Artefacts/ArtefactSet", order = 0)]
+    [CreateAssetMenu(fileName = "ArtefactSet", menuName = "Scriptable Objects/Artefacts/ArtefactSet", order = 0)]
     public class ArtefactSet : ScriptableObject
     {
         [SerializeField] private string setName;

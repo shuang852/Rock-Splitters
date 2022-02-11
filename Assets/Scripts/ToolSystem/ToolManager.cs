@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Managers;
+using RockSystem.Artefacts;
 using RockSystem.Chunks;
-using RockSystem.Fossils;
 using UnityEngine;
 using UnityEngine.Events;
 using Utility;
@@ -11,7 +11,7 @@ namespace ToolSystem
     public class ToolManager : Manager
     {
         private ChunkManager chunkManager;
-        private FossilShape fossilShape;
+        private ArtefactShape artefactShape;
         
         public Tool CurrentTool { get; private set; }
 
@@ -26,7 +26,7 @@ namespace ToolSystem
             base.Start();
             
             chunkManager = M.GetOrThrow<ChunkManager>();
-            fossilShape = M.GetOrThrow<FossilShape>();
+            artefactShape = M.GetOrThrow<ArtefactShape>();
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace ToolSystem
         {
             List<Hexagons.OddrChunkCoord> affectedChunks = Hexagons.GetChunksInRadius(chunkManager.CurrentGrid, worldPosition, CurrentTool.radius);
 
-            bool willDamageFossil = !(CurrentTool.artefactSafety && chunkManager.WillDamageRock(affectedChunks));
+            bool damageWillOverflow = !(CurrentTool.artefactSafety && chunkManager.WillDamageRock(affectedChunks));
 
             foreach (var affectedChunk in affectedChunks)
             {
@@ -90,10 +90,10 @@ namespace ToolSystem
                 if (CurrentTool.action == Tool.ToolAction.Continuous)
                     clampedDamage *= Time.deltaTime;
 
-                chunkManager.DamageChunk(affectedChunk, clampedDamage, willDamageFossil);
+                chunkManager.DamageChunk(affectedChunk, clampedDamage, damageWillOverflow);
             }
             
-            fossilShape.CheckHealthAndExposure();
+            artefactShape.CheckHealthAndExposure();
             
             toolUsed.Invoke();
         }

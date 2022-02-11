@@ -12,7 +12,7 @@ namespace Stored
         [SerializeField] private float breakingHealth;
         [Tooltip("The maximum damage this can take, as such the total health")]
         [SerializeField] private float maxHealth;
-        [Tooltip("The final score you get after cleaning the fossil")]
+        [Tooltip("The final score you get after cleaning the artefact")]
         [SerializeField] private float score;
         [Tooltip("Set to true to manually choose its set. Otherwise it'll automatically be assigned a set if a set" +
                  "contains the artefact.")]

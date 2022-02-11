@@ -1,5 +1,5 @@
 ﻿using Managers;
-using RockSystem.Fossils;
+using RockSystem.Artefacts;
 using UnityEngine;
 
 namespace Cleaning
@@ -11,7 +11,7 @@ namespace Cleaning
 
         private CleaningManager cleaningManager;
         private CleaningTimerManager timer;
-        private FossilShape fossilShape;
+        private ArtefactShape artefactShape;
 
         public float Score { get; private set; }
 
@@ -21,7 +21,7 @@ namespace Cleaning
             
             cleaningManager = M.GetOrThrow<CleaningManager>();
             timer = M.GetOrThrow<CleaningTimerManager>();
-            fossilShape = M.GetOrThrow<FossilShape>();
+            artefactShape = M.GetOrThrow<ArtefactShape>();
 
             cleaningManager.CleaningEnded.AddListener(CalculateScore);
         }
@@ -30,7 +30,7 @@ namespace Cleaning
         {
             // TODO: Incorporate rock difficulty.
             // TODO: Final score = Base * Health * Cleanliness * Rock Diff + (Time + bonuses)
-            Score = Mathf.Round(fossilShape.Artefact.Score * fossilShape.FossilHealth * fossilShape.FossilExposure + timer.CurrentTime * timeBonusMultiplier);
+            Score = Mathf.Round(artefactShape.Artefact.Score * artefactShape.ArtefactHealth * artefactShape.ArtefactExposure + timer.CurrentTime * timeBonusMultiplier);
         }
 
         protected override void OnDestroy()

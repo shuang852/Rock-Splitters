@@ -4,7 +4,7 @@ using Managers;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace RockSystem.Fossils
+namespace RockSystem.Artefacts
 {
     public class DamageLayer : MonoBehaviour
     {
@@ -30,22 +30,22 @@ namespace RockSystem.Fossils
         {
             cleaningArtefactManager = M.GetOrThrow<CleaningArtefactManager>();
             
-            cleaningArtefactManager.fossilDamaged.AddListener(OnFossilDamaged);
+            cleaningArtefactManager.artefactDamaged.AddListener(OnArtefactDamaged);
         }
 
-        private void OnFossilDamaged(FossilShape fossil, Vector2Int flatPosition)
+        private void OnArtefactDamaged(ArtefactShape artefact, Vector2Int flatPosition)
         {
-            float remainingHealth = fossil.GetFossilChunkHealth(flatPosition);
+            float remainingHealth = artefact.GetArtefactChunkHealth(flatPosition);
 
-            if (fossil.Artefact.MaxHealth <= 0)
+            if (artefact.Artefact.MaxHealth <= 0)
             {
-                Debug.LogError($"{nameof(fossil.Artefact.MaxHealth)} has not been set.");
+                Debug.LogError($"{nameof(artefact.Artefact.MaxHealth)} has not been set.");
                 return;
             }
 
-            if (!(remainingHealth <= fossil.Artefact.BreakingHealth)) return;
+            if (!(remainingHealth <= artefact.Artefact.BreakingHealth)) return;
             
-            float damagePercentage = 1f - (remainingHealth / fossil.Artefact.MaxHealth);
+            float damagePercentage = 1f - (remainingHealth / artefact.Artefact.MaxHealth);
             DisplayDamage(flatPosition, damagePercentage);
         }
 

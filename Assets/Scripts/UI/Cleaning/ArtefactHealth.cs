@@ -1,32 +1,32 @@
 ﻿using Managers;
-using RockSystem.Fossils;
+using RockSystem.Artefacts;
 using UI.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.Cleaning
 {
-    public class FossilHealth : DialogueComponent<CleaningDialogue>
+    public class ArtefactHealth : DialogueComponent<CleaningDialogue>
     {
         [SerializeField] private Image image;
 
-        private FossilShape fossilShape;
+        private ArtefactShape artefactShape;
 
         protected override void OnComponentStart()
         {
             base.OnComponentStart();
 
-            fossilShape = M.GetOrThrow<FossilShape>();
+            artefactShape = M.GetOrThrow<ArtefactShape>();
             
-            fossilShape.fossilDamaged.AddListener(UpdateHealth);
+            artefactShape.artefactDamaged.AddListener(UpdateHealth);
             
-            // BUG: Race condition with FossilShape leads to NaN being displayed.
+            // BUG: Race condition with ArtefactShape leads to NaN being displayed.
             UpdateHealth();
         }
 
         private void UpdateHealth()
         {
-            image.fillAmount = 1 - fossilShape.FossilHealth;
+            image.fillAmount = 1 - artefactShape.ArtefactHealth;
         }
 
         protected override void Subscribe() { }

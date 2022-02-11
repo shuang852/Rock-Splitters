@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Managers;
+using RockSystem.Artefacts;
 using RockSystem.Chunks;
-using RockSystem.Fossils;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -28,7 +28,7 @@ namespace Cleaning
         public UnityEvent CleaningLost = new UnityEvent();
 
         private ChunkManager chunkManager;
-        private FossilShape fossilShape;
+        private ArtefactShape artefactShape;
 
         public ArtefactRock CurrentArtefactRock { get; private set; }
 
@@ -40,19 +40,19 @@ namespace Cleaning
             // StartCleaning();
 
             chunkManager = M.GetOrThrow<ChunkManager>();
-            fossilShape = M.GetOrThrow<FossilShape>();
+            artefactShape = M.GetOrThrow<ArtefactShape>();
         }
 
         public void StartCleaning()
         {
             CurrentCleaningState = CleaningState.InProgress;
             
-            fossilShape.fossilExposed.AddListener(CheckIfCleaningWon);
-            fossilShape.fossilDamaged.AddListener(CheckIfCleaningLost);
+            artefactShape.artefactExposed.AddListener(CheckIfCleaningWon);
+            artefactShape.artefactDamaged.AddListener(CheckIfCleaningLost);
 
             CurrentArtefactRock = GenerateArtefactRock(generationBracket);
             chunkManager.Initialise(CurrentArtefactRock.RockShape, CurrentArtefactRock.RockColor, CurrentArtefactRock.ChunkDescription);
-            fossilShape.Initialise(CurrentArtefactRock.Artefact);
+            artefactShape.Initialise(CurrentArtefactRock.Artefact);
             
             CleaningStarted.Invoke();
         }
@@ -73,8 +73,8 @@ namespace Cleaning
         
         private void EndCleaning()
         {
-            fossilShape.fossilExposed.RemoveListener(CheckIfCleaningWon);
-            fossilShape.fossilDamaged.RemoveListener(CheckIfCleaningLost);
+            artefactShape.artefactExposed.RemoveListener(CheckIfCleaningWon);
+            artefactShape.artefactDamaged.RemoveListener(CheckIfCleaningLost);
             
             CleaningEnded.Invoke();
         }
@@ -101,13 +101,13 @@ namespace Cleaning
 
         public void CheckIfCleaningLost()
         {
-            if (fossilShape.FossilHealth < RequiredHealthForFailure)
+            if (artefactShape.ArtefactHealth < RequiredHealthForFailure)
                 LoseCleaning();
         }
 
         public void CheckIfCleaningWon()
         {
-            if (fossilShape.FossilExposure > RequiredExposureForCompletion)
+            if (artefactShape.ArtefactExposure > RequiredExposureForCompletion)
                 WinCleaning();
         }
     }
