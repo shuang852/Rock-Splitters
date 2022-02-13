@@ -6,11 +6,8 @@ namespace Cleaning
 {
     public class CleaningScoreManager : Manager
     {
-        [Tooltip("Multiplied by the time remaining in seconds.")]
-        [SerializeField] private float timeBonusMultiplier;
-
+        [SerializeField] private float requiredArtefactExposureForScoring;
         private CleaningManager cleaningManager;
-        private CleaningTimerManager timer;
         private ArtefactShape artefactShape;
 
         public float Score { get; private set; }
@@ -20,24 +17,37 @@ namespace Cleaning
             base.Start();
             
             cleaningManager = M.GetOrThrow<CleaningManager>();
-            timer = M.GetOrThrow<CleaningTimerManager>();
             artefactShape = M.GetOrThrow<ArtefactShape>();
 
-            cleaningManager.cleaningEnded.AddListener(CalculateScore);
+            cleaningManager.cleaningStarted.AddListener(ResetScore);
+            cleaningManager.artefactRockSucceeded.AddListener(UpdateScore);
+            cleaningManager.cleaningEnded.AddListener(UpdateScore);
         }
-        
-        private void CalculateScore()
+
+        private void ResetScore()
         {
+            Score = 0;
+        }
+
+        private void UpdateScore()
+        {
+            if (!(artefactShape.ArtefactExposure >= requiredArtefactExposureForScoring)) return;
+            
             // TODO: Incorporate rock difficulty.
-            // TODO: Final score = Base * Health * Cleanliness * Rock Diff + (Time + bonuses)
-            Score = Mathf.Round(artefactShape.Artefact.Score * artefactShape.ArtefactHealth * artefactShape.ArtefactExposure + timer.CurrentTime * timeBonusMultiplier);
+            // TODO: Final score = Base * Health * Cleanliness * Rock Diff
+            var artefactRockScore = Mathf.Round(artefactShape.Artefact.Score * artefactShape.ArtefactHealth *
+                                                artefactShape.ArtefactExposure);
+            
+            Score += artefactRockScore;
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
             
-            cleaningManager.cleaningEnded.RemoveListener(CalculateScore);
+            cleaningManager.cleaningStarted.RemoveListener(ResetScore);
+            cleaningManager.artefactRockSucceeded.RemoveListener(UpdateScore);
+            cleaningManager.cleaningEnded.RemoveListener(UpdateScore);
         }
     }
 }
