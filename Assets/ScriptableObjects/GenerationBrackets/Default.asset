@@ -18,7 +18,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9a06897d45b590c46acec2a92f93c518, type: 2}
   rockShapes:
   - {fileID: 11400000, guid: ffd3fbfefa498c94a9975a003de5437d, type: 2}
-  - {fileID: 11400000, guid: eea3827b492a7294bb22d353fd529a16, type: 2}
   chunkDescriptions:
   - {fileID: 11400000, guid: e1f46564eb7d04062a1cb2e119403c01, type: 2}
   rockColor: {r: 1, g: 1, b: 1, a: 1}
