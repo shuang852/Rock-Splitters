@@ -40,9 +40,14 @@ namespace RockSystem.Artefacts
             artefacts.Add(artefact);
         }
 
+        internal void UnregisterArtefact(ArtefactShape artefact)
+        {
+            artefacts.Remove(artefact);
+        }
+
         public ArtefactShape GetExposedArtefactAtFlatPosition(Hexagons.OddrChunkCoord oddrChunkCoord)
         {
-            Chunk chunk = chunkManager.chunkStructure.GetOrNull(oddrChunkCoord);
+            Chunk chunk = chunkManager.ChunkStructure.GetOrNull(oddrChunkCoord);
 
             if (chunk == null)
                 return artefacts.Find(f => f.IsHitAtFlatPosition(oddrChunkCoord));

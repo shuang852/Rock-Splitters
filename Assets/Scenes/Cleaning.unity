@@ -734,7 +734,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5436117501723669574, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
       propertyPath: m_Name
-      value: Cleaning Timer
+      value: Cleaning Timer Manager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}

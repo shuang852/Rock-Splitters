@@ -10,15 +10,25 @@ namespace RockSystem.Chunks
         private SpriteRenderer spriteRenderer;
         public PolygonCollider2D PolyCollider { get; private set; }
 
+        private void Awake()
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
         public void Initialise(RockShape rockShape)
         {
-            transform.position = rockShape.position;
-            transform.rotation = Quaternion.Euler(rockShape.rotation);
-            transform.localScale = rockShape.scale;
+            var t = transform;
             
-            spriteRenderer = GetComponent<SpriteRenderer>();
+            t.position = rockShape.position;
+            t.rotation = Quaternion.Euler(rockShape.rotation);
+            t.localScale = rockShape.scale;
             
+            // Setup colliders
             spriteRenderer.sprite = rockShape.rockShapeMask;
+            
+            if (PolyCollider != null)
+                Destroy(PolyCollider);
+            
             PolyCollider = gameObject.AddComponent<PolygonCollider2D>();
             spriteRenderer.enabled = false;
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Managers;
+using RockSystem.Chunks;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -18,6 +19,7 @@ namespace RockSystem.Artefacts
         private Tilemap tilemap;
 
         private ArtefactShapeManager artefactShapeManager;
+        private ArtefactShape artefactShape;
 
         protected void Awake()
         {
@@ -29,8 +31,15 @@ namespace RockSystem.Artefacts
         protected void Start()
         {
             artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
+            artefactShape = M.GetOrThrow<ArtefactShape>();
             
             artefactShapeManager.artefactDamaged.AddListener(OnArtefactDamaged);
+            artefactShape.initialised.AddListener(Initialise);
+        }
+
+        private void Initialise()
+        {
+            tilemap.ClearAllTiles();
         }
 
         private void OnArtefactDamaged(ArtefactShape artefact, Vector2Int flatPosition)
@@ -103,6 +112,7 @@ namespace RockSystem.Artefacts
         private void OnDestroy()
         {
             artefactShapeManager.artefactDamaged.RemoveListener(OnArtefactDamaged);
+            artefactShape.initialised.RemoveListener(Initialise);
         }
     }
 }

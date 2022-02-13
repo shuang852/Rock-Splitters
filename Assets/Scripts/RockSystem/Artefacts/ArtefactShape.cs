@@ -25,7 +25,6 @@ namespace RockSystem.Artefacts
         private ArtefactShapeManager artefactShapeManager;
 
         private IEnumerable<Vector2Int> HitFlatPositions => chunkHealths.Keys;
-        private Sprite Sprite => Artefact.Sprite;
         public Artefact Artefact => artefact;
 
         public UnityEvent initialised = new UnityEvent();
@@ -80,14 +79,18 @@ namespace RockSystem.Artefacts
             this.artefact = artefact; 
             
             // Setup sprites according to the artefact
-
-            spriteRenderer.sprite = Sprite;
-            spriteMask.sprite = Sprite;
+            spriteRenderer.sprite = artefact.Sprite;
+            spriteMask.sprite = artefact.Sprite;
             
             // Setup colliders
+            if (polyCollider != null)
+                Destroy(polyCollider);
+            
             polyCollider = gameObject.AddComponent<PolygonCollider2D>();
             
             SetupArtefactChunks();
+            
+            artefactShapeManager.UnregisterArtefact(this);
             artefactShapeManager.RegisterArtefact(this);
             
             ForceUpdateArtefactExposure();
@@ -106,12 +109,12 @@ namespace RockSystem.Artefacts
 
         private void SetupArtefactChunks()
         {
-            float startingHealth = artefact.MaxHealth;
+            chunkHealths.Clear();
             
-            foreach (Vector2Int flatPosition in chunkManager.chunkStructure.FlatPositions)
+            foreach (Vector2Int flatPosition in chunkManager.ChunkStructure.FlatPositions)
             {
                 if (Hexagons.HexagonOverlapsCollider(chunkManager.CurrentGrid, flatPosition, polyCollider))
-                    chunkHealths.Add(flatPosition, startingHealth);
+                    chunkHealths.Add(flatPosition, artefact.MaxHealth);
             }
 
             ArtefactHealth = 1;
@@ -140,7 +143,7 @@ namespace RockSystem.Artefacts
         {
             if (!IsHitAtFlatPosition(flatPosition)) return false;
 
-            return chunkManager.chunkStructure.GetOrNull(flatPosition) == null;
+            return chunkManager.ChunkStructure.GetOrNull(flatPosition) == null;
         }
 
         private void OnDrawGizmos()
@@ -153,7 +156,7 @@ namespace RockSystem.Artefacts
                 
                 foreach (Vector2Int position in HitFlatPositions)
                 {
-                    Vector3 worldPosition = chunkManager.chunkStructure.CellToWorld(position);
+                    Vector3 worldPosition = chunkManager.ChunkStructure.CellToWorld(position);
                     Gizmos.DrawSphere(worldPosition, 0.08f);
                 }
             }
@@ -219,6 +222,8 @@ namespace RockSystem.Artefacts
         protected override void OnDestroy()
         {
             base.OnDestroy();
+            
+            artefactShapeManager.UnregisterArtefact(this);
             
             chunkManager.chunkCleared.RemoveListener(OnChunkDestroyed);
         }
