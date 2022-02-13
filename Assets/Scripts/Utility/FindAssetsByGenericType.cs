@@ -6,6 +6,7 @@ namespace Utility
     public static class FindAssetsByGenericType
     {
         // Slightly modified version of this answer: http://answers.unity.com/answers/1216386/view.html
+#if UNITY_EDITOR
         public static T[] FindAssetsByType<T>(params string[] folders) where T : Object
         {
             string type = typeof(T).Name;
@@ -26,5 +27,6 @@ namespace Utility
             }
             return assets;
         }
+#endif
     }
 }
