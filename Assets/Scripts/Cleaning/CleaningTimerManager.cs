@@ -1,4 +1,5 @@
 ﻿using Managers;
+using RockSystem.Artefacts;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,8 +8,8 @@ namespace Cleaning
     public class CleaningTimerManager : Manager
     {
         [SerializeField] private float startTime;
-        [SerializeField] private float artefactRockSucceededBonus;
-        [SerializeField] private float artefactRockFailedPenalty;
+        [Tooltip("The amount of time added to the clock based on artefact health.")]
+        [SerializeField] private AnimationCurve artefactRockCompletionBonusCurve;
 
         public UnityEvent timeChanged = new UnityEvent();
 
@@ -23,9 +24,10 @@ namespace Cleaning
             }
         }
 
-        private bool timerActive;
-
         private CleaningManager cleaningManager;
+        private ArtefactShape artefactShape;
+
+        private bool timerActive;
         private float currentTime;
 
         protected override void Start()
@@ -33,21 +35,16 @@ namespace Cleaning
             base.Start();
             
             cleaningManager = M.GetOrThrow<CleaningManager>();
+            artefactShape = M.GetOrThrow<ArtefactShape>();
             
             cleaningManager.cleaningStarted.AddListener(ResetAndStartTimer);
             cleaningManager.cleaningEnded.AddListener(StopTimer);
-            cleaningManager.artefactRockSucceeded.AddListener(OnArtefactRockSucceeded);
-            cleaningManager.artefactRockFailed.AddListener(OnArtefactRockFailed);
+            cleaningManager.artefactRockCompleted.AddListener(OnArtefactRockCompleted);
         }
 
-        private void OnArtefactRockSucceeded()
+        private void OnArtefactRockCompleted()
         {
-            currentTime += artefactRockSucceededBonus;
-        }
-
-        private void OnArtefactRockFailed()
-        {
-            currentTime -= artefactRockFailedPenalty;
+            currentTime += artefactRockCompletionBonusCurve.Evaluate(artefactShape.ArtefactHealth);
         }
 
         protected override void Update()
@@ -99,8 +96,7 @@ namespace Cleaning
             
             cleaningManager.cleaningStarted.RemoveListener(ResetAndStartTimer);
             cleaningManager.cleaningEnded.RemoveListener(StopTimer);
-            cleaningManager.artefactRockSucceeded.RemoveListener(OnArtefactRockSucceeded);
-            cleaningManager.artefactRockFailed.RemoveListener(OnArtefactRockFailed);
+            cleaningManager.artefactRockCompleted.RemoveListener(OnArtefactRockCompleted);
         }
     }
 }

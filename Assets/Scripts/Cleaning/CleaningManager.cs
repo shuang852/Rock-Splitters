@@ -27,6 +27,7 @@ namespace Cleaning
         public UnityEvent nextArtefactRock = new UnityEvent();
         public UnityEvent artefactRockFailed = new UnityEvent();
         public UnityEvent artefactRockSucceeded = new UnityEvent();
+        public UnityEvent artefactRockCompleted = new UnityEvent();
 
         private ChunkManager chunkManager;
         private ArtefactShape artefactShape;
@@ -111,6 +112,7 @@ namespace Cleaning
             artefactsCleanedInBracket++;
             
             artefactRockFailed.Invoke();
+            artefactRockCompleted.Invoke();
             
             NextArtefactRock();
         }
@@ -122,6 +124,7 @@ namespace Cleaning
             artefactsCleanedSuccessfully++;
             
             artefactRockSucceeded.Invoke();
+            artefactRockCompleted.Invoke();
             
             NextArtefactRock();
             
