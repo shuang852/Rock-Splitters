@@ -46,18 +46,21 @@ namespace UI.Cleaning_Results
 
         protected override void Unsubscribe() { }
 
+        // TODO
         private string WinStateToString()
         {
-            switch (cleaningManager.CurrentCleaningState)
-            {
-                case CleaningManager.CleaningState.Lost:
-                    return "Better luck next time...";
-                case CleaningManager.CleaningState.Won:
-                    return "Success!";
-                default:
-                    Debug.Log($"Invalid {nameof(CleaningManager.CleaningState)} {cleaningManager.CurrentCleaningState}.");
-                    return "Invalid State";
-            }
+            return "Times Up!";
+
+            // switch (cleaningManager.CurrentCleaningState)
+            // {
+            //     case CleaningManager.CleaningState.Lost:
+            //         return "Better luck next time...";
+            //     case CleaningManager.CleaningState.Won:
+            //         return "Success!";
+            //     default:
+            //         Debug.Log($"Invalid {nameof(CleaningManager.CleaningState)} {cleaningManager.CurrentCleaningState}.");
+            //         return "Invalid State";
+            // }
         }
     }
 }

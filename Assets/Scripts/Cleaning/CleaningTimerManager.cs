@@ -7,6 +7,8 @@ namespace Cleaning
     public class CleaningTimerManager : Manager
     {
         [SerializeField] private float startTime;
+        [SerializeField] private float artefactRockSucceededBonus;
+        [SerializeField] private float artefactRockFailedPenalty;
 
         public UnityEvent timeChanged = new UnityEvent();
 
@@ -34,6 +36,18 @@ namespace Cleaning
             
             cleaningManager.cleaningStarted.AddListener(ResetAndStartTimer);
             cleaningManager.cleaningEnded.AddListener(StopTimer);
+            cleaningManager.artefactRockSucceeded.AddListener(OnArtefactRockSucceeded);
+            cleaningManager.artefactRockFailed.AddListener(OnArtefactRockFailed);
+        }
+
+        private void OnArtefactRockSucceeded()
+        {
+            currentTime += artefactRockSucceededBonus;
+        }
+
+        private void OnArtefactRockFailed()
+        {
+            currentTime -= artefactRockFailedPenalty;
         }
 
         protected override void Update()
@@ -50,7 +64,7 @@ namespace Cleaning
 
             timerActive = false;
             
-            cleaningManager.LoseCleaning();
+            cleaningManager.EndCleaning();
         }
 
         public void ResetTimer()
@@ -85,6 +99,8 @@ namespace Cleaning
             
             cleaningManager.cleaningStarted.RemoveListener(ResetAndStartTimer);
             cleaningManager.cleaningEnded.RemoveListener(StopTimer);
+            cleaningManager.artefactRockSucceeded.RemoveListener(OnArtefactRockSucceeded);
+            cleaningManager.artefactRockFailed.RemoveListener(OnArtefactRockFailed);
         }
     }
 }

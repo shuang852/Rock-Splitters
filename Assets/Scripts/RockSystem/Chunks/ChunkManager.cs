@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Managers;
@@ -20,7 +19,7 @@ namespace RockSystem.Chunks
         [SerializeField] private RockShapeMask rockShapeMask;
 
         private ChunkMap chunkMap;
-        internal ChunkStructure chunkStructure;
+        internal ChunkStructure ChunkStructure;
         public Grid CurrentGrid { get; private set; }
 
         public UnityEvent<Vector2Int, float> damageOverflow = new UnityEvent<Vector2Int, float>();
@@ -53,7 +52,7 @@ namespace RockSystem.Chunks
             
             chunkMap.Initialise(RockColor, size.z);
 
-            chunkStructure = new ChunkStructure(
+            ChunkStructure = new ChunkStructure(
                 size,
                 CurrentGrid, 
                 ChunkDescription,
@@ -66,7 +65,7 @@ namespace RockSystem.Chunks
 
         public void DamageChunk(Vector2 worldPosition, float damage)
         {
-            OddrChunkCoord flatPosition = chunkStructure.WorldToCell(worldPosition);
+            OddrChunkCoord flatPosition = ChunkStructure.WorldToCell(worldPosition);
             DamageChunk(flatPosition, damage);
         }
 
@@ -75,7 +74,7 @@ namespace RockSystem.Chunks
         {
             while (damage > 0)
             {
-                Chunk chunk = chunkStructure.GetOrNull(flatPosition);
+                Chunk chunk = ChunkStructure.GetOrNull(flatPosition);
 
                 if (chunk == null)
                 {
@@ -114,7 +113,7 @@ namespace RockSystem.Chunks
         
         public bool WillDamageRock(List<OddrChunkCoord> oddrChunkCoords)
         {
-            return oddrChunkCoords.Any(flatPosition => chunkStructure.GetOrNull(flatPosition) != null);
+            return oddrChunkCoords.Any(flatPosition => ChunkStructure.GetOrNull(flatPosition) != null);
         }
     }
 }

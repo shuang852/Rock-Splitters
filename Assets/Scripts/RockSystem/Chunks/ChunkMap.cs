@@ -16,6 +16,7 @@ namespace RockSystem.Chunks
         [SerializeField] private string tilemapSortingLayer = "Default";
 
         private readonly List<Tilemap> layeredTilemaps = new List<Tilemap>();
+        private readonly List<GameObject> layeredTilemapGameObjects = new List<GameObject>();
 
         private int layerLength;
 
@@ -29,6 +30,9 @@ namespace RockSystem.Chunks
 
         public void Initialise()
         {
+            layeredTilemapGameObjects.ForEach(Destroy);
+            
+            layeredTilemapGameObjects.Clear();
             layeredTilemaps.Clear();
             
             for (int i = 0; i < layerLength; i++)
@@ -54,6 +58,7 @@ namespace RockSystem.Chunks
                 tilemapRenderer.sortingLayerName = tilemapSortingLayer;
 
                 layeredTilemaps.Add(tilemap);
+                layeredTilemapGameObjects.Add(go);
             }
         } 
 

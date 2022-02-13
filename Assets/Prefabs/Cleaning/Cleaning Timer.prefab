@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startTime: 90
-  TimeChanged:
+  artefactRockSucceededBonus: 10
+  artefactRockFailedPenalty: 10
+  timeChanged:
     m_PersistentCalls:
       m_Calls: []
