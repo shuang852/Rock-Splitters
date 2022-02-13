@@ -15,9 +15,6 @@ namespace RockSystem.Artefacts
     {
         [FormerlySerializedAs("fossil")] [SerializeField] private Artefact artefact;
         [SerializeField] private bool enableDebug;
-        
-        // TODO: Changing the artefact layer is no longer supported.
-        private readonly int layer = 0;
 
         private readonly Dictionary<Vector2Int, float> chunkHealths = new Dictionary<Vector2Int, float>();
         private readonly Dictionary<Vector2Int, bool> chunkExposure = new Dictionary<Vector2Int, bool>();
@@ -100,10 +97,8 @@ namespace RockSystem.Artefacts
         
         private void OnChunkDestroyed(Chunk chunk)
         {
-            Vector3Int underChunk = chunk.Position + Vector3Int.back;
+            if (!IsExposedAtFlatPosition(chunk.FlatPosition)) return;
 
-            if (!IsHitAtPosition(underChunk)) return;
-            
             exposureChanged = true;
 
             chunkExposure[chunk.FlatPosition] = true;
@@ -138,9 +133,6 @@ namespace RockSystem.Artefacts
             chunkHealths.ContainsKey(position) ? chunkHealths[position] : 0;
 
         #endregion
-
-        public bool IsHitAtPosition(Vector3Int position) =>
-            position.z == layer && chunkHealths.ContainsKey(new Vector2Int(position.x, position.y));
 
         public bool IsHitAtFlatPosition(Vector2Int position) => chunkHealths.ContainsKey(position);
 
