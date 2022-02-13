@@ -17,7 +17,7 @@ namespace RockSystem.Artefacts
         [SerializeField] private bool enableDebug;
 
         private readonly Dictionary<Vector2Int, float> chunkHealths = new Dictionary<Vector2Int, float>();
-        private readonly Dictionary<Vector2Int, bool> chunkExposure = new Dictionary<Vector2Int, bool>();
+        public readonly Dictionary<Vector2Int, bool> ChunkExposure = new Dictionary<Vector2Int, bool>();
         private SpriteRenderer spriteRenderer;
         private SpriteMask spriteMask;
         private PolygonCollider2D polyCollider;
@@ -104,12 +104,13 @@ namespace RockSystem.Artefacts
 
             exposureChanged = true;
 
-            chunkExposure[chunk.FlatPosition] = true;
+            ChunkExposure[chunk.FlatPosition] = true;
         }
 
         private void SetupArtefactChunks()
         {
             chunkHealths.Clear();
+            ChunkExposure.Clear();
             
             foreach (Vector2Int flatPosition in chunkManager.ChunkStructure.FlatPositions)
             {
@@ -173,7 +174,7 @@ namespace RockSystem.Artefacts
 
         private void UpdateArtefactExposure()
         {
-            int exposedChunks = chunkExposure.Count(i => i.Value);
+            int exposedChunks = ChunkExposure.Count(i => i.Value);
             
             int totalChunks = chunkHealths.Count;
 
@@ -189,13 +190,13 @@ namespace RockSystem.Artefacts
             {
                 if (IsExposedAtFlatPosition(flatPosition))
                 {
-                    chunkExposure[flatPosition] = true;
+                    ChunkExposure[flatPosition] = true;
 
                     exposedChunks++;
                 }
                 else
                 {
-                    chunkExposure[flatPosition] = false;
+                    ChunkExposure[flatPosition] = false;
                 }
             }
 

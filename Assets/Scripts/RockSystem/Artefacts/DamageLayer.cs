@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Managers;
-using RockSystem.Chunks;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -9,8 +8,8 @@ namespace RockSystem.Artefacts
 {
     public class DamageLayer : MonoBehaviour
     {
-        [SerializeField] private string sortingLayer = "Chunk";
-        [SerializeField] private int sortingOrder = 20;
+        [SerializeField] private string sortingLayer;
+        [SerializeField] private int sortingOrder;
         [SerializeField] private List<Sprite> damageSprites;
         [SerializeField] private Sprite bustedDamageSprite;
 
@@ -68,6 +67,9 @@ namespace RockSystem.Artefacts
             tilemapRenderer.sortingLayerName = sortingLayer;
             tilemapRenderer.sortingOrder = sortingOrder;
             tilemapRenderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            
+            // Fix tile offset from grid
+            tilemap.tileAnchor = Vector3.zero;
         }
 
         private void CreateDamageTiles()

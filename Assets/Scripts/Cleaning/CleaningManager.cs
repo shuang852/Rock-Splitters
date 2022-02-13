@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Managers;
 using RockSystem.Artefacts;
 using RockSystem.Chunks;
@@ -15,7 +16,7 @@ namespace Cleaning
             Finished
         }
 
-        [SerializeField] private GenerationBracket generationBracket;
+        [SerializeField] private List<GenerationBracket> generationBrackets = new List<GenerationBracket>();
         [SerializeField] private float requiredExposureForCompletion;
         [SerializeField] private float requiredHealthForFailure;
  
@@ -26,9 +27,16 @@ namespace Cleaning
         public UnityEvent nextArtefactRock = new UnityEvent();
         public UnityEvent artefactRockFailed = new UnityEvent();
         public UnityEvent artefactRockSucceeded = new UnityEvent();
+        public UnityEvent artefactRockCompleted = new UnityEvent();
 
         private ChunkManager chunkManager;
         private ArtefactShape artefactShape;
+
+        private int currentGenerationBracketIndex;
+        private GenerationBracket CurrentGenerationBracket => generationBrackets[currentGenerationBracketIndex];
+        private int artefactsCleaned;
+        private int artefactsCleanedInBracket;
+        private int artefactsCleanedSuccessfully;
 
         public ArtefactRock CurrentArtefactRock { get; private set; }
 
@@ -49,6 +57,8 @@ namespace Cleaning
             
             artefactShape.artefactExposed.AddListener(CheckIfArtefactRockSucceeded);
             artefactShape.artefactDamaged.AddListener(CheckIfArtefactRockFailed);
+
+            currentGenerationBracketIndex = 0;
             
             cleaningStarted.Invoke();
 
@@ -57,7 +67,14 @@ namespace Cleaning
 
         public void NextArtefactRock()
         {
-            CurrentArtefactRock = GenerateArtefactRock(generationBracket);
+            if (artefactsCleanedInBracket >= CurrentGenerationBracket.bracketLength &&
+                currentGenerationBracketIndex < generationBrackets.Count - 1)
+            {
+                currentGenerationBracketIndex++;
+                artefactsCleanedInBracket = 0;
+            }
+            
+            CurrentArtefactRock = GenerateArtefactRock(CurrentGenerationBracket);
             
             chunkManager.Initialise(CurrentArtefactRock.RockShape, CurrentArtefactRock.RockColor, CurrentArtefactRock.ChunkDescription);
             artefactShape.Initialise(CurrentArtefactRock.Artefact);
@@ -91,14 +108,23 @@ namespace Cleaning
 
         public void ArtefactRockFailed()
         {
+            artefactsCleaned++;
+            artefactsCleanedInBracket++;
+            
             artefactRockFailed.Invoke();
+            artefactRockCompleted.Invoke();
             
             NextArtefactRock();
         }
 
         public void ArtefactRockSucceeded()
         {
+            artefactsCleaned++;
+            artefactsCleanedInBracket++;
+            artefactsCleanedSuccessfully++;
+            
             artefactRockSucceeded.Invoke();
+            artefactRockCompleted.Invoke();
             
             NextArtefactRock();
             
