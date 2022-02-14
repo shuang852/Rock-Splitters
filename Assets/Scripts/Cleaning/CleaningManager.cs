@@ -3,6 +3,7 @@ using System.Linq;
 using Managers;
 using RockSystem.Artefacts;
 using RockSystem.Chunks;
+using ToolSystem;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -23,6 +24,8 @@ namespace Cleaning
         public CleaningState CurrentCleaningState { get; private set; }
 
         public UnityEvent cleaningStarted = new UnityEvent();
+        public UnityEvent cleaningPaused = new UnityEvent();
+        public UnityEvent cleaningResumed = new UnityEvent();
         public UnityEvent cleaningEnded = new UnityEvent();
         public UnityEvent nextArtefactRock = new UnityEvent();
         public UnityEvent artefactRockFailed = new UnityEvent();
@@ -31,12 +34,14 @@ namespace Cleaning
 
         private ChunkManager chunkManager;
         private ArtefactShape artefactShape;
+        private ToolManager toolManager;
 
         private int currentGenerationBracketIndex;
         private GenerationBracket CurrentGenerationBracket => generationBrackets[currentGenerationBracketIndex];
         private int artefactsCleaned;
         private int artefactsCleanedInBracket;
         private int artefactsCleanedSuccessfully;
+        private Tool previousTool;
 
         public ArtefactRock CurrentArtefactRock { get; private set; }
 
@@ -49,6 +54,7 @@ namespace Cleaning
 
             chunkManager = M.GetOrThrow<ChunkManager>();
             artefactShape = M.GetOrThrow<ArtefactShape>();
+            toolManager = M.GetOrThrow<ToolManager>();
         }
 
         public void StartCleaning()
@@ -142,6 +148,21 @@ namespace Cleaning
         {
             if (artefactShape.ArtefactExposure > requiredExposureForCompletion)
                 ArtefactRockSucceeded();
+        }
+
+        public void PauseCleaning()
+        {
+            previousTool = toolManager.CurrentTool;
+            toolManager.SelectTool(null);
+            
+            cleaningPaused.Invoke();
+        }
+
+        public void ResumeCleaning()
+        {
+            toolManager.SelectTool(previousTool);
+            
+            cleaningResumed.Invoke();
         }
     }
 }

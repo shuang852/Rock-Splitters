@@ -40,6 +40,8 @@ namespace Cleaning
             cleaningManager.cleaningStarted.AddListener(ResetAndStartTimer);
             cleaningManager.cleaningEnded.AddListener(StopTimer);
             cleaningManager.artefactRockCompleted.AddListener(OnArtefactRockCompleted);
+            cleaningManager.cleaningPaused.AddListener(StopTimer);
+            cleaningManager.cleaningResumed.AddListener(StartTimer);
         }
 
         private void OnArtefactRockCompleted()
@@ -97,6 +99,8 @@ namespace Cleaning
             cleaningManager.cleaningStarted.RemoveListener(ResetAndStartTimer);
             cleaningManager.cleaningEnded.RemoveListener(StopTimer);
             cleaningManager.artefactRockCompleted.RemoveListener(OnArtefactRockCompleted);
+            cleaningManager.cleaningPaused.RemoveListener(StopTimer);
+            cleaningManager.cleaningResumed.RemoveListener(StartTimer);
         }
     }
 }
