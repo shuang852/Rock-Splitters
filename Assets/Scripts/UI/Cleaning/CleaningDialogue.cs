@@ -8,6 +8,7 @@ namespace UI.Cleaning
     public class CleaningDialogue : Dialogue
     {
         [SerializeField] private GameObject cleaningResultsDialoguePrefab;
+        [SerializeField] private GameObject cleaningCountdownDialoguePrefab;
         [SerializeField] private BrushInput brushInput;
 
         private CleaningManager cleaningManager;
@@ -19,8 +20,14 @@ namespace UI.Cleaning
 
             cleaningManager.cleaningStarted.AddListener(OnCleaningStarted);
             cleaningManager.cleaningEnded.AddListener(ShowResults);
+            cleaningManager.nextArtefactRock.AddListener(OnNextArtefactRock);
 
             brushInput.enabled = false;
+        }
+
+        private void OnNextArtefactRock()
+        {
+            Instantiate(cleaningCountdownDialoguePrefab, transform.parent);
         }
 
         private void OnCleaningStarted()
@@ -45,6 +52,7 @@ namespace UI.Cleaning
         {
             cleaningManager.cleaningStarted.RemoveListener(OnCleaningStarted);
             cleaningManager.cleaningEnded.RemoveListener(ShowResults);
+            cleaningManager.nextArtefactRock.RemoveListener(OnNextArtefactRock);
         }
         
         public void DeselectToolButton(SelectToolButton selectToolButton)

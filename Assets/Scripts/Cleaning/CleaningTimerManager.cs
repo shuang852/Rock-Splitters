@@ -46,7 +46,7 @@ namespace Cleaning
 
         private void OnArtefactRockCompleted()
         {
-            currentTime += artefactRockCompletionBonusCurve.Evaluate(artefactShape.ArtefactHealth);
+            CurrentTime += artefactRockCompletionBonusCurve.Evaluate(artefactShape.ArtefactHealth);
         }
 
         protected override void Update()
@@ -75,7 +75,7 @@ namespace Cleaning
         {
             // Prevents game ending when pausing the game without having started cleaning
             // Can remove later if the cleaning phase doesn't start paused
-            if (currentTime != 0)
+            if (CurrentTime != 0)
             {
                 timerActive = true;
             }

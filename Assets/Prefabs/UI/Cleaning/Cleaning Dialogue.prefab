@@ -194,6 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cleaningResultsDialoguePrefab: {fileID: 7618040246967651954, guid: 5cb0942a33bec9945931d0f7be3e0c68, type: 3}
+  cleaningCountdownDialoguePrefab: {fileID: 1546002305934989458, guid: f6c72e22d45faf44a9b44135e4ef8c4a, type: 3}
   brushInput: {fileID: 9142941224467984369}
 --- !u!1 &6350256161054886651
 GameObject:
