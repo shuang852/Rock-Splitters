@@ -16,4 +16,4 @@ MonoBehaviour:
   offset: {x: 0, y: 0}
   damagedColor: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 0.25490198}
   health: 10
-  healthVariation: 3
+  healthVariation: 0

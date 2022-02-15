@@ -15,12 +15,9 @@ namespace RockSystem.Artefacts
     {
         [FormerlySerializedAs("fossil")] [SerializeField] private Artefact artefact;
         [SerializeField] private bool enableDebug;
-        
-        // TODO: Changing the artefact layer is no longer supported.
-        private readonly int layer = 0;
 
         private readonly Dictionary<Vector2Int, float> chunkHealths = new Dictionary<Vector2Int, float>();
-        private readonly Dictionary<Vector2Int, bool> chunkExposure = new Dictionary<Vector2Int, bool>();
+        public readonly Dictionary<Vector2Int, bool> ChunkExposure = new Dictionary<Vector2Int, bool>();
         private SpriteRenderer spriteRenderer;
         private SpriteMask spriteMask;
         private PolygonCollider2D polyCollider;
@@ -28,7 +25,6 @@ namespace RockSystem.Artefacts
         private ArtefactShapeManager artefactShapeManager;
 
         private IEnumerable<Vector2Int> HitFlatPositions => chunkHealths.Keys;
-        private Sprite Sprite => Artefact.Sprite;
         public Artefact Artefact => artefact;
 
         public UnityEvent initialised = new UnityEvent();
@@ -83,14 +79,18 @@ namespace RockSystem.Artefacts
             this.artefact = artefact; 
             
             // Setup sprites according to the artefact
-
-            spriteRenderer.sprite = Sprite;
-            spriteMask.sprite = Sprite;
+            spriteRenderer.sprite = artefact.Sprite;
+            spriteMask.sprite = artefact.Sprite;
             
             // Setup colliders
+            if (polyCollider != null)
+                Destroy(polyCollider);
+            
             polyCollider = gameObject.AddComponent<PolygonCollider2D>();
             
             SetupArtefactChunks();
+            
+            artefactShapeManager.UnregisterArtefact(this);
             artefactShapeManager.RegisterArtefact(this);
             
             ForceUpdateArtefactExposure();
@@ -100,23 +100,22 @@ namespace RockSystem.Artefacts
         
         private void OnChunkDestroyed(Chunk chunk)
         {
-            Vector3Int underChunk = chunk.Position + Vector3Int.back;
+            if (!IsExposedAtFlatPosition(chunk.FlatPosition)) return;
 
-            if (!IsHitAtPosition(underChunk)) return;
-            
             exposureChanged = true;
 
-            chunkExposure[chunk.FlatPosition] = true;
+            ChunkExposure[chunk.FlatPosition] = true;
         }
 
         private void SetupArtefactChunks()
         {
-            float startingHealth = artefact.MaxHealth;
+            chunkHealths.Clear();
+            ChunkExposure.Clear();
             
-            foreach (Vector2Int flatPosition in chunkManager.chunkStructure.FlatPositions)
+            foreach (Vector2Int flatPosition in chunkManager.ChunkStructure.FlatPositions)
             {
                 if (Hexagons.HexagonOverlapsCollider(chunkManager.CurrentGrid, flatPosition, polyCollider))
-                    chunkHealths.Add(flatPosition, startingHealth);
+                    chunkHealths.Add(flatPosition, artefact.MaxHealth);
             }
 
             ArtefactHealth = 1;
@@ -139,16 +138,13 @@ namespace RockSystem.Artefacts
 
         #endregion
 
-        public bool IsHitAtPosition(Vector3Int position) =>
-            position.z == layer && chunkHealths.ContainsKey(new Vector2Int(position.x, position.y));
-
         public bool IsHitAtFlatPosition(Vector2Int position) => chunkHealths.ContainsKey(position);
 
         public bool IsExposedAtFlatPosition(Vector2Int flatPosition)
         {
             if (!IsHitAtFlatPosition(flatPosition)) return false;
 
-            return chunkManager.chunkStructure.GetOrNull(flatPosition) == null;
+            return chunkManager.ChunkStructure.GetOrNull(flatPosition) == null;
         }
 
         private void OnDrawGizmos()
@@ -161,7 +157,7 @@ namespace RockSystem.Artefacts
                 
                 foreach (Vector2Int position in HitFlatPositions)
                 {
-                    Vector3 worldPosition = chunkManager.chunkStructure.CellToWorld(position);
+                    Vector3 worldPosition = chunkManager.ChunkStructure.CellToWorld(position);
                     Gizmos.DrawSphere(worldPosition, 0.08f);
                 }
             }
@@ -178,7 +174,7 @@ namespace RockSystem.Artefacts
 
         private void UpdateArtefactExposure()
         {
-            int exposedChunks = chunkExposure.Count(i => i.Value);
+            int exposedChunks = ChunkExposure.Count(i => i.Value);
             
             int totalChunks = chunkHealths.Count;
 
@@ -194,13 +190,13 @@ namespace RockSystem.Artefacts
             {
                 if (IsExposedAtFlatPosition(flatPosition))
                 {
-                    chunkExposure[flatPosition] = true;
+                    ChunkExposure[flatPosition] = true;
 
                     exposedChunks++;
                 }
                 else
                 {
-                    chunkExposure[flatPosition] = false;
+                    ChunkExposure[flatPosition] = false;
                 }
             }
 
@@ -227,6 +223,8 @@ namespace RockSystem.Artefacts
         protected override void OnDestroy()
         {
             base.OnDestroy();
+            
+            artefactShapeManager.UnregisterArtefact(this);
             
             chunkManager.chunkCleared.RemoveListener(OnChunkDestroyed);
         }

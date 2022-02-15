@@ -615,22 +615,6 @@ PrefabInstance:
       propertyPath: rockShapeMask
       value: 
       objectReference: {fileID: 581684820}
-    - target: {fileID: 4991831999567798634, guid: 4ddce1a7e92070b49a9047107691b43c, type: 3}
-      propertyPath: rockColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4991831999567798634, guid: 4ddce1a7e92070b49a9047107691b43c, type: 3}
-      propertyPath: rockColor.b
-      value: 0.5801887
-      objectReference: {fileID: 0}
-    - target: {fileID: 4991831999567798634, guid: 4ddce1a7e92070b49a9047107691b43c, type: 3}
-      propertyPath: rockColor.g
-      value: 0.5801887
-      objectReference: {fileID: 0}
-    - target: {fileID: 4991831999567798634, guid: 4ddce1a7e92070b49a9047107691b43c, type: 3}
-      propertyPath: rockColor.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4991831999567798635, guid: 4ddce1a7e92070b49a9047107691b43c, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -732,9 +716,125 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[1].time
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[2].time
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[3].time
+      value: 0.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[4].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[2].value
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[3].value
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[4].value
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[0].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[1].inSlope
+      value: 1.0779663
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[2].inSlope
+      value: 200.00002
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[3].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[4].inSlope
+      value: Infinity
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[0].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[1].outSlope
+      value: 1.0779663
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[2].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[2].outSlope
+      value: Infinity
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[3].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[3].outSlope
+      value: Infinity
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[0].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[1].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[2].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[3].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[0].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[2].tangentMode
+      value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[3].tangentMode
+      value: 97
+      objectReference: {fileID: 0}
+    - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
+      propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[4].tangentMode
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5436117501723669574, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
       propertyPath: m_Name
-      value: Cleaning Timer
+      value: Cleaning Timer Manager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}

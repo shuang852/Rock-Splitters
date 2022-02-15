@@ -178,8 +178,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 30, y: 70, z: 6}
-  rocks:
-  - {fileID: 11400000, guid: e1f46564eb7d04062a1cb2e119403c01, type: 2}
   rockShapeMask: {fileID: 0}
   damageOverflow:
     m_PersistentCalls:
@@ -214,8 +212,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad918263d6d4cf0b0f9dc0292d47baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sortingLayer: Chunk
-  sortingOrder: 20
+  sortingLayer: Artefact
+  sortingOrder: 1
   damageSprites:
   - {fileID: 2747690628134850419, guid: 460d300c11787d122a06e451b2d08f17, type: 3}
   - {fileID: 2747690628134850419, guid: ea92cedff614a44519357ae51acdc43d, type: 3}

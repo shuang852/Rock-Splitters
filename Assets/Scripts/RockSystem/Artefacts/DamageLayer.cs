@@ -8,8 +8,8 @@ namespace RockSystem.Artefacts
 {
     public class DamageLayer : MonoBehaviour
     {
-        [SerializeField] private string sortingLayer = "Chunk";
-        [SerializeField] private int sortingOrder = 20;
+        [SerializeField] private string sortingLayer;
+        [SerializeField] private int sortingOrder;
         [SerializeField] private List<Sprite> damageSprites;
         [SerializeField] private Sprite bustedDamageSprite;
 
@@ -18,6 +18,7 @@ namespace RockSystem.Artefacts
         private Tilemap tilemap;
 
         private ArtefactShapeManager artefactShapeManager;
+        private ArtefactShape artefactShape;
 
         protected void Awake()
         {
@@ -29,8 +30,15 @@ namespace RockSystem.Artefacts
         protected void Start()
         {
             artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
+            artefactShape = M.GetOrThrow<ArtefactShape>();
             
             artefactShapeManager.artefactDamaged.AddListener(OnArtefactDamaged);
+            artefactShape.initialised.AddListener(Initialise);
+        }
+
+        private void Initialise()
+        {
+            tilemap.ClearAllTiles();
         }
 
         private void OnArtefactDamaged(ArtefactShape artefact, Vector2Int flatPosition)
@@ -59,6 +67,9 @@ namespace RockSystem.Artefacts
             tilemapRenderer.sortingLayerName = sortingLayer;
             tilemapRenderer.sortingOrder = sortingOrder;
             tilemapRenderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            
+            // Fix tile offset from grid
+            tilemap.tileAnchor = Vector3.zero;
         }
 
         private void CreateDamageTiles()
@@ -103,6 +114,7 @@ namespace RockSystem.Artefacts
         private void OnDestroy()
         {
             artefactShapeManager.artefactDamaged.RemoveListener(OnArtefactDamaged);
+            artefactShape.initialised.RemoveListener(Initialise);
         }
     }
 }
