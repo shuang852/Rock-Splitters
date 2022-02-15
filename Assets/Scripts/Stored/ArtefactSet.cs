@@ -65,22 +65,24 @@ namespace Stored
                 }
             }
 
-            float unlockedPercentage = (float)Count / SetItems.Length;
-            float bonus;
             
-            if (unlockedPercentage >= 1)
-            {
-                BonusActive = true;
-                bonus = setBonus;
-            }
-            else
-            {
-                BonusActive = false;
-                bonus = 1f;
-            }
+            // Below is income calculations
+            // float unlockedPercentage = (float)Count / SetItems.Length;
+            // float bonus;
             
-            CurrentSetIncome = unlockedPercentage * bonus * BaseSetIncome;
-            CurrentSetCapacity = unlockedPercentage * BaseSetCapacity;
+            // if (unlockedPercentage >= 1)
+            // {
+            //     BonusActive = true;
+            //     bonus = setBonus;
+            // }
+            // else
+            // {
+            //     BonusActive = false;
+            //     bonus = 1f;
+            // }
+            //
+            // CurrentSetIncome = unlockedPercentage * bonus * BaseSetIncome;
+            // CurrentSetCapacity = unlockedPercentage * BaseSetCapacity;
         }
     }
 }

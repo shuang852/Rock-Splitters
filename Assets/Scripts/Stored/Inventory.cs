@@ -199,5 +199,10 @@ namespace Stored
             var elements = items.Select(i => i == null ? "EMPTY" : i.DisplayName);
             return "[" + string.Join(", ", elements) + " ]";
         }
+
+        public int GetNumberOfItem(Artefact item)
+        {
+            return Items.Count(v => v == item);
+        }
     }
 }
