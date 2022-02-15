@@ -20,16 +20,18 @@ namespace UI.Cleaning
         {
             base.OnComponentStart();
             manager = M.GetOrThrow<CleaningScoreManager>();
+            
+            manager.scoreUpdated.AddListener(UpdateScore);
         }
 
         protected override void Subscribe() { }
 
         protected override void Unsubscribe() { }
+        
 
-        // TODO: Turn this to event based
-        private void Update()
+        private void UpdateScore()
         {
-            text.text = manager.Score.ToString(CultureInfo.InvariantCulture);
+            text.text = "Score: " + manager.Score.ToString(CultureInfo.InvariantCulture);
         }
     }
 }
