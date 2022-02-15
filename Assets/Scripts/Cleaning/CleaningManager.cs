@@ -3,6 +3,7 @@ using System.Linq;
 using Managers;
 using RockSystem.Artefacts;
 using RockSystem.Chunks;
+using Stored;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -31,6 +32,7 @@ namespace Cleaning
 
         private ChunkManager chunkManager;
         private ArtefactShape artefactShape;
+        private ArtefactManager artefactManager;
 
         private int currentGenerationBracketIndex;
         private GenerationBracket CurrentGenerationBracket => generationBrackets[currentGenerationBracketIndex];
@@ -49,6 +51,7 @@ namespace Cleaning
 
             chunkManager = M.GetOrThrow<ChunkManager>();
             artefactShape = M.GetOrThrow<ArtefactShape>();
+            artefactManager = M.GetOrThrow<ArtefactManager>();
         }
 
         public void StartCleaning()
@@ -122,7 +125,8 @@ namespace Cleaning
             artefactsCleaned++;
             artefactsCleanedInBracket++;
             artefactsCleanedSuccessfully++;
-            
+
+            artefactManager.AddItem(artefactShape.Artefact);
             artefactRockSucceeded.Invoke();
             artefactRockCompleted.Invoke();
             

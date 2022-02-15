@@ -7,11 +7,11 @@ namespace Stored
 {
     public class ArtefactManager : Manager
     {
-        public Inventory Inventory { get; } = new Inventory(100);
+        public Inventory Inventory { get; } = new Inventory(1000);
         public override bool PersistBetweenScenes => true;
-        public float TotalIncome { private set;  get; }
-        public float TotalCapacity { private set;  get; }
-        [FormerlySerializedAs("antiquitySetDatabase")] public ArtefactSetDatabase artefactSetDatabase;
+        // public float TotalIncome { private set;  get; }
+        // public float TotalCapacity { private set;  get; }
+        public ArtefactSetDatabase artefactSetDatabase;
 
         protected override void Start()
         {
@@ -31,10 +31,10 @@ namespace Stored
             }
             else
             {
-                Debug.Log("No item");
+                //Debug.Log("No item");
                 success = Inventory.AddItem(item);
                 item.artefactSet.ValidateSet(Inventory);
-                CalculateStats();
+                //CalculateStats();
             }
             return success;
         }
@@ -50,28 +50,29 @@ namespace Stored
             
             bool success = Inventory.RemoveItem(item); 
 
-            // Don't think is is support so not sure why I have it. Player can't go below 1 of an item.
+            // Don't think it is supported so not sure why I have it. Player can't go below 1 of an item.
             // Update the item set as it no longer contains the item.
             if (Inventory.Contains(item)) return success;
             item.artefactSet.ValidateSet(Inventory);
-            CalculateStats();
+            //CalculateStats();
 
             return success;
         }
 
-        public void CalculateStats()
-        {
-            float income = 0f;
-            float capacity = 0f;
-            foreach (var set in artefactSetDatabase.Items)
-            {
-                income += set.CurrentSetIncome;
-                capacity += set.CurrentSetCapacity;
-            }
-
-            TotalCapacity = capacity;
-            TotalIncome = income;
-        }
+        // For generating income over time
+        // public void CalculateStats()
+        // {
+        //     float income = 0f;
+        //     float capacity = 0f;
+        //     foreach (var set in artefactSetDatabase.Items)
+        //     {
+        //         income += set.CurrentSetIncome;
+        //         capacity += set.CurrentSetCapacity;
+        //     }
+        //
+        //     TotalCapacity = capacity;
+        //     TotalIncome = income;
+        // }
 
         /// <summary>
         /// Check all sets in game if the player has the sets items then adds the income rate and capacity to the total.
@@ -84,7 +85,7 @@ namespace Stored
             foreach (var set in artefactSetDatabase.Items)
             {
                 set.ValidateSet(Inventory);
-                CalculateStats();
+                //CalculateStats();
             }
         }
 
