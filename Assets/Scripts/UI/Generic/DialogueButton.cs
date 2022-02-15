@@ -12,9 +12,18 @@ namespace UI.Generic
         protected override void OnComponentAwake()
         {
             TryGetComponent(out button);
+        }
+
+        protected override void Subscribe()
+        {
             button.onClick.AddListener(OnClick);
         }
-        
+
+        protected override void Unsubscribe()
+        {
+            button.onClick.RemoveListener(OnClick);
+        }
+
         protected abstract void OnClick();
     }
 }

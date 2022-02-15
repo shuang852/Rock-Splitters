@@ -1,23 +1,23 @@
 using System.Collections.Generic;
 using Managers;
+using RockSystem.Artefacts;
 using RockSystem.Chunks;
-using RockSystem.Fossils;
 using UnityEngine;
 using UnityEngine.Events;
+using Utility;
 
 namespace ToolSystem
 {
     public class ToolManager : Manager
     {
         private ChunkManager chunkManager;
-        private FossilShape fossilShape;
+        private ArtefactShape artefactShape;
         
         public Tool CurrentTool { get; private set; }
 
-        // TODO: Better naming
-        public UnityEvent<Vector2> eToolDown = new UnityEvent<Vector2>();
-        public UnityEvent<Vector2> eToolInUse = new UnityEvent<Vector2>();
-        public UnityEvent<Vector2> eToolUp = new UnityEvent<Vector2>();
+        public UnityEvent<Vector2> toolDown = new UnityEvent<Vector2>();
+        public UnityEvent<Vector2> toolInUse = new UnityEvent<Vector2>();
+        public UnityEvent<Vector2> toolUp = new UnityEvent<Vector2>();
         public UnityEvent toolUsed = new UnityEvent();
 
         protected override void Start()
@@ -25,7 +25,7 @@ namespace ToolSystem
             base.Start();
             
             chunkManager = M.GetOrThrow<ChunkManager>();
-            fossilShape = M.GetOrThrow<FossilShape>();
+            artefactShape = M.GetOrThrow<ArtefactShape>();
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace ToolSystem
             {
                 UseTool(worldPosition);
                 
-                eToolDown.Invoke(worldPosition);
+                toolDown.Invoke(worldPosition);
             }
         }
 
@@ -57,7 +57,7 @@ namespace ToolSystem
             {
                 UseTool(worldPosition);
                 
-                eToolInUse.Invoke(worldPosition);
+                toolInUse.Invoke(worldPosition);
             }
         }
 
@@ -66,15 +66,15 @@ namespace ToolSystem
         /// </summary>
         public void ToolUp(Vector2 worldPosition)
         {
-            eToolUp.Invoke(worldPosition);
+            toolUp.Invoke(worldPosition);
         }
 
         // TODO: Can be more efficient. Pass the function instead of looping through the chunks again.
         private void UseTool(Vector2 worldPosition)
         {
-            List<ChunkManager.OddrChunkCoord> affectedChunks = chunkManager.GetChunksInRadius(worldPosition, CurrentTool.radius);
+            List<Hexagons.OddrChunkCoord> affectedChunks = Hexagons.GetChunksInRadius(chunkManager.CurrentGrid, worldPosition, CurrentTool.radius);
 
-            bool willDamageFossil = !(CurrentTool.artefactSafety && chunkManager.WillDamageRock(affectedChunks));
+            bool damageWillOverflow = !(CurrentTool.artefactSafety && chunkManager.WillDamageRock(affectedChunks));
 
             foreach (var affectedChunk in affectedChunks)
             {
@@ -89,10 +89,10 @@ namespace ToolSystem
                 if (CurrentTool.action == Tool.ToolAction.Continuous)
                     clampedDamage *= Time.deltaTime;
 
-                chunkManager.DamageChunk(affectedChunk, clampedDamage, willDamageFossil);
+                chunkManager.DamageChunk(affectedChunk, clampedDamage, damageWillOverflow);
             }
             
-            fossilShape.CheckHealthAndExposure();
+            artefactShape.CheckHealthAndExposure();
             
             toolUsed.Invoke();
         }

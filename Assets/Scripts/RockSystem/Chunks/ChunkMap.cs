@@ -10,35 +10,57 @@ namespace RockSystem.Chunks
     [RequireComponent(typeof(Grid))]
     internal class ChunkMap : MonoBehaviour
     {
+        [SerializeField] private Color rockColor;
         [Tooltip("How different are colors between layers. Higher value means lesser difference")]
         [SerializeField, Min(0)] private float colorGradient = 8f;
         [SerializeField] private string tilemapSortingLayer = "Default";
 
         private readonly List<Tilemap> layeredTilemaps = new List<Tilemap>();
+        private readonly List<GameObject> layeredTilemapGameObjects = new List<GameObject>();
 
-        public int LayerLength { get; set; }
+        private int layerLength;
 
-        public void CreateTilemaps()
+        public void Initialise(Color rockColor, int layerLength)
         {
+            this.rockColor = rockColor;
+            this.layerLength = layerLength;
+            
+            Initialise();
+        }
+
+        public void Initialise()
+        {
+            layeredTilemapGameObjects.ForEach(Destroy);
+            
+            layeredTilemapGameObjects.Clear();
             layeredTilemaps.Clear();
             
-            for (int i = 0; i < LayerLength; i++)
+            for (int i = 0; i < layerLength; i++)
             {
                 GameObject go = new GameObject($"Layered Tilemap [layer {i}]");
                 go.transform.parent = transform;
                 Tilemap tilemap = go.AddComponent<Tilemap>();
                 TilemapRenderer tilemapRenderer = go.AddComponent<TilemapRenderer>();
+                
+                // Fix tile offset from grid
+                tilemap.tileAnchor = Vector3.zero;
 
                 // Produce a darker color as we go deeper
-                float colorValue = 1f / ((LayerLength - i) / colorGradient + 1f);
-                tilemap.color = new Color(colorValue, colorValue, colorValue, 1f);
+                float colorValue = 1f / ((layerLength - i) / colorGradient + 1f);
+                tilemap.color = new Color(
+                    rockColor.r * colorValue,
+                    rockColor.g * colorValue,
+                    rockColor.b * colorValue,
+                    1f
+                );
                 
                 tilemapRenderer.sortingOrder = i;
                 tilemapRenderer.sortingLayerName = tilemapSortingLayer;
 
                 layeredTilemaps.Add(tilemap);
+                layeredTilemapGameObjects.Add(go);
             }
-        }
+        } 
 
         public void SetTileAtLayer(Vector3Int position, TileBase tile)
         {

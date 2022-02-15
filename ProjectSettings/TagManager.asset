@@ -41,9 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Artefact
+    uniqueID: 3228500195
+    locked: 0
   - name: Chunk
     uniqueID: 3177490815
     locked: 0
   - name: FX
     uniqueID: 4074404999
+    locked: 0
+  - name: Debug
+    uniqueID: 1166955283
     locked: 0

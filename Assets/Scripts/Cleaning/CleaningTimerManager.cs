@@ -1,4 +1,5 @@
 ﻿using Managers;
+using RockSystem.Artefacts;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,8 +8,10 @@ namespace Cleaning
     public class CleaningTimerManager : Manager
     {
         [SerializeField] private float startTime;
+        [Tooltip("The amount of time added to the clock based on artefact health.")]
+        [SerializeField] private AnimationCurve artefactRockCompletionBonusCurve;
 
-        public UnityEvent TimeChanged = new UnityEvent();
+        public UnityEvent timeChanged = new UnityEvent();
 
         public float CurrentTime
         {
@@ -17,13 +20,14 @@ namespace Cleaning
             {
                 currentTime = value;
                 
-                TimeChanged.Invoke();
+                timeChanged.Invoke();
             }
         }
 
-        private bool timerActive;
-
         private CleaningManager cleaningManager;
+        private ArtefactShape artefactShape;
+
+        private bool timerActive;
         private float currentTime;
 
         protected override void Start()
@@ -31,9 +35,16 @@ namespace Cleaning
             base.Start();
             
             cleaningManager = M.GetOrThrow<CleaningManager>();
+            artefactShape = M.GetOrThrow<ArtefactShape>();
             
-            cleaningManager.CleaningStarted.AddListener(ResetAndStartTimer);
-            cleaningManager.CleaningEnded.AddListener(StopTimer);
+            cleaningManager.cleaningStarted.AddListener(ResetAndStartTimer);
+            cleaningManager.cleaningEnded.AddListener(StopTimer);
+            cleaningManager.artefactRockCompleted.AddListener(OnArtefactRockCompleted);
+        }
+
+        private void OnArtefactRockCompleted()
+        {
+            currentTime += artefactRockCompletionBonusCurve.Evaluate(artefactShape.ArtefactHealth);
         }
 
         protected override void Update()
@@ -50,7 +61,7 @@ namespace Cleaning
 
             timerActive = false;
             
-            cleaningManager.LoseCleaning();
+            cleaningManager.EndCleaning();
         }
 
         public void ResetTimer()
@@ -60,7 +71,12 @@ namespace Cleaning
 
         public void StartTimer()
         {
-            timerActive = true;
+            // Prevents game ending when pausing the game without having started cleaning
+            // Can remove later if the cleaning phase doesn't start paused
+            if (currentTime != 0)
+            {
+                timerActive = true;
+            }
         }
 
         public void StopTimer()
@@ -78,8 +94,9 @@ namespace Cleaning
         {
             base.OnDestroy();
             
-            cleaningManager.CleaningStarted.RemoveListener(ResetAndStartTimer);
-            cleaningManager.CleaningEnded.RemoveListener(StopTimer);
+            cleaningManager.cleaningStarted.RemoveListener(ResetAndStartTimer);
+            cleaningManager.cleaningEnded.RemoveListener(StopTimer);
+            cleaningManager.artefactRockCompleted.RemoveListener(OnArtefactRockCompleted);
         }
     }
 }

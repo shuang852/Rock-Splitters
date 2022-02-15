@@ -1,5 +1,5 @@
-﻿using Cleaning;
-using Managers;
+﻿using Managers;
+using ToolSystem;
 using UI.Core;
 using UnityEngine.UI;
 
@@ -14,7 +14,6 @@ namespace UI.Cleaning
         protected override void OnComponentAwake()
         {
             TryGetComponent(out button);
-            button.onClick.AddListener(OnSubmit);
         }
 
         protected override void OnComponentStart()
@@ -23,10 +22,16 @@ namespace UI.Cleaning
 
             cleaningManager = M.GetOrThrow<XRayManager>();
         }
-        
-        protected override void Subscribe() { }
 
-        protected override void Unsubscribe() { }
+        protected override void Subscribe()
+        {
+            button.onClick.AddListener(OnSubmit);
+        }
+
+        protected override void Unsubscribe()
+        {
+            button.onClick.RemoveListener(OnSubmit);
+        }
         
         private void OnSubmit()
         {

@@ -1,6 +1,17 @@
 {
     "name": "Stored",
+    "rootNamespace": "",
     "references": [
-        "Managers"
-    ]
+        "Managers",
+        "Utility"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
