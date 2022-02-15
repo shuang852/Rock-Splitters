@@ -1,4 +1,5 @@
 using System;
+using Effects;
 using Managers;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace ToolSystem
         [SerializeField] private ParticleSystem drillParticles;
         [SerializeField] private GameObject hammerVisPrefab;
         [SerializeField] private Animator drillAnimator;
+        [SerializeField] private CameraShake cameraShake; 
         private ToolManager toolManager;
 
         private static readonly int cleaning = Animator.StringToHash("Cleaning");
@@ -55,6 +57,7 @@ namespace ToolSystem
             {
                 case Tool.ToolAction.Tap:
                     Instantiate(hammerVisPrefab, transform);
+                    cameraShake.Shake();
                     break;
                 case Tool.ToolAction.Continuous:
                     drillAnimator.SetBool(cleaning, true);
