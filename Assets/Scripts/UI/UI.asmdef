@@ -1,0 +1,28 @@
+{
+    "name": "UI",
+    "rootNamespace": "",
+    "references": [
+        "Managers",
+        "RockSystem",
+        "Unity.InputSystem",
+        "com.jordantama.ui-framework",
+        "ToolSystem",
+        "Cleaning",
+        "Unity.TextMeshPro",
+        "Stored",
+        "UniTask",
+        "DOTween.Modules",
+        "UniTask.DOTween",
+        "UnitySceneReference",
+        "FMODUnity"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
