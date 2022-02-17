@@ -14,7 +14,8 @@
         "DOTween.Modules",
         "UniTask.DOTween",
         "UnitySceneReference",
-        "FMODUnity"
+        "FMODUnity",
+        "Audio"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

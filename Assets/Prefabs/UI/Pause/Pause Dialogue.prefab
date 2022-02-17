@@ -79,6 +79,7 @@ GameObject:
   - component: {fileID: 6018528923003876003}
   - component: {fileID: 2032229768299705192}
   - component: {fileID: 6357459673341888308}
+  - component: {fileID: 7718017919346865613}
   m_Layer: 0
   m_Name: Settings Button
   m_TagString: Untagged
@@ -201,6 +202,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialoguePrefab: {fileID: 4944463139481834773, guid: 356d2d1ad5020424f9b52d59ece704c0, type: 3}
+  audio: {fileID: 7718017919346865613}
+--- !u!114 &7718017919346865613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4362129014707151383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21a0b70be3664e319384fafa45b74089, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fmodEvent:
+    Guid:
+      Data1: -1767480089
+      Data2: 1259700340
+      Data3: -2074431061
+      Data4: 1770531358
+    Path: event:/UI Events/sfx_soundevent_ui-select
 --- !u!1 &4944463138262850566
 GameObject:
   m_ObjectHideFlags: 0
@@ -450,6 +471,7 @@ GameObject:
   - component: {fileID: 4944463139490727274}
   - component: {fileID: 4944463139490727275}
   - component: {fileID: 4055681090683732206}
+  - component: {fileID: 861868111066261292}
   m_Layer: 0
   m_Name: Resume Button
   m_TagString: Untagged
@@ -571,6 +593,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9bcb73dd2541529db4733f9302d380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audio: {fileID: 861868111066261292}
+--- !u!114 &861868111066261292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4944463139490727278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21a0b70be3664e319384fafa45b74089, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fmodEvent:
+    Guid:
+      Data1: -1221029015
+      Data2: 1100282409
+      Data3: 2058064524
+      Data4: 1124745486
+    Path: event:/UI Events/sfx_soundevent_ui-deselect
 --- !u!1 &4944463139543158172
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,6 +705,7 @@ GameObject:
   - component: {fileID: 4944463140164930864}
   - component: {fileID: 4944463140164930865}
   - component: {fileID: 4944463140164930870}
+  - component: {fileID: 5265271575523084251}
   m_Layer: 0
   m_Name: Abandon Button
   m_TagString: Untagged
@@ -785,6 +828,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainMenuIndex: 0
+--- !u!114 &5265271575523084251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4944463140164930868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21a0b70be3664e319384fafa45b74089, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fmodEvent:
+    Guid:
+      Data1: -1221029015
+      Data2: 1100282409
+      Data3: 2058064524
+      Data4: 1124745486
+    Path: event:/UI Events/sfx_soundevent_ui-deselect
 --- !u!1 &7251002351833801463
 GameObject:
   m_ObjectHideFlags: 0

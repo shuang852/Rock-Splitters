@@ -275,6 +275,7 @@ GameObject:
   - component: {fileID: 4944463139490727274}
   - component: {fileID: 4944463139490727275}
   - component: {fileID: 4055681090683732206}
+  - component: {fileID: 1430707230109878492}
   m_Layer: 0
   m_Name: Back Button
   m_TagString: Untagged
@@ -396,6 +397,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9bcb73dd2541529db4733f9302d380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audio: {fileID: 1430707230109878492}
+--- !u!114 &1430707230109878492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4944463139490727278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21a0b70be3664e319384fafa45b74089, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fmodEvent:
+    Guid:
+      Data1: -1767480089
+      Data2: 1259700340
+      Data3: -2074431061
+      Data4: 1770531358
+    Path: event:/UI Events/sfx_soundevent_ui-select
 --- !u!1 &4944463139543158172
 GameObject:
   m_ObjectHideFlags: 0
