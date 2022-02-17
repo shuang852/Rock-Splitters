@@ -17,8 +17,8 @@ namespace UI.Cleaning
         {
             cleaningManager = M.GetOrThrow<CleaningManager>();
 
-            cleaningManager.CleaningStarted.AddListener(OnCleaningStarted);
-            cleaningManager.CleaningEnded.AddListener(ShowResults);
+            cleaningManager.cleaningStarted.AddListener(OnCleaningStarted);
+            cleaningManager.cleaningEnded.AddListener(ShowResults);
 
             brushInput.enabled = false;
         }
@@ -43,8 +43,8 @@ namespace UI.Cleaning
 
         private void OnDestroy()
         {
-            cleaningManager.CleaningStarted.RemoveListener(OnCleaningStarted);
-            cleaningManager.CleaningEnded.RemoveListener(ShowResults);
+            cleaningManager.cleaningStarted.RemoveListener(OnCleaningStarted);
+            cleaningManager.cleaningEnded.RemoveListener(ShowResults);
         }
         
         public void DeselectToolButton(SelectToolButton selectToolButton)

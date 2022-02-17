@@ -1,4 +1,5 @@
 using System;
+using Effects;
 using Managers;
 using UnityEngine;
 
@@ -12,17 +13,34 @@ namespace ToolSystem
         [SerializeField] private ParticleSystem drillParticles;
         [SerializeField] private GameObject hammerVisPrefab;
         [SerializeField] private Animator drillAnimator;
+        [SerializeField] private CameraShake cameraShake; 
         private ToolManager toolManager;
-
+        
+        private bool toolInUse;
         private static readonly int cleaning = Animator.StringToHash("Cleaning");
 
         private void Start()
         {
             toolManager = M.GetOrThrow<ToolManager>();
             
-            toolManager.eToolDown.AddListener(worldPosition => Clean(worldPosition));
-            toolManager.eToolInUse.AddListener(worldPosition => Clean(worldPosition));
-            toolManager.eToolUp.AddListener(worldPosition => StopClean());
+            toolManager.toolDown.AddListener(OnToolDown);
+            toolManager.toolInUse.AddListener(OnToolInUse);
+            toolManager.toolUp.AddListener(OnToolUp);
+        }
+
+        private void OnToolDown(Vector2 worldPosition)
+        {
+            Clean(worldPosition);
+        }
+
+        private void OnToolInUse(Vector2 worldPosition)
+        {
+            Clean(worldPosition);
+        }
+
+        private void OnToolUp(Vector2 worldPosition)
+        {
+            StopClean();
         }
 
         /// <summary>
@@ -40,10 +58,15 @@ namespace ToolSystem
             {
                 case Tool.ToolAction.Tap:
                     Instantiate(hammerVisPrefab, transform);
+                    cameraShake.Shake();
                     break;
                 case Tool.ToolAction.Continuous:
-                    drillAnimator.SetBool(cleaning, true);
-                    if (!drillParticles.isEmitting) drillParticles.Play();
+                    if (!toolInUse)
+                    {
+                        drillAnimator.SetBool(cleaning, true);
+                        if (!drillParticles.isEmitting) drillParticles.Play();
+                        toolInUse = true;
+                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(toolAction), toolAction, null);
@@ -53,7 +76,15 @@ namespace ToolSystem
         private void StopClean()
         {
             drillAnimator.SetBool(cleaning, false);
+            toolInUse = false;
             drillParticles.Stop();
+        }
+
+        private void OnDestroy()
+        {
+            toolManager.toolDown.RemoveListener(OnToolDown);
+            toolManager.toolInUse.RemoveListener(OnToolInUse);
+            toolManager.toolUp.RemoveListener(OnToolUp);
         }
     }
 }

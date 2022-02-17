@@ -1,4 +1,5 @@
-﻿using UI.Core;
+﻿using Audio;
+using UI.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,7 +10,8 @@ namespace UI.Generic
     public class LoadSceneButton : DialogueComponent<Dialogue>
     {
         [SerializeField] private SceneReference sceneReference;
-        
+        [SerializeField, HideInInspector] private PlayOneShot audioComp;
+
         private Button dialogueButton;
 
         private static bool loadingInProgress;
@@ -17,12 +19,17 @@ namespace UI.Generic
         protected override void OnComponentAwake()
         {
             TryGetComponent(out dialogueButton);
+        }
+
+        protected override void Subscribe()
+        {
             dialogueButton.onClick.AddListener(OnSubmit);
         }
-        
-        protected override void Subscribe() { }
-        
-        protected override void Unsubscribe() { }
+
+        protected override void Unsubscribe()
+        {
+            dialogueButton.onClick.RemoveListener(OnSubmit);
+        }
 
         private void OnSubmit()
         {
@@ -33,7 +40,7 @@ namespace UI.Generic
             }
                 
             Debug.Log($"Loading Scene '{sceneReference.ScenePath}'.");
-
+            audioComp.PlayOnce();
             loadingInProgress = true;
             
             SceneManager.LoadSceneAsync(sceneReference);
@@ -42,6 +49,11 @@ namespace UI.Generic
         private void OnDestroy()
         {
             loadingInProgress = false;
+        }
+        
+        private void OnValidate()
+        {
+            TryGetComponent(out audioComp);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Managers;
+﻿using Audio;
+using Managers;
 using ToolSystem;
 using UI.Cleaning;
 using UI.Core;
@@ -17,14 +18,14 @@ namespace UI.Cleaning
         
         private Image image;
         private Button dialogueButton;
+        private PlayOneShot audioComp;
 
         protected override void OnComponentAwake()
         {
             TryGetComponent(out dialogueButton);
+            TryGetComponent(out audioComp);
             
             if (!tool || !tool.unlocked) dialogueButton.interactable = false;
-
-            dialogueButton.onClick.AddListener(OnSubmit);
         }
 
         protected override void OnComponentStart()
@@ -43,15 +44,22 @@ namespace UI.Cleaning
                 tool.startingTool = false;
         }
 
-        protected override void Subscribe() { }
+        protected override void Subscribe()
+        {
+            dialogueButton.onClick.AddListener(OnSubmit);
+        }
 
-        protected override void Unsubscribe() { }
+        protected override void Unsubscribe()
+        {
+            dialogueButton.onClick.RemoveListener(OnSubmit);
+        }
 
         private void OnSubmit()
         {
             if (toolManager.CurrentTool == tool) return;
             
             SelectTool();
+            audioComp.PlayOnce();
         }
 
         private void SelectTool()

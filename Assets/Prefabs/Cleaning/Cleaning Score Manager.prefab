@@ -43,5 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 267b8c2cb11b46f2a10363584297a428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: {fileID: 0}
-  timeBonusMultiplier: 1
+  requiredArtefactExposureForScoring: 0.5

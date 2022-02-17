@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7012537835993676654}
   - component: {fileID: 7012537835993676650}
   - component: {fileID: 7012537835993676651}
+  - component: {fileID: 8671629797905860733}
   - component: {fileID: 7012537835993676649}
   - component: {fileID: 935779918790916689}
   m_Layer: 0
@@ -60,7 +61,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9b7c5e62825464fb097b135e73c1116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneIndexInBuild: 0
+  sceneReference:
+    sceneAsset: {fileID: 0}
+    scenePath: 
+  audio: {fileID: 8671629797905860733}
+--- !u!114 &8671629797905860733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7012537835993676655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21a0b70be3664e319384fafa45b74089, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fmodEvent:
+    Guid:
+      Data1: -1767480089
+      Data2: 1259700340
+      Data3: -2074431061
+      Data4: 1770531358
+    Path: event:/UI Events/sfx_soundevent_ui-select
 --- !u!114 &7012537835993676649
 MonoBehaviour:
   m_ObjectHideFlags: 0
