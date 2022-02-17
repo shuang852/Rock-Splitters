@@ -268,6 +268,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1646694272100754247}
     m_Modifications:
     - target: {fileID: 7012537835993676651, guid: 4dc09e5969e26fe4b988d3b09deb1632, type: 3}
+      propertyPath: audio
+      value: 
+      objectReference: {fileID: 4469189067711808869}
+    - target: {fileID: 7012537835993676651, guid: 4dc09e5969e26fe4b988d3b09deb1632, type: 3}
       propertyPath: sceneIndexInBuild
       value: 1
       objectReference: {fileID: 0}
@@ -369,8 +373,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4dc09e5969e26fe4b988d3b09deb1632, type: 3}
+--- !u!1 &1646694272362280200 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7012537835993676655, guid: 4dc09e5969e26fe4b988d3b09deb1632, type: 3}
+  m_PrefabInstance: {fileID: 8614174104661085799}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1646694272362280201 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7012537835993676654, guid: 4dc09e5969e26fe4b988d3b09deb1632, type: 3}
   m_PrefabInstance: {fileID: 8614174104661085799}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4469189067711808869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646694272362280200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21a0b70be3664e319384fafa45b74089, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fmodEvent:
+    Guid:
+      Data1: -1767480089
+      Data2: 1259700340
+      Data3: -2074431061
+      Data4: 1770531358
+    Path: event:/UI Events/sfx_soundevent_ui-select

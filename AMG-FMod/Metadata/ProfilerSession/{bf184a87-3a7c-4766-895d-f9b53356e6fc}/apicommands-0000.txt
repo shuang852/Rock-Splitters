@@ -1,0 +1,49 @@
+Playback::frame, 0
+Playback::version, 2, 131588
+#
+# FMOD v2.02.04 command capture
+#   System::setSoftwareChannels(numsoftwarechannels: 256)
+#   System::setDSPBufferSize(bufferlength: 1024, numbuffers: 4)
+#   System::setSoftwareFormat(samplerate: 48000, speakermode: 3, numrawspeakers: 2)
+#   System::setAdvancedSettings(settings: {maxMPEGCodecs: 0, maxADPCMCodecs: 0, maxXMACodecs: 0, maxVorbisCodecs: 256, maxAT9Codecs: 0, maxFADPCMCodecs: 0, maxPCMCodecs: 0, maxOpusCodecs: 0
+#       ASIONumChannels: 0, vol0virtualvol: 0, defaultDecodeBufferSize: 400, geometryMaxFadeTime: 0,
+#       distanceFilterCenterFreq: 1500, reverb3Dinstance: 0, DSPBufferPoolSize: 8, resamplerMethod: 2, randomSeed: 4184904116})
+#   Studio::System::setAdvancedSettings(settings: {commandqueuesize: 32768, handleinitialsize: 65536, studioupdateperiod: 20, idlesampledatapoolsize: 262144})
+#   Studio::System::initialize(maxchannels: 1024, studioflags: 0x00000009, flags: 0x00030000)
+#
+Playback::frame, 0
+# Printing initial instance state
+System::loadBankFile, AMG-FMod/Build/Desktop/Master Bank.strings.bank, 0, 2097376
+Playback::loadBankFinished, {c72a4023-9270-0279-0cf7-a8c1b729f6d6}, 2097376, 0
+System::loadBankFile, AMG-FMod/Build/Desktop/Master Bank.bank, 0, 2097632
+Playback::loadBankFinished, {5f3760f7-e30b-4e3b-8abe-223f46daf04e}, 2097632, 0
+Bank::getEventListItem, 2097632, 0, {88970b62-7d3c-4a8d-b666-ca9c5ff2ca63}, 2100192
+Bank::getEventListItem, 2097632, 1, {b7389369-fa29-4194-8c92-ab7a0e410a43}, 2101216
+Bank::getEventListItem, 2097632, 2, {b17bf477-adf8-405f-8aa1-08d1dc387cc9}, 2103264
+Bank::getEventListItem, 2097632, 3, {fe2ceebb-bf78-450e-9c4a-4d796602f07f}, 2098400
+Bank::getEventListItem, 2097632, 4, {96a664e7-8074-4b15-abb1-5a841e2a8869}, 2097888
+Bank::getBusListItem, 2097632, 0, {103ebaef-4960-44ab-a9f8-e4d1418445ee}, 2100704
+Bank::getBusListItem, 2097632, 1, {734a91f9-bda6-4dc3-aa0b-289e552f9027}, 2100960
+Bank::getBusListItem, 2097632, 2, {c4e2f9de-b7c0-4a66-9858-c0c80c1c23e4}, 2099936
+Bus::setPaused, 2099936, true
+System::setListenerAttributes, 0, {{0,0,-10},{0,0,0},{0,0,1},{0,1,0}}, {0,0,-10}, true
+EventDescription::createInstance, 2103264, 2107360
+EventInstance::setTimelinePosition, 2107360, 5056
+EventInstance::start, 2107360
+EventDescription::createInstance, 2103264, 2103520
+EventDescription::createInstance, 2097888, 2106848
+EventDescription::createInstance, 2097888, 2107104
+EventDescription::createInstance, 2097888, 2106336
+EventDescription::createInstance, 2097888, 2106592
+EventDescription::createInstance, 2100192, 2105312
+EventDescription::createInstance, 2100192, 2100448
+# Finished printing initial instance state
+Playback::frame, 38912
+System::setNumListeners, 1
+EventInstance::release, 2106592
+EventInstance::release, 2106336
+EventInstance::release, 2107104
+EventInstance::release, 2106848
+Playback::frame, 2048
+System::flushCommands
+System::unloadAll
