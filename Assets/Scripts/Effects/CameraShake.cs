@@ -12,6 +12,7 @@ namespace Effects
         [SerializeField] private float duration;
         [SerializeField] private float period;
 
+        public bool ShakeEnabled = true;
         private Coroutine _coroutine;
         private Vector3 _rootPosition;
         
@@ -23,6 +24,8 @@ namespace Effects
         [ContextMenu("Start")]
         public void Shake()
         {
+            if (!ShakeEnabled) return;
+            
             Stop();
             
             _rootPosition = transform.position;
