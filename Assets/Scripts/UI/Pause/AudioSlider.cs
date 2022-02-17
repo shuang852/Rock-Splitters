@@ -1,25 +1,28 @@
+using Audio;
 using Managers;
 using UI.Core;
-using UI.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI.Pause
 {
-    public class AudioSlider : MonoBehaviour
+    public class AudioSlider : DialogueComponent<Dialogue>
     {
         [SerializeField] private Bus bus;
-        public bool PersistBetweenScenes => true;
+        private Slider slider;
         private AudioManager manager;
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             manager = M.GetOrThrow<AudioManager>();
+            slider.value = manager.GetVolume(bus);
         }
 
-        public void ChangeVolume(float value)
-        {
-            manager.ChangeVolume(bus, value);
-        }
+        protected override void Subscribe() { }
+
+        protected override void Unsubscribe() { }
+
+        public void ChangeVolume(float value) => manager.ChangeVolume(bus, value);
     }
 }
