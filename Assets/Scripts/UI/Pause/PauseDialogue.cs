@@ -1,8 +1,8 @@
 using System;
 using Cleaning;
 using Managers;
+using ToolSystem;
 using UI.Core;
-using UnityEngine;
 
 namespace UI.Pause
 {
@@ -19,29 +19,16 @@ namespace UI.Pause
 
         protected override void OnClose()
         {
+            timerManager.StartTimer();
+            
+            toolManager.SelectTool(previousTool);
+            
             cleaningManager.ResumeCleaning();
-        
         }
+        
         protected override void OnPromote()
         {
             cleaningManager = M.GetOrThrow<CleaningManager>();
-        
-            cleaningManager.PauseCleaning();
-        }
-        protected override void OnDemote() { }
-
-        private void OnAbandoned() => canvasGroup.interactable = false;
-    }
-        protected override void OnAwake() => Abandoned += OnAbandoned;
-
-        protected override void OnClose()
-        {
-            timerManager.StartTimer();
-            Debug.Log(previousTool);
-            toolManager.SelectTool(previousTool);
-        }
-        protected override void OnPromote()
-        {
             timerManager = M.GetOrThrow<CleaningTimerManager>();
             toolManager = M.GetOrThrow<ToolManager>();
 
@@ -51,6 +38,8 @@ namespace UI.Pause
             timerManager.StopTimer();
             previousTool = toolManager.CurrentTool;
             toolManager.SelectTool(null);
+        
+            cleaningManager.PauseCleaning();
         }
         protected override void OnDemote() { }
 

@@ -35,7 +35,6 @@ namespace Audio
                     hammer.PlayOnce();
                     break;
                 case Tool.ToolAction.Continuous:
-                    Debug.Log("DIL");
                     if (!toolInUse)
                     {
                         toolInUse = true;
