@@ -13,7 +13,10 @@
         "UniTask",
         "DOTween.Modules",
         "UniTask.DOTween",
-        "UnitySceneReference"
+        "UnitySceneReference",
+        "FMODUnity",
+        "Audio",
+        "Effects"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

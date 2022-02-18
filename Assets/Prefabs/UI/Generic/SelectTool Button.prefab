@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2008516565181710371}
   - component: {fileID: 2008516565181710380}
   - component: {fileID: 2008516565181710369}
+  - component: {fileID: 1152022691838090250}
   m_Layer: 0
   m_Name: SelectTool Button
   m_TagString: Untagged
@@ -138,6 +139,25 @@ MonoBehaviour:
   activatedColor: {r: 0.6431373, g: 0.6431373, b: 0.6431373, a: 1}
   unpushedButtonSprite: {fileID: 0}
   pushedButtonSprite: {fileID: 0}
+--- !u!114 &1152022691838090250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008516565181710382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21a0b70be3664e319384fafa45b74089, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fmodEvent:
+    Guid:
+      Data1: -30609733
+      Data2: 1158594424
+      Data3: 2035108508
+      Data4: 2146435686
+    Path: event:/UI Events/sfx_soundevent_tool-select
 --- !u!1 &2008516566623070470
 GameObject:
   m_ObjectHideFlags: 0

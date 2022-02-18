@@ -2,13 +2,13 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{89907fb8-b1ca-4037-8f61-e97ecc1aa610}">
 		<property name="name">
-			<value>New Event</value>
+			<value>Test Event</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
 		</property>
 		<relationship name="folder">
-			<destination>{f4b3c919-4739-40e5-8af9-1ad64f3aa5ce}</destination>
+			<destination>{e0403980-ebd2-4e12-b026-fd83bd43cad1}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{ef0ca451-44bf-4d26-a521-734cefb0ca80}</destination>
@@ -34,9 +34,6 @@
 		<relationship name="parameters">
 			<destination>{b1475d91-4edb-46ba-8ac0-662f10ac48df}</destination>
 		</relationship>
-		<relationship name="banks">
-			<destination>{14b034e7-862f-4811-9bdd-72a31ed44022}</destination>
-		</relationship>
 	</object>
 	<object class="EventMixer" id="{ef0ca451-44bf-4d26-a521-734cefb0ca80}">
 		<relationship name="masterBus">
@@ -59,7 +56,7 @@
 			<destination>{d13ca61b-3fcf-409f-b42c-03f12a4e287a}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{83eb3b54-9398-41ca-ae08-585ec0841f8b}</destination>
+			<destination>{734a91f9-bda6-4dc3-aa0b-289e552f9027}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{7a652a2e-1888-4c01-b8f3-cfd310870d4c}" />
@@ -83,6 +80,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{1838f55c-7cde-4dc6-97d0-822fbd1b05aa}">
+		<property name="volume">
+			<value>-0.5</value>
+		</property>
 		<relationship name="automators">
 			<destination>{d45b28bc-025f-43d8-8613-fc22d22af550}</destination>
 		</relationship>

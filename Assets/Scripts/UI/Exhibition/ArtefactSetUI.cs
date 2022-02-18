@@ -46,7 +46,9 @@ namespace UI.Exhibition
             {
                 var obj = Instantiate(setItemPrefab, collection.transform);
                 var hasItem = inventory.Contains(artefact);
-                obj.GetComponent<ArtefactSetItemUI>().SetupSetItem(artefact, hasItem);
+                var collected = 0;
+                if (hasItem) collected = inventory.GetNumberOfItem(artefact);
+                obj.GetComponent<ArtefactSetItemUI>().SetupSetItem(artefact, hasItem, collected);
             }
         }
     }
