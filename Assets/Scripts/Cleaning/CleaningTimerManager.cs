@@ -40,11 +40,13 @@ namespace Cleaning
             cleaningManager.cleaningStarted.AddListener(ResetAndStartTimer);
             cleaningManager.cleaningEnded.AddListener(StopTimer);
             cleaningManager.artefactRockCompleted.AddListener(OnArtefactRockCompleted);
+            cleaningManager.cleaningPaused.AddListener(StopTimer);
+            cleaningManager.cleaningResumed.AddListener(StartTimer);
         }
 
         private void OnArtefactRockCompleted()
         {
-            currentTime += artefactRockCompletionBonusCurve.Evaluate(artefactShape.ArtefactHealth);
+            CurrentTime += artefactRockCompletionBonusCurve.Evaluate(artefactShape.ArtefactHealth);
         }
 
         protected override void Update()
@@ -73,7 +75,7 @@ namespace Cleaning
         {
             // Prevents game ending when pausing the game without having started cleaning
             // Can remove later if the cleaning phase doesn't start paused
-            if (currentTime != 0)
+            if (CurrentTime != 0)
             {
                 timerActive = true;
             }
@@ -97,6 +99,8 @@ namespace Cleaning
             cleaningManager.cleaningStarted.RemoveListener(ResetAndStartTimer);
             cleaningManager.cleaningEnded.RemoveListener(StopTimer);
             cleaningManager.artefactRockCompleted.RemoveListener(OnArtefactRockCompleted);
+            cleaningManager.cleaningPaused.RemoveListener(StopTimer);
+            cleaningManager.cleaningResumed.RemoveListener(StartTimer);
         }
     }
 }
