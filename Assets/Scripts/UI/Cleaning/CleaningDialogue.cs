@@ -9,6 +9,7 @@ namespace UI.Cleaning
     {
         [SerializeField] private GameObject cleaningResultsDialoguePrefab;
         [SerializeField] private BrushInput brushInput;
+        [SerializeField] private Canvas canvas;
 
         private CleaningManager cleaningManager;
         private SelectToolButton activeToolButton;
@@ -19,6 +20,8 @@ namespace UI.Cleaning
 
             cleaningManager.cleaningStarted.AddListener(OnCleaningStarted);
             cleaningManager.cleaningEnded.AddListener(ShowResults);
+
+            canvas.worldCamera = Camera.main;
 
             brushInput.enabled = false;
         }

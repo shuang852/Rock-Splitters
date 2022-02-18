@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9c1d488228a09c14d8954d1868634009
+guid: 5c2f1e0e652cd2b4eb1115d96f330e60
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1652038275889866373
-    second: drillpushed_0
+      213: 1679710779501850944
+    second: BGbORDERcut_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -90,17 +90,29 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: drillpushed_0
+      name: BGbORDERcut_0
       rect:
         serializedVersion: 2
-        x: 15
-        y: 47
-        width: 98
-        height: 33
+        x: 54
+        y: 31
+        width: 531
+        height: 290
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -108,8 +120,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 586a3cd1f083de610800000000000000
-      internalID: 1652038275889866373
+      spriteID: 0413a91fd088f4710800000000000000
+      internalID: 1679710779501850944
       vertices: []
       indices: 
       edges: []
