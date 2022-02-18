@@ -576,6 +576,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4991831999567798633, guid: 4ddce1a7e92070b49a9047107691b43c, type: 3}
+      propertyPath: size.x
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4991831999567798633, guid: 4ddce1a7e92070b49a9047107691b43c, type: 3}
+      propertyPath: size.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4991831999567798633, guid: 4ddce1a7e92070b49a9047107691b43c, type: 3}
       propertyPath: rockShapeMask
       value: 
       objectReference: {fileID: 581684820}
