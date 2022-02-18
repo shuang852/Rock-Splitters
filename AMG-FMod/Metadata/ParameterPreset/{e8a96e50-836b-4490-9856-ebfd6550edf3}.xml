@@ -5,7 +5,7 @@
 			<value>TestParam</value>
 		</property>
 		<relationship name="folder">
-			<destination>{fc6643f1-a34d-4a3a-a65a-b8f7b53cc3c9}</destination>
+			<destination>{0d573547-6796-431e-baa3-73c76301cd53}</destination>
 		</relationship>
 		<relationship name="parameter">
 			<destination>{929b1ade-cd27-451d-a4e3-f0b9d1a7e645}</destination>

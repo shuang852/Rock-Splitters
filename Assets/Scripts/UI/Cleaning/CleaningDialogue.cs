@@ -11,6 +11,7 @@ namespace UI.Cleaning
         [SerializeField] private GameObject cleaningCountdownDialoguePrefab;
         [SerializeField] private GameObject readyPromptDialoguePrefab;
         [SerializeField] private BrushInput brushInput;
+        [SerializeField] private Canvas canvas;
 
         private CleaningManager cleaningManager;
         private SelectToolButton activeToolButton;
@@ -24,6 +25,8 @@ namespace UI.Cleaning
             cleaningManager.cleaningStarted.AddListener(OnCleaningStarted);
             cleaningManager.cleaningEnded.AddListener(ShowResults);
             cleaningManager.nextArtefactRock.AddListener(ShowCountdown);
+
+            canvas.worldCamera = Camera.main;
 
             brushInput.enabled = false;
             

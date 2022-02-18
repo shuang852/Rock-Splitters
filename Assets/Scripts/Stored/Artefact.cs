@@ -24,6 +24,6 @@ namespace Stored
         public float MaxHealth => maxHealth;
         public bool OverrideSet => overrideSet;
         public float Score => score;
-        [FormerlySerializedAs("AntiquitySet")] public ArtefactSet artefactSet;
+        public ArtefactSet artefactSet;
     }
 }

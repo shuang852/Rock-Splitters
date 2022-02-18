@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{08d7adcc-57eb-4dd8-8739-82f3596b55d6}">
+		<property name="assetPath">
+			<value>Final SFX/TitleScreenBGM.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>27.086077097505669</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{0fd82df8-fea7-4a74-8a29-40716597822a}</destination>
+		</relationship>
+	</object>
+</objects>

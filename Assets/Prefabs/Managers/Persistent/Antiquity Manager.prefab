@@ -43,4 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9997f7321d71cbe46b2f56cac69b1253, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  antiquitySetDatabase: {fileID: 11400000, guid: c5ed59f2d6cd1b849bd0a67b66f0406a, type: 2}
+  artefactSetDatabase: {fileID: 11400000, guid: c5ed59f2d6cd1b849bd0a67b66f0406a, type: 2}

@@ -1,6 +1,7 @@
 ﻿using Managers;
 using RockSystem.Artefacts;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Cleaning
 {
@@ -9,6 +10,8 @@ namespace Cleaning
         [SerializeField] private float requiredArtefactExposureForScoring;
         private CleaningManager cleaningManager;
         private ArtefactShape artefactShape;
+        
+        public UnityEvent scoreUpdated = new UnityEvent();
 
         public float Score { get; private set; }
 
@@ -39,6 +42,7 @@ namespace Cleaning
                                                 artefactShape.ArtefactExposure);
             
             Score += artefactRockScore;
+            scoreUpdated.Invoke();
         }
 
         protected override void OnDestroy()

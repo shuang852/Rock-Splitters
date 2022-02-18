@@ -13,7 +13,7 @@ namespace UI.Exhibition
         // private Button button;
         [SerializeField] private Color lockedColour;
         [SerializeField] private Image icon;
-        [SerializeField] private TextMeshProUGUI score;
+        [SerializeField] private TextMeshProUGUI numText;
 
         protected override void OnComponentAwake() { }
 
@@ -21,7 +21,7 @@ namespace UI.Exhibition
     
         protected override void Unsubscribe() { }
 
-        public void SetupSetItem(Artefact setItem, bool hasItem)
+        public void SetupSetItem(Artefact setItem, bool hasItem, int num = 0)
         {
             //Debug.Log(setItem);
             icon.sprite = setItem.Sprite;
@@ -29,13 +29,13 @@ namespace UI.Exhibition
             {
                 icon.color = lockedColour;
             }
-            // TODO: Uncomment when score is added
-            //icon.sprite = setItem.score;
+
+            numText.text = num.ToString();
         }
         private void OnValidate()
         {
             if (!icon) icon = GetComponentInChildren<Image>();
-            if (!score) score = GetComponentInChildren<TextMeshProUGUI>();
+            if (!numText) numText = GetComponentInChildren<TextMeshProUGUI>();
         }
     }
 }
