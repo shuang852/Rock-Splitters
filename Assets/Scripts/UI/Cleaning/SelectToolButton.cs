@@ -1,7 +1,6 @@
 ﻿using Audio;
 using Managers;
 using ToolSystem;
-using UI.Cleaning;
 using UI.Core;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +12,8 @@ namespace UI.Cleaning
     {
         [SerializeField] private Tool tool;
         [SerializeField] private Color activatedColor;
+        [SerializeField] private Sprite unpushedButtonSprite;
+        [SerializeField] private Sprite pushedButtonSprite;
         
         private ToolManager toolManager;
         
@@ -66,9 +67,14 @@ namespace UI.Cleaning
         {
             toolManager.SelectTool(tool);
             image.color = activatedColor;
+            image.sprite = pushedButtonSprite;
             Dialogue.DeselectToolButton(this);
         }
 
-        public void DeselectButton() => image.color = Color.white;
+        public void DeselectButton()
+        {
+            image.color = Color.white;
+            image.sprite = unpushedButtonSprite;
+        }
     }
 }
