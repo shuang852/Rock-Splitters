@@ -1,6 +1,4 @@
-﻿using System;
-using FMOD.Studio;
-using PlasticPipe.PlasticProtocol.Client;
+﻿using FMOD.Studio;
 using UnityEngine;
 
 namespace Audio
@@ -9,7 +7,7 @@ namespace Audio
     {
         [SerializeField] private FMODUnity.EventReference fmodEvent;
 
-        private FMOD.Studio.EventInstance instance;
+        private EventInstance instance;
         
         public void PlayOnce()
         {

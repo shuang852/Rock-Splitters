@@ -8,10 +8,15 @@ namespace UI.Cleaning
     public class CleaningDialogue : Dialogue
     {
         [SerializeField] private GameObject cleaningResultsDialoguePrefab;
+        [SerializeField] private GameObject cleaningCountdownDialoguePrefab;
+        [SerializeField] private GameObject readyPromptDialoguePrefab;
         [SerializeField] private BrushInput brushInput;
+        [SerializeField] private Canvas canvas;
 
         private CleaningManager cleaningManager;
         private SelectToolButton activeToolButton;
+
+        private bool readyPromptShown;
 
         private void Start()
         {
@@ -19,8 +24,13 @@ namespace UI.Cleaning
 
             cleaningManager.cleaningStarted.AddListener(OnCleaningStarted);
             cleaningManager.cleaningEnded.AddListener(ShowResults);
+            cleaningManager.nextArtefactRock.AddListener(ShowCountdown);
+
+            canvas.worldCamera = Camera.main;
 
             brushInput.enabled = false;
+            
+            ShowReadyPrompt();
         }
 
         private void OnCleaningStarted()
@@ -35,9 +45,29 @@ namespace UI.Cleaning
             Instantiate(cleaningResultsDialoguePrefab, transform.parent);
         }
 
+        private void ShowCountdown()
+        {
+            Instantiate(cleaningCountdownDialoguePrefab, transform.parent);
+
+        }
+
+        private void ShowReadyPrompt()
+        {
+            readyPromptShown = true;
+
+            Instantiate(readyPromptDialoguePrefab, transform.parent);
+        }
+
         protected override void OnClose() { }
 
-        protected override void OnPromote() { }
+        protected override void OnPromote()
+        {
+            if (!readyPromptShown) return;
+            
+            cleaningManager.StartCleaning();
+            
+            readyPromptShown = false;
+        }
 
         protected override void OnDemote() { }
 
@@ -45,6 +75,7 @@ namespace UI.Cleaning
         {
             cleaningManager.cleaningStarted.RemoveListener(OnCleaningStarted);
             cleaningManager.cleaningEnded.RemoveListener(ShowResults);
+            cleaningManager.nextArtefactRock.RemoveListener(ShowCountdown);
         }
         
         public void DeselectToolButton(SelectToolButton selectToolButton)

@@ -12,10 +12,10 @@ namespace UI.Pause
         private Slider slider;
         private AudioManager manager;
 
-        // Start is called before the first frame update
-        private void Start()
+        protected override void OnComponentAwake()
         {
             manager = M.GetOrThrow<AudioManager>();
+            TryGetComponent(out slider);
             slider.value = manager.GetVolume(bus);
         }
 

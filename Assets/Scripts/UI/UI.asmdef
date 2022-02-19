@@ -15,7 +15,8 @@
         "UniTask.DOTween",
         "UnitySceneReference",
         "FMODUnity",
-        "Audio"
+        "Audio",
+        "Effects"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

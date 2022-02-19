@@ -1,31 +1,28 @@
-﻿using Audio;
-using Managers;
+﻿using Managers;
 using ToolSystem;
-using UI.Cleaning;
-using UI.Core;
+using UI.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.Cleaning
 {
     [RequireComponent(typeof(Button))]
-    public class SelectToolButton : DialogueComponent<CleaningDialogue>
+    public class SelectToolButton : DialogueButton<CleaningDialogue>
     {
         [SerializeField] private Tool tool;
         [SerializeField] private Color activatedColor;
+        [SerializeField] private Sprite unpushedButtonSprite;
+        [SerializeField] private Sprite pushedButtonSprite;
         
         private ToolManager toolManager;
         
         private Image image;
-        private Button dialogueButton;
-        private PlayOneShot audioComp;
 
         protected override void OnComponentAwake()
         {
-            TryGetComponent(out dialogueButton);
-            TryGetComponent(out audioComp);
+            base.OnComponentAwake();
             
-            if (!tool || !tool.unlocked) dialogueButton.interactable = false;
+            if (!tool || !tool.unlocked) button.interactable = false;
         }
 
         protected override void OnComponentStart()
@@ -44,31 +41,27 @@ namespace UI.Cleaning
                 tool.startingTool = false;
         }
 
-        protected override void Subscribe()
+        protected override void OnClick()
         {
-            dialogueButton.onClick.AddListener(OnSubmit);
-        }
-
-        protected override void Unsubscribe()
-        {
-            dialogueButton.onClick.RemoveListener(OnSubmit);
-        }
-
-        private void OnSubmit()
-        {
+            base.OnClick();
+            
             if (toolManager.CurrentTool == tool) return;
             
             SelectTool();
-            audioComp.PlayOnce();
         }
 
         private void SelectTool()
         {
             toolManager.SelectTool(tool);
             image.color = activatedColor;
+            image.sprite = pushedButtonSprite;
             Dialogue.DeselectToolButton(this);
         }
 
-        public void DeselectButton() => image.color = Color.white;
+        public void DeselectButton()
+        {
+            image.color = Color.white;
+            image.sprite = unpushedButtonSprite;
+        }
     }
 }
