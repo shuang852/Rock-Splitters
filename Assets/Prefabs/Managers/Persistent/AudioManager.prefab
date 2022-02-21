@@ -93,4 +93,12 @@ MonoBehaviour:
           Data3: -1664457034
           Data4: 1674244703
         Path: event:/Music/GameBGM
+    - Key: Exhibition
+      Value:
+        Guid:
+          Data1: -1317276553
+          Data2: 1080012280
+          Data3: -787963510
+          Data4: -914605860
+        Path: event:/Music/PresentationBGM
     keyCollision: 0
