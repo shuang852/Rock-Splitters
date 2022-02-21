@@ -3,7 +3,6 @@ using Cleaning;
 using Managers;
 using ToolSystem;
 using UI.Core;
-using UnityEngine;
 
 namespace UI.Pause
 {
@@ -11,21 +10,25 @@ namespace UI.Pause
     {
         public Action Abandoned;
 
+        private CleaningManager cleaningManager;
         private CleaningTimerManager timerManager;
         private ToolManager toolManager;
 
-        private Tool previousTool;
-
         protected override void OnAwake() => Abandoned += OnAbandoned;
+        private Tool previousTool;
 
         protected override void OnClose()
         {
             timerManager.StartTimer();
-            Debug.Log(previousTool);
+            
             toolManager.SelectTool(previousTool);
+            
+            cleaningManager.ResumeCleaning();
         }
+        
         protected override void OnPromote()
         {
+            cleaningManager = M.GetOrThrow<CleaningManager>();
             timerManager = M.GetOrThrow<CleaningTimerManager>();
             toolManager = M.GetOrThrow<ToolManager>();
 
@@ -35,6 +38,8 @@ namespace UI.Pause
             timerManager.StopTimer();
             previousTool = toolManager.CurrentTool;
             toolManager.SelectTool(null);
+        
+            cleaningManager.PauseCleaning();
         }
         protected override void OnDemote() { }
 

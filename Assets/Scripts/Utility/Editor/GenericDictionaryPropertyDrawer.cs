@@ -7,6 +7,7 @@ using UnityEngine;
 /// and better spacing between KeyValue pairs). Also renders a warning-box if there are duplicate
 /// keys in the dictionary.
 /// </summary>
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(GenericDictionary<,>))]
 public class GenericDictionaryPropertyDrawer : PropertyDrawer
 {
@@ -49,3 +50,4 @@ public class GenericDictionaryPropertyDrawer : PropertyDrawer
         return totHeight;
     }
 }
+#endif

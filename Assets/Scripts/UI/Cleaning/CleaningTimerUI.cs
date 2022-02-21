@@ -3,6 +3,7 @@ using Cleaning;
 using Managers;
 using TMPro;
 using UI.Core;
+using UnityEngine;
 
 namespace UI.Cleaning
 {
@@ -31,7 +32,7 @@ namespace UI.Cleaning
         
         private void OnTimeChanged()
         {
-            text.text = timer.CurrentTime.ToString(CultureInfo.InvariantCulture);
+            text.text = timer.CurrentTime.ToString("F2", CultureInfo.InvariantCulture);
         }
 
         private void OnDestroy()

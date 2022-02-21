@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialoguePrefab: {fileID: 4944463139481834773, guid: 356d2d1ad5020424f9b52d59ece704c0, type: 3}
-  audio: {fileID: 7718017919346865613}
+  audioComp: {fileID: 7718017919346865613}
 --- !u!114 &7718017919346865613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -593,7 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9bcb73dd2541529db4733f9302d380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audio: {fileID: 861868111066261292}
+  audioComp: {fileID: 861868111066261292}
 --- !u!114 &861868111066261292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -827,6 +827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dcbab0fe1ac4e1a9475d8bb92534adf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioComp: {fileID: 5265271575523084251}
   mainMenuIndex: 0
 --- !u!114 &5265271575523084251
 MonoBehaviour:
