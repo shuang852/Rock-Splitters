@@ -26,9 +26,9 @@ namespace Audio
         private void OnToolUse(Vector2 worldPosition)
         {
             Tool.ToolAction toolAction = toolManager.CurrentTool.action;
+
             dust.PlayOnce();
                 
-            //Debug.Log(toolAction);
             switch (toolAction)
             {
                 case Tool.ToolAction.Tap:
@@ -41,8 +41,6 @@ namespace Audio
                         drill.PlayOnce();
                     }
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(toolAction), toolAction, null);
             }
         }
 
