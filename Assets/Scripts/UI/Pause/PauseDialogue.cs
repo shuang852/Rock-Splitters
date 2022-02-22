@@ -24,11 +24,8 @@ namespace UI.Pause
         protected override void OnClose()
         {
             timerManager.StartTimer();
-            
-            toolManager.SelectTool(previousTool);
-            
             cleaningManager.ResumeCleaning();
-            
+            toolManager.SelectTool(previousTool);
             opened = false;
         }
         
@@ -37,17 +34,15 @@ namespace UI.Pause
             cleaningManager = M.GetOrThrow<CleaningManager>();
             timerManager = M.GetOrThrow<CleaningTimerManager>();
             toolManager = M.GetOrThrow<ToolManager>();
-
-            // Prevents coming back to and from pause to recall these functions
-            // if (previousTool != null) return;
-
+            
             if (!blurBackground.activeSelf) blurBackground.SetActive(true);
 
-            // Only call once functions
+            // Only call these functions once
             if (opened) return;
-            
+
             timerManager.StopTimer();
             previousTool = toolManager.CurrentTool;
+            Debug.Log(previousTool);
             toolManager.SelectTool(null);
         
             cleaningManager.PauseCleaning();
