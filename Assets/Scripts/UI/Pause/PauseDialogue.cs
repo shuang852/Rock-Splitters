@@ -3,6 +3,7 @@ using Cleaning;
 using Managers;
 using ToolSystem;
 using UI.Core;
+using UnityEngine;
 
 namespace UI.Pause
 {
@@ -10,6 +11,9 @@ namespace UI.Pause
     {
         public Action Abandoned;
 
+        [SerializeField] private GameObject blurBackground;
+
+        private bool opened;
         private CleaningManager cleaningManager;
         private CleaningTimerManager timerManager;
         private ToolManager toolManager;
@@ -24,6 +28,8 @@ namespace UI.Pause
             toolManager.SelectTool(previousTool);
             
             cleaningManager.ResumeCleaning();
+            
+            opened = false;
         }
         
         protected override void OnPromote()
@@ -33,15 +39,25 @@ namespace UI.Pause
             toolManager = M.GetOrThrow<ToolManager>();
 
             // Prevents coming back to and from pause to recall these functions
-            if (previousTool != null) return;
+            // if (previousTool != null) return;
+
+            if (!blurBackground.activeSelf) blurBackground.SetActive(true);
+
+            // Only call once functions
+            if (opened) return;
             
             timerManager.StopTimer();
             previousTool = toolManager.CurrentTool;
             toolManager.SelectTool(null);
         
             cleaningManager.PauseCleaning();
+            opened = true;
         }
-        protected override void OnDemote() { }
+
+        protected override void OnDemote()
+        {
+            blurBackground.SetActive(false);
+        }
 
         private void OnAbandoned() => canvasGroup.interactable = false;
     }
