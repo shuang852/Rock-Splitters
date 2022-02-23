@@ -12,8 +12,9 @@ namespace RockSystem.Artefacts
     public class ArtefactShapeManager : Manager
     {
         public UnityEvent initialised = new UnityEvent();
-        public UnityEvent<ArtefactShape, Vector2Int> artefactDamaged = new UnityEvent<ArtefactShape, Vector2Int>();
+        public UnityEvent artefactDamaged = new UnityEvent();
         public UnityEvent artefactExposed = new UnityEvent();
+        public UnityEvent<ArtefactShape, Vector2Int> artefactChunkDamaged = new UnityEvent<ArtefactShape, Vector2Int>();
 
         // TODO: Try to avoid using this whereever possible, it should be switched out for a list of main artefacts
         public ArtefactShape MainArtefactShape => artefacts.FirstOrDefault();
@@ -32,8 +33,6 @@ namespace RockSystem.Artefacts
             base.Start();
 
             chunkManager = M.GetOrThrow<ChunkManager>();
-
-            chunkManager.damageOverflow.AddListener(OnDamageOverflow);
         }
 
         // TODO: Should support being passed multiple Artefacts
@@ -53,6 +52,11 @@ namespace RockSystem.Artefacts
             initialised.Invoke();
         }
 
+        private void OnArtefactShapeChunkDamaged(ChunkShape chunkShape, Vector2Int flatPosition)
+        {
+            artefactChunkDamaged.Invoke((ArtefactShape) chunkShape, flatPosition);
+        }
+
         private void Deinitialise()
         {
             while (artefacts.Count > 0)
@@ -63,25 +67,22 @@ namespace RockSystem.Artefacts
             artefactShapeGameObjects.ForEach(Destroy);
         }
 
-        private void OnDamageOverflow(Vector2Int flatPosition, float damage)
+        private void RegisterArtefact(ArtefactShape artefactShape)
         {
-            ArtefactShape artefact = GetExposedArtefactAtFlatPosition(flatPosition);
-
-            if (artefact == null) return;
+            artefacts.Add(artefactShape);
             
-            artefact.DamageArtefactChunk(flatPosition, damage);
+            chunkManager.RegisterChunkShape(artefactShape);
             
-            artefactDamaged.Invoke(artefact, flatPosition);
-        }
-        
-        private void RegisterArtefact(ArtefactShape artefact)
-        {
-            artefacts.Add(artefact);
+            artefactShape.chunkDamaged.AddListener(OnArtefactShapeChunkDamaged);
         }
 
-        private void UnregisterArtefact(ArtefactShape artefact)
+        private void UnregisterArtefact(ArtefactShape artefactShape)
         {
-            artefacts.Remove(artefact);
+            artefacts.Remove(artefactShape);
+
+            chunkManager.UnregisterChunkShape(artefactShape);
+            
+            artefactShape.chunkDamaged.RemoveListener(OnArtefactShapeChunkDamaged);
         }
 
         public ArtefactShape GetExposedArtefactAtFlatPosition(Hexagons.OddrChunkCoord oddrChunkCoord)
@@ -99,8 +100,6 @@ namespace RockSystem.Artefacts
             base.OnDestroy();
             
             Deinitialise();
-            
-            chunkManager.damageOverflow.RemoveListener(OnDamageOverflow);
         }
 
         public void CheckHealthAndExposure()
@@ -116,14 +115,10 @@ namespace RockSystem.Artefacts
             }
             
             if (healthChanged)
-            {
-                // TODO: Should we be doing something here?
-            }
+                artefactDamaged.Invoke();
 
             if (exposureChanged)
-            {
                 artefactExposed.Invoke();
-            }
         }
     }
 }

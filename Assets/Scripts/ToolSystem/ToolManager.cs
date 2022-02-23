@@ -89,7 +89,7 @@ namespace ToolSystem
                 if (CurrentTool.action == Tool.ToolAction.Continuous)
                     clampedDamage *= Time.deltaTime;
 
-                chunkManager.DamageChunk(affectedChunk, clampedDamage, damageWillOverflow);
+                chunkManager.DamageChunksAtPosition(affectedChunk, clampedDamage, damageWillOverflow);
             }
             
             artefactShapeManager.CheckHealthAndExposure();

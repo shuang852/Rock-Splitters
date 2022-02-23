@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Managers;
+using RockSystem.Artefacts;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
@@ -28,6 +29,8 @@ namespace RockSystem.Chunks
         public RockShape RockShape { get; private set; }
         public Color RockColor { get; private set; }
         public ChunkDescription ChunkDescription { get; private set; }
+
+        private readonly List<ChunkShape> chunkShapes = new List<ChunkShape>();
 
         protected override void Awake()
         {
@@ -63,21 +66,29 @@ namespace RockSystem.Chunks
             );
         }
 
-        public void DamageChunk(Vector2 worldPosition, float damage)
+        public void DamageChunksAtPosition(Vector2 worldPosition, float damage)
         {
             OddrChunkCoord flatPosition = ChunkStructure.WorldToCell(worldPosition);
-            DamageChunk(flatPosition, damage);
+            DamageChunksAtPosition(flatPosition, damage);
         }
 
-        // TODO: Should be renamed to convey that it damages multiple chunks in a column.
-        public void DamageChunk(OddrChunkCoord flatPosition, float damage, bool damageWillOverflow = true)
+        public void DamageChunksAtPosition(OddrChunkCoord flatPosition, float damage, bool damageWillOverflow = true)
         {
             while (damage > 0)
             {
+                ChunkShape chunkShape = GetExposedChunkShape(flatPosition);
+
+                if (chunkShape != null && damageWillOverflow)
+                {
+                    chunkShape.DamageChunk(flatPosition, damage);
+                    break;
+                }
+
                 Chunk chunk = ChunkStructure.GetOrNull(flatPosition);
 
                 if (chunk == null)
                 {
+                    // TODO: No longer used. Will we use this in the future?
                     if (damageWillOverflow) damageOverflow.Invoke(flatPosition, damage);
                     break;
                 }
@@ -85,6 +96,23 @@ namespace RockSystem.Chunks
                 float damageTaken = chunk.DamageChunk(damage);
                 damage -= damageTaken;
             }
+        }
+
+        private ChunkShape GetExposedChunkShape(OddrChunkCoord flatPosition)
+        {
+            Chunk chunk = ChunkStructure.GetOrNull(flatPosition);
+
+            // A ChunkShape is only exposed if it is above the top chunk layer
+            int zPos = chunk == null ? 0 : chunk.Position.z + 1;
+
+            return GetChunkShape(new Vector3Int(flatPosition.col, flatPosition.row, zPos));
+            
+            // TODO: Is it more effcient to just use chunkShape.IsExposedAtFlatPosition?
+        }
+
+        private ChunkShape GetChunkShape(Vector3Int position)
+        {
+            return chunkShapes.Find(f => f.IsHitAtPosition(position));
         }
 
         public Vector2 GetChunkWorldPosition(OddrChunkCoord oddrChunkCoord)
@@ -114,6 +142,16 @@ namespace RockSystem.Chunks
         public bool WillDamageRock(List<OddrChunkCoord> oddrChunkCoords)
         {
             return oddrChunkCoords.Any(flatPosition => ChunkStructure.GetOrNull(flatPosition) != null);
+        }
+
+        public void RegisterChunkShape(ChunkShape chunkShape)
+        {
+            chunkShapes.Add(chunkShape);
+        }
+        
+        public void UnregisterChunkShape(ChunkShape chunkShape)
+        {
+            chunkShapes.Remove(chunkShape);
         }
     }
 }

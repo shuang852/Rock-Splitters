@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Managers;
+using RockSystem.Chunks;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -30,7 +31,7 @@ namespace RockSystem.Artefacts
         {
             artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
             
-            artefactShapeManager.artefactDamaged.AddListener(OnArtefactDamaged);
+            artefactShapeManager.artefactChunkDamaged.AddListener(OnArtefactChunkDamaged);
             artefactShapeManager.initialised.AddListener(Initialise);
         }
 
@@ -39,16 +40,16 @@ namespace RockSystem.Artefacts
             tilemap.ClearAllTiles();
         }
 
-        private void OnArtefactDamaged(ArtefactShape artefact, Vector2Int flatPosition)
+        private void OnArtefactChunkDamaged(ArtefactShape artefact, Vector2Int flatPosition)
         {
-            float remainingHealth = artefact.GetArtefactChunkHealth(flatPosition);
-
+            float remainingHealth = artefact.GetChunkHealth(flatPosition);
+        
             if (artefact.Artefact.MaxHealth <= 0)
             {
                 Debug.LogError($"{nameof(artefact.Artefact.MaxHealth)} has not been set.");
                 return;
             }
-
+        
             if (!(remainingHealth <= artefact.Artefact.BreakingHealth)) return;
             
             float damagePercentage = 1f - (remainingHealth / artefact.Artefact.MaxHealth);
@@ -95,8 +96,6 @@ namespace RockSystem.Artefacts
         {
             TileBase damageTile = GetDamageTile(percentage);
             tilemap.SetTile((Vector3Int) flatPosition, damageTile);
-            
-            // Debug.Log($"Displaying damage level {level} at {flatPosition}");
         }
 
         private TileBase GetDamageTile(float percentage)
@@ -111,7 +110,7 @@ namespace RockSystem.Artefacts
 
         private void OnDestroy()
         {
-            artefactShapeManager.artefactDamaged.RemoveListener(OnArtefactDamaged);
+            artefactShapeManager.artefactChunkDamaged.RemoveListener(OnArtefactChunkDamaged);
             artefactShapeManager.initialised.RemoveListener(Initialise);
         }
     }

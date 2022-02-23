@@ -34,14 +34,14 @@ namespace Cleaning
 
         private void UpdateScore()
         {
-            if (!(artefactShapeManager.MainArtefactShape.ArtefactExposure >= requiredArtefactExposureForScoring)) return;
+            if (!(artefactShapeManager.MainArtefactShape.Exposure >= requiredArtefactExposureForScoring)) return;
             
             // TODO: Incorporate rock difficulty.
             // TODO: Final score = Base * Health * Cleanliness * Rock Diff
             var artefactRockScore = Mathf.Round(
                 artefactShapeManager.MainArtefactShape.Artefact.Score *
-                artefactShapeManager.MainArtefactShape.ArtefactHealth * 
-                artefactShapeManager.MainArtefactShape.ArtefactExposure
+                artefactShapeManager.MainArtefactShape.Health * 
+                artefactShapeManager.MainArtefactShape.Exposure
             );
             
             Score += artefactRockScore;

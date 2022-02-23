@@ -19,14 +19,9 @@ namespace UI.Cleaning
             artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
             
             artefactShapeManager.artefactExposed.AddListener(UpdateExposure);
-            artefactShapeManager.artefactDamaged.AddListener(OnArtefactDamaged);
+            artefactShapeManager.artefactDamaged.AddListener(UpdateExposure);
             
             // BUG: Race condition with ArtefactShape leads to NaN being displayed.
-            UpdateExposure();
-        }
-
-        private void OnArtefactDamaged(ArtefactShape artefactShape, Vector2Int position)
-        {
             UpdateExposure();
         }
 
@@ -42,7 +37,7 @@ namespace UI.Cleaning
         private void OnDestroy()
         {
             artefactShapeManager.artefactExposed.RemoveListener(UpdateExposure);
-            artefactShapeManager.artefactDamaged.RemoveListener(OnArtefactDamaged);
+            artefactShapeManager.artefactDamaged.RemoveListener(UpdateExposure);
         }
     }
 }

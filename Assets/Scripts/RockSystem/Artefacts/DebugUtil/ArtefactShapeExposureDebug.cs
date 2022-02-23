@@ -25,7 +25,7 @@ namespace RockSystem.Artefacts.DebugUtil
         {
             artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
             
-            artefactShapeManager.MainArtefactShape.artefactExposed.AddListener(OnArtefactExposed);
+            artefactShapeManager.MainArtefactShape.exposed.AddListener(OnArtefactExposed);
             artefactShapeManager.MainArtefactShape.initialised.AddListener(Initialise);
         }
         
@@ -62,7 +62,7 @@ namespace RockSystem.Artefacts.DebugUtil
 
         private void OnDestroy()
         {
-            artefactShapeManager.MainArtefactShape.artefactExposed.RemoveListener(OnArtefactExposed);
+            artefactShapeManager.MainArtefactShape.exposed.RemoveListener(OnArtefactExposed);
             artefactShapeManager.MainArtefactShape.initialised.RemoveListener(Initialise);
         }
     }

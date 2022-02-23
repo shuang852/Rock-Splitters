@@ -21,10 +21,10 @@ namespace UI.Cleaning
             artefactShapeManager.artefactDamaged.AddListener(UpdateHealth);
             
             // BUG: Race condition with ArtefactShape leads to NaN being displayed.
-            UpdateHealth(null, Vector2Int.zero);
+            UpdateHealth();
         }
 
-        private void UpdateHealth(ArtefactShape artefactShape, Vector2Int position)
+        private void UpdateHealth()
         {
             image.fillAmount = 1 - artefactShapeManager.Health;
         }

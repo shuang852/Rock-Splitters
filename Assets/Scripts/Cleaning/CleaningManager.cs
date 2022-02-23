@@ -142,7 +142,7 @@ namespace Cleaning
             // chunkManager.HideRock();
         }
 
-        private void CheckIfArtefactRockFailed(ArtefactShape artefactShape, Vector2Int position)
+        private void CheckIfArtefactRockFailed()
         {
             if (artefactShapeManager.Health < requiredHealthForFailure)
                 ArtefactRockFailed();
