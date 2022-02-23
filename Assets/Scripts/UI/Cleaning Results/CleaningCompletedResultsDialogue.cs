@@ -2,7 +2,7 @@
 
 namespace UI.Cleaning_Results
 {
-    public class CleaningResultsDialogue : Dialogue
+    public class CleaningCompletedResultsDialogue : Dialogue
     {
         protected override void OnClose() { }
 
