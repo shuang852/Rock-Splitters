@@ -24,6 +24,8 @@ namespace Cleaning
             }
         }
 
+        public float TotalTime { get; private set; }
+
         private CleaningManager cleaningManager;
         private ArtefactShape artefactShape;
 
@@ -36,6 +38,8 @@ namespace Cleaning
             
             cleaningManager = M.GetOrThrow<CleaningManager>();
             artefactShape = M.GetOrThrow<ArtefactShape>();
+
+            TotalTime = startTime;
             
             cleaningManager.cleaningStarted.AddListener(ResetAndStartTimer);
             cleaningManager.cleaningEnded.AddListener(StopTimer);
@@ -46,7 +50,9 @@ namespace Cleaning
 
         private void OnArtefactRockCompleted()
         {
-            CurrentTime += artefactRockCompletionBonusCurve.Evaluate(artefactShape.ArtefactHealth);
+            var bonusTime = artefactRockCompletionBonusCurve.Evaluate(artefactShape.ArtefactHealth);
+            CurrentTime += bonusTime;
+            TotalTime += bonusTime;
         }
 
         protected override void Update()
