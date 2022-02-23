@@ -3,6 +3,7 @@ using System.Linq;
 using Managers;
 using RockSystem.Artefacts;
 using RockSystem.Chunks;
+using RockSystem.Mines;
 using ToolSystem;
 using Stored;
 using UnityEngine;
@@ -37,6 +38,7 @@ namespace Cleaning
         private ArtefactShapeManager artefactShapeManager;
         private ToolManager toolManager;
         private ArtefactManager artefactManager;
+        private MineManager mineManager;
 
         private int currentGenerationBracketIndex;
         private GenerationBracket CurrentGenerationBracket => generationBrackets[currentGenerationBracketIndex];
@@ -58,6 +60,7 @@ namespace Cleaning
             artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
             toolManager = M.GetOrThrow<ToolManager>();
             artefactManager = M.GetOrThrow<ArtefactManager>();
+            mineManager = M.GetOrThrow<MineManager>();
         }
 
         public void StartCleaning()
@@ -87,6 +90,7 @@ namespace Cleaning
             
             chunkManager.Initialise(CurrentArtefactRock.RockShape, CurrentArtefactRock.RockColor, CurrentArtefactRock.ChunkDescription);
             artefactShapeManager.Initialise(CurrentArtefactRock.Artefact);
+            mineManager.Initialise(Random.Range(CurrentGenerationBracket.minMines, CurrentGenerationBracket.maxMines + 1));
             
             nextArtefactRock.Invoke();
         }

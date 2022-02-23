@@ -65,6 +65,9 @@ namespace RockSystem.Artefacts
             }
 
             artefactShapeGameObjects.ForEach(Destroy);
+            
+            artefacts.Clear();
+            artefactShapeGameObjects.Clear();
         }
 
         private void RegisterArtefact(ArtefactShape artefactShape)
