@@ -106,6 +106,7 @@ namespace Cleaning
             );
         }
 
+        [ContextMenu("Force end")]
         public void EndCleaning()
         {
             CurrentCleaningState = CleaningState.Finished;
