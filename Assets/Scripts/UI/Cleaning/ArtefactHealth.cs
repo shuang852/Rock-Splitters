@@ -10,23 +10,23 @@ namespace UI.Cleaning
     {
         [SerializeField] private Image image;
 
-        private ArtefactShape artefactShape;
+        private ArtefactShapeManager artefactShapeManager;
 
         protected override void OnComponentStart()
         {
             base.OnComponentStart();
 
-            artefactShape = M.GetOrThrow<ArtefactShape>();
+            artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
             
-            artefactShape.artefactDamaged.AddListener(UpdateHealth);
+            artefactShapeManager.artefactDamaged.AddListener(UpdateHealth);
             
             // BUG: Race condition with ArtefactShape leads to NaN being displayed.
-            UpdateHealth();
+            UpdateHealth(null, Vector2Int.zero);
         }
 
-        private void UpdateHealth()
+        private void UpdateHealth(ArtefactShape artefactShape, Vector2Int position)
         {
-            image.fillAmount = 1 - artefactShape.ArtefactHealth;
+            image.fillAmount = 1 - artefactShapeManager.Health;
         }
 
         protected override void Subscribe() { }
@@ -35,7 +35,7 @@ namespace UI.Cleaning
 
         private void OnDestroy()
         {
-            artefactShape.artefactDamaged.RemoveListener(UpdateHealth);
+            artefactShapeManager.artefactDamaged.RemoveListener(UpdateHealth);
         }
     }
 }

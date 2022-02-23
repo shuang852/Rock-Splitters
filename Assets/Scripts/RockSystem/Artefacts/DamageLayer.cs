@@ -18,7 +18,6 @@ namespace RockSystem.Artefacts
         private Tilemap tilemap;
 
         private ArtefactShapeManager artefactShapeManager;
-        private ArtefactShape artefactShape;
 
         protected void Awake()
         {
@@ -30,10 +29,9 @@ namespace RockSystem.Artefacts
         protected void Start()
         {
             artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
-            artefactShape = M.GetOrThrow<ArtefactShape>();
             
             artefactShapeManager.artefactDamaged.AddListener(OnArtefactDamaged);
-            artefactShape.initialised.AddListener(Initialise);
+            artefactShapeManager.initialised.AddListener(Initialise);
         }
 
         private void Initialise()
@@ -114,7 +112,7 @@ namespace RockSystem.Artefacts
         private void OnDestroy()
         {
             artefactShapeManager.artefactDamaged.RemoveListener(OnArtefactDamaged);
-            artefactShape.initialised.RemoveListener(Initialise);
+            artefactShapeManager.initialised.RemoveListener(Initialise);
         }
     }
 }

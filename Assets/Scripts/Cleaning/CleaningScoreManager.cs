@@ -9,7 +9,7 @@ namespace Cleaning
     {
         [SerializeField] private float requiredArtefactExposureForScoring;
         private CleaningManager cleaningManager;
-        private ArtefactShape artefactShape;
+        private ArtefactShapeManager artefactShapeManager;
         
         public UnityEvent scoreUpdated = new UnityEvent();
 
@@ -20,7 +20,7 @@ namespace Cleaning
             base.Start();
             
             cleaningManager = M.GetOrThrow<CleaningManager>();
-            artefactShape = M.GetOrThrow<ArtefactShape>();
+            artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
 
             cleaningManager.cleaningStarted.AddListener(ResetScore);
             cleaningManager.artefactRockSucceeded.AddListener(UpdateScore);
@@ -34,12 +34,15 @@ namespace Cleaning
 
         private void UpdateScore()
         {
-            if (!(artefactShape.ArtefactExposure >= requiredArtefactExposureForScoring)) return;
+            if (!(artefactShapeManager.MainArtefactShape.ArtefactExposure >= requiredArtefactExposureForScoring)) return;
             
             // TODO: Incorporate rock difficulty.
             // TODO: Final score = Base * Health * Cleanliness * Rock Diff
-            var artefactRockScore = Mathf.Round(artefactShape.Artefact.Score * artefactShape.ArtefactHealth *
-                                                artefactShape.ArtefactExposure);
+            var artefactRockScore = Mathf.Round(
+                artefactShapeManager.MainArtefactShape.Artefact.Score *
+                artefactShapeManager.MainArtefactShape.ArtefactHealth * 
+                artefactShapeManager.MainArtefactShape.ArtefactExposure
+            );
             
             Score += artefactRockScore;
             scoreUpdated.Invoke();

@@ -11,31 +11,17 @@ using Utility;
 
 namespace RockSystem.Artefacts
 {
-    public class ArtefactShape : Manager
+    [RequireComponent(typeof(SpriteRenderer), typeof(SpriteMask))]
+    public class ArtefactShape : MonoBehaviour
     {
         [FormerlySerializedAs("fossil")] [SerializeField] private Artefact artefact;
         [SerializeField] private bool enableDebug;
-
-        private readonly Dictionary<Vector2Int, float> chunkHealths = new Dictionary<Vector2Int, float>();
-        public readonly Dictionary<Vector2Int, bool> ChunkExposure = new Dictionary<Vector2Int, bool>();
-        private SpriteRenderer spriteRenderer;
-        private SpriteMask spriteMask;
-        private PolygonCollider2D polyCollider;
-        private ChunkManager chunkManager;
-        private ArtefactShapeManager artefactShapeManager;
-
-        private IEnumerable<Vector2Int> HitFlatPositions => chunkHealths.Keys;
-        public Artefact Artefact => artefact;
-
+        
         public UnityEvent initialised = new UnityEvent();
+        // TODO: Can be removed
         public UnityEvent artefactExposed = new UnityEvent();
         public UnityEvent artefactDamaged = new UnityEvent();
-
-        private bool exposureChanged;
-        private bool healthChanged;
-        private float artefactExposure;
-        private float artefactHealth;
-
+        
         public float ArtefactExposure
         {
             get => artefactExposure;
@@ -56,26 +42,49 @@ namespace RockSystem.Artefacts
             }
         }
 
-        protected override void Awake()
+        public int ExposedChunks { get; private set; }
+
+        public int NumOfChunks => chunkHealths.Count;
+
+        public Artefact Artefact => artefact;
+        public readonly Dictionary<Vector2Int, bool> ChunkExposure = new Dictionary<Vector2Int, bool>();
+        
+        private readonly Dictionary<Vector2Int, float> chunkHealths = new Dictionary<Vector2Int, float>();
+        private SpriteRenderer spriteRenderer;
+        private SpriteMask spriteMask;
+        private PolygonCollider2D polyCollider;
+        private ChunkManager chunkManager;
+
+        private IEnumerable<Vector2Int> HitFlatPositions => chunkHealths.Keys;
+        
+        private bool exposureChanged;
+        private bool healthChanged;
+        private float artefactExposure;
+        private float artefactHealth;
+
+        protected void Awake()
         {
-            base.Awake();
-            
             spriteRenderer = GetComponent<SpriteRenderer>();
             spriteMask = GetComponent<SpriteMask>();
         }
 
-        protected override void Start()
+        protected void Start()
         {
-            base.Start();
+            GetManagers();
+        }
 
+        private void GetManagers()
+        {
             chunkManager = M.GetOrThrow<ChunkManager>();
-            artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
-            
+
             chunkManager.chunkCleared.AddListener(OnChunkDestroyed);
         }
 
+        // TODO: Setup sorting layer and order in layer
         public void Initialise(Artefact artefact)
         {
+            GetManagers();
+            
             this.artefact = artefact; 
             
             // Setup sprites according to the artefact
@@ -89,9 +98,6 @@ namespace RockSystem.Artefacts
             polyCollider = gameObject.AddComponent<PolygonCollider2D>();
             
             SetupArtefactChunks();
-            
-            artefactShapeManager.UnregisterArtefact(this);
-            artefactShapeManager.RegisterArtefact(this);
             
             ForceUpdateArtefactExposure();
             
@@ -163,22 +169,28 @@ namespace RockSystem.Artefacts
             }
         }
 
+        // TODO: Simplify
         private void UpdateArtefactHealth ()
         {
-            float currentTotalHealth = chunkHealths.Values.Sum();
+            float currentTotalHealth = CurrentTotalHealth;
 
-            float maxTotalHealth = chunkHealths.Count * artefact.MaxHealth;
+            float maxTotalHealth = MaxTotalHealth;
             
             ArtefactHealth = currentTotalHealth / maxTotalHealth;
         }
 
+        // TODO: Move to top
+        public float MaxTotalHealth => chunkHealths.Count * artefact.MaxHealth;
+
+        public float CurrentTotalHealth => chunkHealths.Values.Sum();
+
         private void UpdateArtefactExposure()
         {
-            int exposedChunks = ChunkExposure.Count(i => i.Value);
+            ExposedChunks = ChunkExposure.Count(i => i.Value);
             
             int totalChunks = chunkHealths.Count;
 
-            ArtefactExposure = exposedChunks / (float) totalChunks;
+            ArtefactExposure = ExposedChunks / (float) totalChunks;
         }
         
         // TODO: Needs a better name.
@@ -200,32 +212,50 @@ namespace RockSystem.Artefacts
                 }
             }
 
+            ExposedChunks = exposedChunks;
+
             int totalChunks = chunkHealths.Count;
 
-            ArtefactExposure = exposedChunks / (float) totalChunks;
+            ArtefactExposure = ExposedChunks / (float) totalChunks;
         }
 
         public void CheckHealthAndExposure()
+        {
+            CheckExposure();
+
+            CheckHealth();
+        }
+
+        // TODO: Summary
+        public bool CheckHealth()
+        {
+            if (healthChanged)
+            {
+                UpdateArtefactHealth();
+                healthChanged = false;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        // TODO: Summary
+        public bool CheckExposure()
         {
             if (exposureChanged)
             {
                 UpdateArtefactExposure();
                 exposureChanged = false;
+
+                return true;
             }
 
-            if (healthChanged)
-            {
-                UpdateArtefactHealth();
-                healthChanged = false;
-            }
+            return false;
         }
 
-        protected override void OnDestroy()
+        protected void OnDestroy()
         {
-            base.OnDestroy();
-            
-            artefactShapeManager.UnregisterArtefact(this);
-            
             chunkManager.chunkCleared.RemoveListener(OnChunkDestroyed);
         }
     }

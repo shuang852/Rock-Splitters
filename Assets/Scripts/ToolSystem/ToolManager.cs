@@ -11,7 +11,7 @@ namespace ToolSystem
     public class ToolManager : Manager
     {
         private ChunkManager chunkManager;
-        private ArtefactShape artefactShape;
+        private ArtefactShapeManager artefactShapeManager;
         
         public Tool CurrentTool { get; private set; }
 
@@ -25,7 +25,7 @@ namespace ToolSystem
             base.Start();
             
             chunkManager = M.GetOrThrow<ChunkManager>();
-            artefactShape = M.GetOrThrow<ArtefactShape>();
+            artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace ToolSystem
                 chunkManager.DamageChunk(affectedChunk, clampedDamage, damageWillOverflow);
             }
             
-            artefactShape.CheckHealthAndExposure();
+            artefactShapeManager.CheckHealthAndExposure();
             
             toolUsed.Invoke();
         }

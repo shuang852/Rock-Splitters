@@ -34,7 +34,7 @@ namespace Cleaning
         public UnityEvent artefactRockCompleted = new UnityEvent();
 
         private ChunkManager chunkManager;
-        private ArtefactShape artefactShape;
+        private ArtefactShapeManager artefactShapeManager;
         private ToolManager toolManager;
         private ArtefactManager artefactManager;
 
@@ -55,7 +55,7 @@ namespace Cleaning
             // StartCleaning();
 
             chunkManager = M.GetOrThrow<ChunkManager>();
-            artefactShape = M.GetOrThrow<ArtefactShape>();
+            artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
             toolManager = M.GetOrThrow<ToolManager>();
             artefactManager = M.GetOrThrow<ArtefactManager>();
         }
@@ -64,8 +64,8 @@ namespace Cleaning
         {
             CurrentCleaningState = CleaningState.InProgress;
             
-            artefactShape.artefactExposed.AddListener(CheckIfArtefactRockSucceeded);
-            artefactShape.artefactDamaged.AddListener(CheckIfArtefactRockFailed);
+            artefactShapeManager.artefactExposed.AddListener(CheckIfArtefactRockSucceeded);
+            artefactShapeManager.artefactDamaged.AddListener(CheckIfArtefactRockFailed);
 
             currentGenerationBracketIndex = 0;
             
@@ -86,7 +86,7 @@ namespace Cleaning
             CurrentArtefactRock = GenerateArtefactRock(CurrentGenerationBracket);
             
             chunkManager.Initialise(CurrentArtefactRock.RockShape, CurrentArtefactRock.RockColor, CurrentArtefactRock.ChunkDescription);
-            artefactShape.Initialise(CurrentArtefactRock.Artefact);
+            artefactShapeManager.Initialise(CurrentArtefactRock.Artefact);
             
             nextArtefactRock.Invoke();
         }
@@ -109,8 +109,8 @@ namespace Cleaning
         {
             CurrentCleaningState = CleaningState.Finished;
             
-            artefactShape.artefactExposed.RemoveListener(CheckIfArtefactRockSucceeded);
-            artefactShape.artefactDamaged.RemoveListener(CheckIfArtefactRockFailed);
+            artefactShapeManager.artefactExposed.RemoveListener(CheckIfArtefactRockSucceeded);
+            artefactShapeManager.artefactDamaged.RemoveListener(CheckIfArtefactRockFailed);
             
             cleaningEnded.Invoke();
         }
@@ -132,7 +132,7 @@ namespace Cleaning
             artefactsCleanedInBracket++;
             artefactsCleanedSuccessfully++;
 
-            artefactManager.AddItem(artefactShape.Artefact);
+            artefactManager.AddItem(artefactShapeManager.MainArtefactShape.Artefact);
             artefactRockSucceeded.Invoke();
             artefactRockCompleted.Invoke();
             
@@ -142,15 +142,15 @@ namespace Cleaning
             // chunkManager.HideRock();
         }
 
-        private void CheckIfArtefactRockFailed()
+        private void CheckIfArtefactRockFailed(ArtefactShape artefactShape, Vector2Int position)
         {
-            if (artefactShape.ArtefactHealth < requiredHealthForFailure)
+            if (artefactShapeManager.Health < requiredHealthForFailure)
                 ArtefactRockFailed();
         }
 
         private void CheckIfArtefactRockSucceeded()
         {
-            if (artefactShape.ArtefactExposure > requiredExposureForCompletion)
+            if (artefactShapeManager.Exposure > requiredExposureForCompletion)
                 ArtefactRockSucceeded();
         }
 

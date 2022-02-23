@@ -18,15 +18,15 @@ namespace ToolSystem
 
         private Coroutine coroutine;
 
-        private ArtefactShape artefactShape;
+        private ArtefactShapeManager artefactShapeManager;
 
         protected override void Start()
         {
             base.Start();
 
-            artefactShape = M.GetOrThrow<ArtefactShape>();
+            artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
             
-            artefactShape.initialised.AddListener(OnArtefactShapeInitialised);
+            artefactShapeManager.initialised.AddListener(OnArtefactShapeInitialised);
         }
 
         private void OnArtefactShapeInitialised()
@@ -34,13 +34,14 @@ namespace ToolSystem
             Initialise();
         }
 
+        // TODO: Update to support multiple ArtefactShapes
         private void Initialise()
         {
             var artefactSpriteTransform = artefactSpriteRenderer.transform;
-            var artefactShapeTransform = artefactShape.transform;
+            var artefactShapeTransform = artefactShapeManager.MainArtefactShape.transform;
             
             // TODO: May need to rework how these are found and set.
-            artefactSpriteRenderer.sprite = artefactShape.Artefact.Sprite;
+            artefactSpriteRenderer.sprite = artefactShapeManager.MainArtefactShape.Artefact.Sprite;
             artefactSpriteTransform.position = artefactShapeTransform.position;
             artefactSpriteTransform.rotation = artefactShapeTransform.rotation;
             artefactSpriteTransform.localScale = artefactShapeTransform.localScale;
@@ -97,7 +98,7 @@ namespace ToolSystem
         {
             base.OnDestroy();
 
-            artefactShape.initialised.RemoveListener(OnArtefactShapeInitialised);
+            artefactShapeManager.initialised.RemoveListener(OnArtefactShapeInitialised);
         }
     }
 }
