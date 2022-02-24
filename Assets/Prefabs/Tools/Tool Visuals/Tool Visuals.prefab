@@ -46,7 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drillParticles: {fileID: 3423971248821999728}
   hammerVisPrefab: {fileID: 640733093666529413, guid: 4e0d818a7dcb1244cac2e86d47967bfc, type: 3}
-  drillAnimator: {fileID: 6734658976303877436}
+  drillAnimator: {fileID: 1780498991506057661}
+  cameraShake: {fileID: 0}
 --- !u!1001 &5661507882330465904
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109,13 +110,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1434369837330377547, guid: 9163394955cf0af4b9eb1540bb0cd4fc, type: 3}
   m_PrefabInstance: {fileID: 5661507882330465904}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &6734658976303877436 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 1434369837330377548, guid: 9163394955cf0af4b9eb1540bb0cd4fc, type: 3}
-  m_PrefabInstance: {fileID: 5661507882330465904}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &3423971248821999728 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 6995731628895911424, guid: 9163394955cf0af4b9eb1540bb0cd4fc, type: 3}
+  m_PrefabInstance: {fileID: 5661507882330465904}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1780498991506057661 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6207135709489876941, guid: 9163394955cf0af4b9eb1540bb0cd4fc, type: 3}
   m_PrefabInstance: {fileID: 5661507882330465904}
   m_PrefabAsset: {fileID: 0}

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -18,13 +19,16 @@ namespace UI.Generic
         public Transform Panel;
 
         [SerializeField] private float stopVelocity = 3f;
+        [SerializeField] private float easeDuration = 1f;
         [SerializeField] private Button leftNavButton;
         [SerializeField] private Button rightNavButton;
+        [SerializeField] private Ease easeMode;
 
         private List<Vector3> scrollPositions = new List<Vector3>();
         private ScrollRect scrollRect;
         private RectTransform scrollRectTransform;
         private bool isLerping;
+        //private bool isTweening;
         private bool isFindingClosest;
         private int index;
 
@@ -80,18 +84,28 @@ namespace UI.Generic
                     rightNavButton.interactable = true;
             }
             
-            if (isLerping && scrollRect.velocity.magnitude < stopVelocity) 
+            if (isLerping && scrollRect.velocity.magnitude < stopVelocity)
             {
-                Panel.localPosition = Vector3.Lerp(Panel.localPosition, scrollPositions[index], 10 * Time.deltaTime);
-
-                if (Vector3.Distance(Panel.localPosition, scrollPositions[index]) < 0.001f)
-                {
-                    isLerping = false;
-                    Panel.localPosition = scrollPositions[index];
-                }
+                isLerping = false;
+                scrollRect.velocity = Vector2.zero;
+                //isTweening = true;
+                Panel.transform.DOLocalMoveX(scrollPositions[index].x, easeDuration, true)
+                    .SetEase(easeMode);
+                //.OnComplete(() => isTweening = false);
             }
+
+            // TODO: FIX scroll elasticity not lining up. Drag beyond the content to see problem.
+            // if (!isLerping && scrollRect.velocity.magnitude < stopVelocity && !isTweening && scrollPositions.Count > 0 
+            //     && Math.Abs(Panel.localPosition.x - scrollPositions[index].x) > 0)
+            // {
+            //     Debug.Log("HALP");
+            //     isTweening = true;
+            //     Panel.transform.DOLocalMoveX(scrollPositions[index].x, easeDuration, true)
+            //         .SetEase(easeMode)
+            //         .OnComplete(() => isTweening = false);
+            // }
         }
- 
+
         private void FindClosestFrom(Vector3 start)
         {
             float distance = Mathf.Infinity;
@@ -112,15 +126,13 @@ namespace UI.Generic
         public void OnDrag(PointerEventData data)
         {
             isLerping = false;
+            DOTween.Kill(Panel);
         }
         
         public void OnEndDrag(PointerEventData data)
         {
-            if (scrollRect.horizontal)
-            {
-                isFindingClosest = true;
-                isLerping = true;
-            }
+            isFindingClosest = true;
+            isLerping = true;
         }
 
         #endregion
@@ -130,15 +142,15 @@ namespace UI.Generic
         public void OnNextView()
         {
             index++;
-            isFindingClosest = false;
-            isLerping = true;
+            Panel.transform.DOLocalMoveX(scrollPositions[index].x, easeDuration, true)
+                .SetEase(easeMode);
         }
         
         public void OnPreviousView()
         {
             index--;
-            isFindingClosest = false;
-            isLerping = true;
+            Panel.transform.DOLocalMoveX(scrollPositions[index].x, easeDuration, true)
+                .SetEase(easeMode);
         }
         
         #endregion

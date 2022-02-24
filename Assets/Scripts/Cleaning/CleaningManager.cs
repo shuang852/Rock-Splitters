@@ -43,6 +43,7 @@ namespace Cleaning
         private int artefactsCleaned;
         private int artefactsCleanedInBracket;
         private int artefactsCleanedSuccessfully;
+        private int artefactsCleanedFailed;
         private Tool previousTool;
 
         public ArtefactRock CurrentArtefactRock { get; private set; }
@@ -105,6 +106,7 @@ namespace Cleaning
             );
         }
 
+        [ContextMenu("Force end")]
         public void EndCleaning()
         {
             CurrentCleaningState = CleaningState.Finished;
@@ -119,6 +121,7 @@ namespace Cleaning
         {
             artefactsCleaned++;
             artefactsCleanedInBracket++;
+            artefactsCleanedFailed++;
             
             artefactRockFailed.Invoke();
             artefactRockCompleted.Invoke();

@@ -236,7 +236,7 @@ GameObject:
   - component: {fileID: 7618040246967651916}
   - component: {fileID: 7618040246967651917}
   m_Layer: 0
-  m_Name: Cleaning Results Dialogue
+  m_Name: Cleaning Fossil Results Dialogue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

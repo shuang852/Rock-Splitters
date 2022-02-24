@@ -495,7 +495,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -399.99902, y: 0}
+  m_AnchoredPosition: {x: -403.2903, y: 0}
   m_SizeDelta: {x: 4800, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &634957510708592789
@@ -519,7 +519,7 @@ MonoBehaviour:
   fitType: 3
   rows: 1
   columns: 6
-  cellSize: {x: 800, y: 450.43478}
+  cellSize: {x: 800, y: 450.0835}
   spacing: {x: 0, y: 0}
   fitX: 1
   fitY: 1
@@ -638,8 +638,8 @@ MonoBehaviour:
   m_MovementType: 1
   m_Elasticity: 0.2
   m_Inertia: 1
-  m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 5
+  m_DecelerationRate: 0.2
+  m_ScrollSensitivity: 15
   m_Viewport: {fileID: 634957511043032857}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
@@ -663,9 +663,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Panel: {fileID: 634957510708592788}
-  stopVelocity: 30
+  stopVelocity: 200
+  easeDuration: 0.7
   leftNavButton: {fileID: 634957510222568250}
   rightNavButton: {fileID: 634957509365909964}
+  easeMode: 6
 --- !u!1 &634957511043032856
 GameObject:
   m_ObjectHideFlags: 0

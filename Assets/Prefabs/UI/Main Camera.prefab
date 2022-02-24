@@ -103,7 +103,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 3413115747114561061}
-  amount: 0.125
-  duration: 0.15
-  period: 0.05
+  hammerAmount: 0.125
+  hammerDuration: 0.15
+  hammerPeriod: 0.05
+  drillAmount: 0.01
+  drillDuration: 0.1
+  drillPeriod: 0.05
   ShakeEnabled: 1

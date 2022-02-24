@@ -173,7 +173,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1590257527
 RectTransform:
   m_ObjectHideFlags: 0
@@ -930,7 +930,7 @@ MonoBehaviour:
   fitType: 4
   rows: 0
   columns: 1
-  cellSize: {x: 440, y: 80}
+  cellSize: {x: 401, y: 80}
   spacing: {x: 0, y: 0}
   fitX: 1
   fitY: 0
@@ -1190,7 +1190,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8791428109041493171
 RectTransform:
   m_ObjectHideFlags: 0
