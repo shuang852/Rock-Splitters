@@ -39,6 +39,7 @@ namespace Audio
                     {
                         toolInUse = true;
                         drill.PlayOnce();
+                        FMODUnity.RuntimeManager.StudioSystem.setParameterByNameWithLabel("Drill", "Drilling");
                     }
                     break;
             }
@@ -47,7 +48,9 @@ namespace Audio
         private void OnToolStop(Vector2 worldPosition)
         {
             toolInUse = false;
-            drill.StopFadeOut();
+            //drill.StopFadeOut();
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByNameWithLabel("Drill", "Not Drilling");
+
         }
 
         private void OnDisable()
