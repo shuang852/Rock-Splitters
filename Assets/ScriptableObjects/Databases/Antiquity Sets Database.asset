@@ -15,12 +15,12 @@ MonoBehaviour:
   assetPath: Assets/ScriptableObjects/AntiquitySets
   items:
   - {fileID: 11400000, guid: ffc2699d28d501f47805445e32a8ff7b, type: 2}
+  - {fileID: 11400000, guid: 45023d1669a6e6c42b7bcc32a7d57357, type: 2}
   - {fileID: 11400000, guid: 33f0c696d450276479e7feba8c0154ea, type: 2}
   - {fileID: 11400000, guid: d91db3f99ed179d4fb6a05460266acba, type: 2}
-  - {fileID: 11400000, guid: df3c8e8cf07e5de4aa2ef6c41cf14cfb, type: 2}
   overrideOrder: 0
   orderedItems:
+  - {fileID: 11400000, guid: d91db3f99ed179d4fb6a05460266acba, type: 2}
   - {fileID: 11400000, guid: ffc2699d28d501f47805445e32a8ff7b, type: 2}
   - {fileID: 11400000, guid: 33f0c696d450276479e7feba8c0154ea, type: 2}
-  - {fileID: 11400000, guid: d91db3f99ed179d4fb6a05460266acba, type: 2}
-  - {fileID: 11400000, guid: df3c8e8cf07e5de4aa2ef6c41cf14cfb, type: 2}
+  - {fileID: 11400000, guid: 45023d1669a6e6c42b7bcc32a7d57357, type: 2}

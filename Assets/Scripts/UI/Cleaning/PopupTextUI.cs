@@ -1,4 +1,6 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
+using Managers;
 using TMPro;
 using UnityEngine;
 
@@ -13,12 +15,22 @@ namespace UI.Cleaning
     public class PopupTextUI : MonoBehaviour
     {
         [SerializeField] private TextMeshPro text;
-        
-        public void Setup(string input, Color color, TextSize size = TextSize.Small)
+        [SerializeField] private float disappearTimer = 3f;
+
+        private void Start()
         {
+            gameObject.SetActive(false);
+        }
+
+        public async void Setup(Vector3 pos, string input, Color color, TextSize size = TextSize.Small)
+        {
+            gameObject.SetActive(true);
+            transform.position = pos;
             text.text = input;
             text.color = color;
             text.fontSize = (int)size;
+            await UniTask.Delay(TimeSpan.FromSeconds(disappearTimer));
+            gameObject.SetActive(false);
         }
 
         private void OnValidate()

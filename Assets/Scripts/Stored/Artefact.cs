@@ -24,6 +24,7 @@ namespace Stored
         public float MaxHealth => maxHealth;
         public bool OverrideSet => overrideSet;
         public float Score => score;
+        [Tooltip("Don't assign the set here. Assign it in the set.")]
         public ArtefactSet artefactSet;
     }
 }
