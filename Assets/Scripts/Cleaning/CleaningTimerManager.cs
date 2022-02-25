@@ -25,6 +25,7 @@ namespace Cleaning
         }
 
         public float TotalTime { get; private set; }
+        public float BonusTime  { get; private set; }
 
         private CleaningManager cleaningManager;
         private ArtefactShape artefactShape;
@@ -53,6 +54,7 @@ namespace Cleaning
             var bonusTime = artefactRockCompletionBonusCurve.Evaluate(artefactShape.ArtefactHealth);
             CurrentTime += bonusTime;
             TotalTime += bonusTime;
+            BonusTime = bonusTime;
         }
 
         protected override void Update()

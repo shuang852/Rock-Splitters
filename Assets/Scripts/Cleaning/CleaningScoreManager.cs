@@ -20,6 +20,8 @@ namespace Cleaning
         public float TotalArtefactsExposure { get; private set; }
 
         public float Score { get; private set; }
+        public float CurrentRockScore { get; private set; }
+        
 
         protected override void Start()
         {
@@ -58,6 +60,7 @@ namespace Cleaning
             TotalArtefactsHealth += artefactShape.ArtefactHealth;
             
             Score += artefactRockScore;
+            CurrentRockScore = artefactRockScore;
             scoreUpdated.Invoke();
         }
 
