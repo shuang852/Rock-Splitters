@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Managers;
 using RockSystem.Artefacts;
 using RockSystem.Chunks;
+using ToolSystem.Mines;
 using UnityEngine;
 using UnityEngine.Events;
 using Utility;
@@ -12,6 +13,7 @@ namespace ToolSystem
     {
         private ChunkManager chunkManager;
         private ArtefactShapeManager artefactShapeManager;
+        private MineManager mineManager;
         
         public Tool CurrentTool { get; private set; }
 
@@ -26,6 +28,7 @@ namespace ToolSystem
             
             chunkManager = M.GetOrThrow<ChunkManager>();
             artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
+            mineManager = M.GetOrThrow<MineManager>();
         }
 
         /// <summary>
@@ -70,29 +73,38 @@ namespace ToolSystem
         }
 
         // TODO: Can be more efficient. Pass the function instead of looping through the chunks again.
-        private void UseTool(Vector2 worldPosition)
+        public void UseTool(Vector2 worldPosition, Tool tool = null)
         {
-            List<Hexagons.OddrChunkCoord> affectedChunks = Hexagons.GetChunksInRadius(chunkManager.CurrentGrid, worldPosition, CurrentTool.radius);
+            if (tool == null)
+                tool = CurrentTool;
 
-            bool damageWillOverflow = !(CurrentTool.artefactSafety && chunkManager.WillDamageRock(affectedChunks));
+            List<Hexagons.OddrChunkCoord> affectedChunks = Hexagons.GetChunksInRadius(chunkManager.CurrentGrid, worldPosition, tool.radius);
+
+            bool willDamageRock = chunkManager.WillDamageRock(affectedChunks);
+
+            artefactShapeManager.ArtefactShapesCanBeDamaged = !(tool.artefactSafety && willDamageRock);
+            mineManager.MinesCanBeDamaged = !(tool.mineSafety && willDamageRock);
 
             foreach (var affectedChunk in affectedChunks)
             {
                 float normalisedDistance =
                     Vector2.Distance(chunkManager.GetChunkWorldPosition(affectedChunk), worldPosition) /
-                    CurrentTool.radius;
+                    tool.radius;
 
-                float calculatedDamage = CurrentTool.damageFalloff.Evaluate(normalisedDistance) * CurrentTool.damage;
+                float calculatedDamage = tool.damageFalloff.Evaluate(normalisedDistance) * tool.damage;
                 
-                float clampedDamage = Mathf.Clamp(calculatedDamage, 0, CurrentTool.damage);
+                float clampedDamage = Mathf.Clamp(calculatedDamage, 0, tool.damage);
                 
-                if (CurrentTool.action == Tool.ToolAction.Continuous)
+                if (tool.action == Tool.ToolAction.Continuous)
                     clampedDamage *= Time.deltaTime;
 
-                chunkManager.DamageChunksAtPosition(affectedChunk, clampedDamage, damageWillOverflow);
+                chunkManager.DamageChunksAtPosition(affectedChunk, clampedDamage);
             }
+
+            artefactShapeManager.ArtefactShapesCanBeDamaged = true;
             
             artefactShapeManager.CheckHealthAndExposure();
+            mineManager.CheckHealthAndExposure();
             
             toolUsed.Invoke();
         }

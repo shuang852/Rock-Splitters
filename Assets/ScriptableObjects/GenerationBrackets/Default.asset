@@ -21,5 +21,5 @@ MonoBehaviour:
   chunkDescriptions:
   - {fileID: 11400000, guid: e1f46564eb7d04062a1cb2e119403c01, type: 2}
   rockColor: {r: 1, g: 1, b: 1, a: 1}
-  minMines: 2
-  maxMines: 2
+  minMines: 1
+  maxMines: 1

@@ -11,6 +11,8 @@ namespace RockSystem.Chunks
     [RequireComponent(typeof(SpriteRenderer), typeof(SpriteMask))]
     public abstract class ChunkShape : MonoBehaviour
     {
+        [SerializeField] protected Sprite sprite;
+        [SerializeField] protected float maxHealth;
         [SerializeField] private bool enableDebug;
         
         public UnityEvent initialised = new UnityEvent();
@@ -43,6 +45,7 @@ namespace RockSystem.Chunks
         public int NumOfChunks => chunkHealths.Count;
 
         public readonly Dictionary<Vector2Int, bool> ChunkExposure = new Dictionary<Vector2Int, bool>();
+        public bool CanBeDamaged { get; set; } = true;
         
         private readonly Dictionary<Vector2Int, float> chunkHealths = new Dictionary<Vector2Int, float>();
         private SpriteRenderer spriteRenderer;
@@ -58,9 +61,7 @@ namespace RockSystem.Chunks
         private bool healthChanged;
         private float exposure;
         private float health;
-
-        private Sprite sprite;
-        private float maxHealth;
+        
         private int layer;
         private string sortingLayer = "Chunk";
 
@@ -140,6 +141,8 @@ namespace RockSystem.Chunks
         {
             if (!chunkHealths.ContainsKey(position))
                 throw new IndexOutOfRangeException($"Position {position} is not in the {nameof(ChunkShape)}");
+
+            if (!CanBeDamaged) return;
 
             chunkHealths[position] = Mathf.Max(0, chunkHealths[position] - amount);
 

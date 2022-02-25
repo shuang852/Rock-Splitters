@@ -72,13 +72,13 @@ namespace RockSystem.Chunks
             DamageChunksAtPosition(flatPosition, damage);
         }
 
-        public void DamageChunksAtPosition(OddrChunkCoord flatPosition, float damage, bool damageWillOverflow = true)
+        public void DamageChunksAtPosition(OddrChunkCoord flatPosition, float damage)
         {
             while (damage > 0)
             {
                 ChunkShape chunkShape = GetExposedChunkShape(flatPosition);
 
-                if (chunkShape != null && damageWillOverflow)
+                if (chunkShape != null)
                 {
                     chunkShape.DamageChunk(flatPosition, damage);
                     break;
@@ -89,7 +89,7 @@ namespace RockSystem.Chunks
                 if (chunk == null)
                 {
                     // TODO: No longer used. Will we use this in the future?
-                    if (damageWillOverflow) damageOverflow.Invoke(flatPosition, damage);
+                    damageOverflow.Invoke(flatPosition, damage);
                     break;
                 }
                 
@@ -98,6 +98,7 @@ namespace RockSystem.Chunks
             }
         }
 
+        // BUG: If the chunks below a fossil get removed it makes the fossil impossible to damage.
         private ChunkShape GetExposedChunkShape(OddrChunkCoord flatPosition)
         {
             Chunk chunk = ChunkStructure.GetOrNull(flatPosition);

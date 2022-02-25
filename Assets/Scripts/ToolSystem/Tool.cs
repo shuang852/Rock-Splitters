@@ -24,5 +24,7 @@ namespace ToolSystem
         public AnimationCurve damageFalloff;
         [Tooltip("Will only damage the artefact if not damaging rock.")]
         public bool artefactSafety;
+        [Tooltip("Will only damage mines if not damaging rock.")]
+        public bool mineSafety;
     }
 }

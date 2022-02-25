@@ -22,12 +22,24 @@ namespace RockSystem.Artefacts
         // TODO: Health and exposure can be updated to only include certain "main" artefacts
         public float Exposure => (float) artefacts.Sum(a => a.ExposedChunks) / artefacts.Sum(a => a.NumOfChunks);
         public float Health => artefacts.Sum(a => a.CurrentTotalHealth) / artefacts.Sum(a => a.MaxTotalHealth);
-        
+
+        public bool ArtefactShapesCanBeDamaged
+        {
+            get => artefactShapesCanBeDamaged;
+            set
+            {
+                artefacts.ForEach(a => a.CanBeDamaged = value);
+                
+                artefactShapesCanBeDamaged = value;
+            }
+        }
+
         private ChunkManager chunkManager;
 
         private readonly List<GameObject> artefactShapeGameObjects = new List<GameObject>();
         private readonly List<ArtefactShape> artefacts = new List<ArtefactShape>();
-        
+        private bool artefactShapesCanBeDamaged = true;
+
         protected override void Start()
         {
             base.Start();
@@ -77,6 +89,8 @@ namespace RockSystem.Artefacts
             chunkManager.RegisterChunkShape(artefactShape);
             
             artefactShape.chunkDamaged.AddListener(OnArtefactShapeChunkDamaged);
+
+            artefactShape.CanBeDamaged = ArtefactShapesCanBeDamaged;
         }
 
         private void UnregisterArtefact(ArtefactShape artefactShape)
