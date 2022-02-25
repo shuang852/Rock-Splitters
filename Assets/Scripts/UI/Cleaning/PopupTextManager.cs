@@ -25,10 +25,12 @@ namespace UI.Cleaning
             CleaningManager cleaningManager = M.GetOrThrow<CleaningManager>();
             CleaningScoreManager cleaningScoreManager = M.GetOrThrow<CleaningScoreManager>();
             CleaningTimerManager cleaningTimerManager = M.GetOrThrow<CleaningTimerManager>();
-            // cleaningManager.artefactRockSucceeded.AddListener(
-            //     CreatePopup(Vector3.zero,
-            //         $"+{cleaningScoreManager.CurrentRockScore} \n + {cleaningTimerManager.BonusTime}",
-            //         Color.white, TextSize.Small));
+            
+            //TODO: Implement with smaller fossils if they exist
+            cleaningManager.artefactRockSucceeded.AddListener(() =>
+                CreatePopup(Vector3.zero,
+                    $"+{cleaningScoreManager.CurrentRockScore}pts \n + {cleaningTimerManager.BonusTime}s",
+                    Color.white, TextSize.Small));
         }
 
         public void CreatePopup(Vector3 pos, string input, Color color, TextSize size = TextSize.Small)

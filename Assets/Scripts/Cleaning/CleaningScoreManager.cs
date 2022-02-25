@@ -50,7 +50,7 @@ namespace Cleaning
                                                 artefactShape.ArtefactExposure);
             ArtefactsCleaned++;
 
-            Debug.Log(artefactShape.ArtefactHealth);
+            //Debug.Log(artefactShape.ArtefactHealth);
             if (artefactShape.ArtefactHealth >= perfectThreshold)
             {
                 ArtefactsPerfected++;
