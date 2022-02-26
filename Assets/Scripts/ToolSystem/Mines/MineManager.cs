@@ -17,11 +17,11 @@ namespace ToolSystem.Mines
                 ChunkShapeGameObjects.Add(go);
 
                 var mine = go.GetComponent<Mine>();
-                
-                RegisterArtefact(mine);
-                
+
                 // TODO: Properly initalise layer
                 mine.Initialise(3);
+                
+                RegisterArtefact(mine);
             }
         }
     }

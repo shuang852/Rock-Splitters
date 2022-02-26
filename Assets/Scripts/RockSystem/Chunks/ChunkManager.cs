@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Managers;
-using RockSystem.Artefacts;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
@@ -25,6 +24,8 @@ namespace RockSystem.Chunks
 
         public UnityEvent<Vector2Int, float> damageOverflow = new UnityEvent<Vector2Int, float>();
         public UnityEvent<Chunk> chunkCleared = new UnityEvent<Chunk>();
+        public UnityEvent<ChunkShape> chunkShapeRegistered = new UnityEvent<ChunkShape>();
+        public UnityEvent<ChunkShape> chunkShapeUnregistered = new UnityEvent<ChunkShape>();
         
         public RockShape RockShape { get; private set; }
         public Color RockColor { get; private set; }
@@ -148,11 +149,15 @@ namespace RockSystem.Chunks
         public void RegisterChunkShape(ChunkShape chunkShape)
         {
             chunkShapes.Add(chunkShape);
+            
+            chunkShapeRegistered.Invoke(chunkShape);
         }
         
         public void UnregisterChunkShape(ChunkShape chunkShape)
         {
             chunkShapes.Remove(chunkShape);
+            
+            chunkShapeUnregistered.Invoke(chunkShape);
         }
     }
 }

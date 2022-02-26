@@ -46,6 +46,8 @@ namespace RockSystem.Chunks
 
         public readonly Dictionary<Vector2Int, bool> ChunkExposure = new Dictionary<Vector2Int, bool>();
         public bool CanBeDamaged { get; set; } = true;
+        public Sprite Sprite => sprite;
+        public int Layer => layer;
         
         private readonly Dictionary<Vector2Int, float> chunkHealths = new Dictionary<Vector2Int, float>();
         private SpriteRenderer spriteRenderer;
