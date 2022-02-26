@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Managers;
 using RockSystem.Chunks;
 using Stored;
 using UnityEngine;
@@ -9,7 +8,7 @@ using Utility;
 
 namespace RockSystem.Artefacts
 {
-    public class ArtefactShapeManager : Manager
+    public class ArtefactShapeManager : ChunkShapeManager<ArtefactShape>
     {
         public UnityEvent initialised = new UnityEvent();
         public UnityEvent artefactDamaged = new UnityEvent();
@@ -23,38 +22,16 @@ namespace RockSystem.Artefacts
         public float Exposure => (float) artefacts.Sum(a => a.ExposedChunks) / artefacts.Sum(a => a.NumOfChunks);
         public float Health => artefacts.Sum(a => a.CurrentTotalHealth) / artefacts.Sum(a => a.MaxTotalHealth);
 
-        public bool ArtefactShapesCanBeDamaged
-        {
-            get => artefactShapesCanBeDamaged;
-            set
-            {
-                artefacts.ForEach(a => a.CanBeDamaged = value);
-                
-                artefactShapesCanBeDamaged = value;
-            }
-        }
-
-        private ChunkManager chunkManager;
-
-        private readonly List<GameObject> artefactShapeGameObjects = new List<GameObject>();
-        private readonly List<ArtefactShape> artefacts = new List<ArtefactShape>();
-        private bool artefactShapesCanBeDamaged = true;
-
-        protected override void Start()
-        {
-            base.Start();
-
-            chunkManager = M.GetOrThrow<ChunkManager>();
-        }
-
+        private List<ArtefactShape> artefacts => ChunkShapes;
+        
         // TODO: Should support being passed multiple Artefacts
         public void Initialise(Artefact artefact)
         {
-            Deinitialise();
-
+            base.Initialise();
+            
             GameObject go = new GameObject(artefact.DisplayName);
             go.transform.parent = transform;
-            artefactShapeGameObjects.Add(go);
+            ChunkShapeGameObjects.Add(go);
             ArtefactShape artefactShape = go.AddComponent<ArtefactShape>();
 
             artefactShape.Initialise(artefact);
@@ -69,42 +46,23 @@ namespace RockSystem.Artefacts
             artefactChunkDamaged.Invoke((ArtefactShape) chunkShape, flatPosition);
         }
 
-        private void Deinitialise()
+        protected override void RegisterArtefact(ArtefactShape artefactShape)
         {
-            while (artefacts.Count > 0)
-            {
-                UnregisterArtefact(artefacts.First());
-            }
-
-            artefactShapeGameObjects.ForEach(Destroy);
-            
-            artefacts.Clear();
-            artefactShapeGameObjects.Clear();
-        }
-
-        private void RegisterArtefact(ArtefactShape artefactShape)
-        {
-            artefacts.Add(artefactShape);
-            
-            chunkManager.RegisterChunkShape(artefactShape);
+            base.RegisterArtefact(artefactShape);
             
             artefactShape.chunkDamaged.AddListener(OnArtefactShapeChunkDamaged);
-
-            artefactShape.CanBeDamaged = ArtefactShapesCanBeDamaged;
         }
 
-        private void UnregisterArtefact(ArtefactShape artefactShape)
+        protected override void UnregisterArtefact(ArtefactShape artefactShape)
         {
-            artefacts.Remove(artefactShape);
-
-            chunkManager.UnregisterChunkShape(artefactShape);
+            base.UnregisterArtefact(artefactShape);
             
             artefactShape.chunkDamaged.RemoveListener(OnArtefactShapeChunkDamaged);
         }
 
         public ArtefactShape GetExposedArtefactAtFlatPosition(Hexagons.OddrChunkCoord oddrChunkCoord)
         {
-            Chunk chunk = chunkManager.ChunkStructure.GetOrNull(oddrChunkCoord);
+            Chunk chunk = ChunkManager.ChunkStructure.GetOrNull(oddrChunkCoord);
 
             if (chunk == null)
                 return artefacts.Find(f => f.IsHitAtFlatPosition(oddrChunkCoord));
@@ -112,30 +70,18 @@ namespace RockSystem.Artefacts
             return null;
         }
 
-        protected override void OnDestroy()
+        protected override void OnHealthChanged()
         {
-            base.OnDestroy();
+            base.OnHealthChanged();
             
-            Deinitialise();
+            artefactDamaged.Invoke();
         }
 
-        public void CheckHealthAndExposure()
+        protected override void OnExposureChanged()
         {
-            bool healthChanged = false;
-            bool exposureChanged = false;
+            base.OnExposureChanged();
             
-            foreach (var artefactShape in artefacts)
-            {
-                if (artefactShape.CheckHealth()) healthChanged = true;
-
-                if (artefactShape.CheckExposure()) exposureChanged = true;
-            }
-            
-            if (healthChanged)
-                artefactDamaged.Invoke();
-
-            if (exposureChanged)
-                artefactExposed.Invoke();
+            artefactExposed.Invoke();
         }
     }
 }

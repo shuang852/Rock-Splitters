@@ -82,8 +82,8 @@ namespace ToolSystem
 
             bool willDamageRock = chunkManager.WillDamageRock(affectedChunks);
 
-            artefactShapeManager.ArtefactShapesCanBeDamaged = !(tool.artefactSafety && willDamageRock);
-            mineManager.MinesCanBeDamaged = !(tool.mineSafety && willDamageRock);
+            artefactShapeManager.ChunkShapesCanBeDamaged = !(tool.artefactSafety && willDamageRock);
+            mineManager.ChunkShapesCanBeDamaged = !(tool.mineSafety && willDamageRock);
 
             foreach (var affectedChunk in affectedChunks)
             {
@@ -101,7 +101,8 @@ namespace ToolSystem
                 chunkManager.DamageChunksAtPosition(affectedChunk, clampedDamage);
             }
 
-            artefactShapeManager.ArtefactShapesCanBeDamaged = true;
+            artefactShapeManager.ChunkShapesCanBeDamaged = true;
+            mineManager.ChunkShapesCanBeDamaged = true;
             
             artefactShapeManager.CheckHealthAndExposure();
             mineManager.CheckHealthAndExposure();
