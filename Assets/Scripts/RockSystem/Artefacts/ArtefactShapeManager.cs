@@ -36,7 +36,7 @@ namespace RockSystem.Artefacts
 
             artefactShape.Initialise(artefact);
             
-            RegisterArtefact(artefactShape);
+            RegisterChunkShape(artefactShape);
 
             initialised.Invoke();
         }
@@ -46,16 +46,16 @@ namespace RockSystem.Artefacts
             artefactChunkDamaged.Invoke((ArtefactShape) chunkShape, flatPosition);
         }
 
-        protected override void RegisterArtefact(ArtefactShape artefactShape)
+        protected override void RegisterChunkShape(ArtefactShape artefactShape)
         {
-            base.RegisterArtefact(artefactShape);
+            base.RegisterChunkShape(artefactShape);
             
             artefactShape.chunkDamaged.AddListener(OnArtefactShapeChunkDamaged);
         }
 
-        protected override void UnregisterArtefact(ArtefactShape artefactShape)
+        protected override void UnregisterChunkShape(ArtefactShape artefactShape)
         {
-            base.UnregisterArtefact(artefactShape);
+            base.UnregisterChunkShape(artefactShape);
             
             artefactShape.chunkDamaged.RemoveListener(OnArtefactShapeChunkDamaged);
         }

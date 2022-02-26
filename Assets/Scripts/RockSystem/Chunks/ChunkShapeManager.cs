@@ -39,7 +39,7 @@ namespace RockSystem.Chunks
         {
             while (ChunkShapes.Count > 0)
             {
-                UnregisterArtefact(ChunkShapes.First());
+                UnregisterChunkShape(ChunkShapes.First());
             }
 
             ChunkShapeGameObjects.ForEach(Destroy);
@@ -48,7 +48,7 @@ namespace RockSystem.Chunks
             ChunkShapeGameObjects.Clear();
         }
 
-        protected virtual void RegisterArtefact(T chunkShape)
+        protected virtual void RegisterChunkShape(T chunkShape)
         {
             ChunkShapes.Add(chunkShape);
             
@@ -56,13 +56,21 @@ namespace RockSystem.Chunks
             ChunkManager.RegisterChunkShape(chunkShape);
 
             chunkShape.CanBeDamaged = ChunkShapesCanBeDamaged;
+            chunkShape.destroyed.AddListener(OnChunkShapeDestroyed);
         }
 
-        protected virtual void UnregisterArtefact(T chunkShape)
+        private void OnChunkShapeDestroyed(ChunkShape chunkShape)
+        {
+            UnregisterChunkShape((T) chunkShape);
+        }
+
+        protected virtual void UnregisterChunkShape(T chunkShape)
         {
             ChunkShapes.Remove(chunkShape);
 
             ChunkManager.UnregisterChunkShape(chunkShape);
+            
+            chunkShape.destroyed.RemoveListener(OnChunkShapeDestroyed);
         }
         
         protected override void OnDestroy()

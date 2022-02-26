@@ -19,6 +19,7 @@ namespace RockSystem.Chunks
         public UnityEvent exposed = new UnityEvent();
         public UnityEvent damaged = new UnityEvent();
         public UnityEvent<ChunkShape, Vector2Int> chunkDamaged = new UnityEvent<ChunkShape, Vector2Int>();
+        public UnityEvent<ChunkShape> destroyed = new UnityEvent<ChunkShape>();
         
         public float Exposure
         {
@@ -274,6 +275,8 @@ namespace RockSystem.Chunks
         protected virtual void OnDestroy()
         {
             chunkManager.chunkCleared.RemoveListener(OnChunkDestroyed);
+            
+            destroyed.Invoke(this);
         }
     }
 }

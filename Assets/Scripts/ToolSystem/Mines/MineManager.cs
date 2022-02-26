@@ -75,7 +75,7 @@ namespace ToolSystem.Mines
 
                 mine.Initialise(Random.Range(minLayer, ChunkManager.Size.z));
                 
-                RegisterArtefact(mine);
+                RegisterChunkShape(mine);
             }
         }
 

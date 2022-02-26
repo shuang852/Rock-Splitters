@@ -66,6 +66,7 @@ namespace ToolSystem.Mines
 
         private void Destroy()
         {
+            // TODO: Should Mine destroy itself or should it ask to be destroyed by its manager? 
             Destroy(gameObject);
         }
     }
