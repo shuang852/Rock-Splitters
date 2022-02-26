@@ -30,6 +30,7 @@ namespace RockSystem.Chunks
         public RockShape RockShape { get; private set; }
         public Color RockColor { get; private set; }
         public ChunkDescription ChunkDescription { get; private set; }
+        public Vector3Int Size => size;
 
         private readonly List<ChunkShape> chunkShapes = new List<ChunkShape>();
 

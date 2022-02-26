@@ -8,6 +8,7 @@ namespace ToolSystem.Mines
     {
         [SerializeField] private GameObject minePrefab;
         [SerializeField] private Vector2 rectSize;
+        [SerializeField] private int minLayer;
 
         public void Initialise(int minesToGenerate)
         {
@@ -72,8 +73,7 @@ namespace ToolSystem.Mines
 
                 var mine = go.GetComponent<Mine>();
 
-                // TODO: Properly initalise layer
-                mine.Initialise(3);
+                mine.Initialise(Random.Range(minLayer, ChunkManager.Size.z));
                 
                 RegisterArtefact(mine);
             }

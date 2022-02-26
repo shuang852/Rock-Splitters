@@ -45,3 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minePrefab: {fileID: 7906109639662594213, guid: cff47fd35133fac4e8b9139fd026cb56, type: 3}
   rectSize: {x: 8.3, y: 4.7}
+  minLayer: 1
