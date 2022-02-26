@@ -54,7 +54,7 @@ namespace RockSystem.Chunks
                     1f
                 );
                 
-                tilemapRenderer.sortingOrder = i;
+                tilemapRenderer.sortingOrder = i * 2 + 1;
                 tilemapRenderer.sortingLayerName = tilemapSortingLayer;
 
                 layeredTilemaps.Add(tilemap);

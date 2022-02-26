@@ -7,10 +7,14 @@ namespace ToolSystem.Mines
     public class Mine : ChunkShape
     {
         [SerializeField] private float triggerHealth;
+        [SerializeField] private float defuseExposure;
         [SerializeField] private Tool tool;
+        [SerializeField] private Animator animator;
+        [SerializeField] private string defuseLayer;
 
         private ToolManager toolManager;
         private bool detonated;
+        private static readonly int defuse = Animator.StringToHash("Defuse");
 
         protected override void Start()
         {
@@ -24,12 +28,20 @@ namespace ToolSystem.Mines
             Initialise(sprite, maxHealth, layer);
             
             damaged.AddListener(OnDamaged);
+            
+            exposed.AddListener(OnExposed);
         }
 
         private void OnDamaged()
         {
             if (Health <= triggerHealth && !detonated)
                 Detonate();
+        }
+
+        private void OnExposed()
+        {
+            if (Exposure > defuseExposure && !detonated)
+                Defuse();
         }
 
         private void Detonate()
@@ -41,6 +53,20 @@ namespace ToolSystem.Mines
             Destroy(gameObject);
             
             // TODO: Will need an explosion animation
+        }
+        
+        private void Defuse()
+        {
+            detonated = true;
+
+            SpriteRenderer.sortingLayerName = defuseLayer;
+            
+            animator.SetTrigger(defuse);
+        }
+
+        private void Destroy()
+        {
+            Destroy(gameObject);
         }
     }
 }

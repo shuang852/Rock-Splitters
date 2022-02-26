@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7906109639662594214}
   - component: {fileID: 7906109639662594215}
   - component: {fileID: 7906109639662594212}
+  - component: {fileID: 2374823770123404492}
   m_Layer: 0
   m_Name: Mine
   m_TagString: Untagged
@@ -147,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: be7dbb847b4b5e44aa9aaafc048f09d2, type: 3}
-  maxHealth: 1
+  maxHealth: 10
   enableDebug: 0
   initialised:
     m_PersistentCalls:
@@ -161,5 +162,28 @@ MonoBehaviour:
   chunkDamaged:
     m_PersistentCalls:
       m_Calls: []
+  layer: 0
   triggerHealth: 0.5
+  defuseExposure: 0.9
   tool: {fileID: 11400000, guid: 77096765d37847b41bc4eb65fee5b8c7, type: 2}
+  animator: {fileID: 2374823770123404492}
+  defuseLayer: FX
+--- !u!95 &2374823770123404492
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7906109639662594213}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 01dea6c2c2faee945b763dfa59ea2fd1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

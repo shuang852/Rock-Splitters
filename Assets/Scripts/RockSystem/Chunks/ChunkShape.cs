@@ -50,7 +50,7 @@ namespace RockSystem.Chunks
         public int Layer => layer;
         
         private readonly Dictionary<Vector2Int, float> chunkHealths = new Dictionary<Vector2Int, float>();
-        private SpriteRenderer spriteRenderer;
+        protected SpriteRenderer SpriteRenderer;
         private SpriteMask spriteMask;
         private PolygonCollider2D polyCollider;
         private ChunkManager chunkManager;
@@ -64,12 +64,12 @@ namespace RockSystem.Chunks
         private float exposure;
         private float health;
         
-        private int layer;
+        [SerializeField] private int layer;
         private string sortingLayer = "Chunk";
 
         protected virtual void Awake()
         {
-            spriteRenderer = GetComponent<SpriteRenderer>();
+            SpriteRenderer = GetComponent<SpriteRenderer>();
             spriteMask = GetComponent<SpriteMask>();
         }
 
@@ -95,11 +95,11 @@ namespace RockSystem.Chunks
             this.layer = layer;
             
             // Setup sprites
-            spriteRenderer.sprite = sprite;
+            SpriteRenderer.sprite = sprite;
             spriteMask.sprite = sprite;
 
-            spriteRenderer.sortingLayerName = sortingLayer;
-            spriteRenderer.sortingOrder = layer - 1;
+            SpriteRenderer.sortingLayerName = sortingLayer;
+            SpriteRenderer.sortingOrder = layer * 2;
             
             // Setup colliders
             if (polyCollider != null)
@@ -164,7 +164,11 @@ namespace RockSystem.Chunks
         {
             if (!IsHitAtFlatPosition(flatPosition)) return false;
 
-            return chunkManager.ChunkStructure.GetOrNull(flatPosition) == null;
+            var topChunk = chunkManager.ChunkStructure.GetOrNull(flatPosition);
+
+            if (topChunk == null) return true;
+
+            return topChunk.Position.z < layer;
         }
         
         public bool IsHitAtPosition(Vector3Int position)
