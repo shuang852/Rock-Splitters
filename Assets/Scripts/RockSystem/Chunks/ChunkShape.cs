@@ -43,22 +43,22 @@ namespace RockSystem.Chunks
 
         public int ExposedChunks { get; private set; }
 
-        public int NumOfChunks => chunkHealths.Count;
+        public int NumOfChunks => ChunkHealths.Count;
 
         public readonly Dictionary<Vector2Int, bool> ChunkExposure = new Dictionary<Vector2Int, bool>();
         public bool CanBeDamaged { get; set; } = true;
         public Sprite Sprite => sprite;
         public int Layer => layer;
-        
-        private readonly Dictionary<Vector2Int, float> chunkHealths = new Dictionary<Vector2Int, float>();
+
+        protected readonly Dictionary<Vector2Int, float> ChunkHealths = new Dictionary<Vector2Int, float>();
         protected SpriteRenderer SpriteRenderer;
         private SpriteMask spriteMask;
         private PolygonCollider2D polyCollider;
         private ChunkManager chunkManager;
 
-        private IEnumerable<Vector2Int> HitFlatPositions => chunkHealths.Keys;
+        private IEnumerable<Vector2Int> HitFlatPositions => ChunkHealths.Keys;
         // TODO: Inefficient, should be cached.
-        private IEnumerable<Vector3Int> HitPositions => chunkHealths.Keys.Select(v => new Vector3Int(v.x, v.y, layer));
+        private IEnumerable<Vector3Int> HitPositions => ChunkHealths.Keys.Select(v => new Vector3Int(v.x, v.y, layer));
 
         private bool exposureChanged;
         private bool healthChanged;
@@ -126,13 +126,13 @@ namespace RockSystem.Chunks
 
         private void SetupChunks()
         {
-            chunkHealths.Clear();
+            ChunkHealths.Clear();
             ChunkExposure.Clear();
             
             foreach (Vector2Int flatPosition in chunkManager.ChunkStructure.FlatPositions)
             {
                 if (Hexagons.HexagonOverlapsCollider(chunkManager.CurrentGrid, flatPosition, polyCollider))
-                    chunkHealths.Add(flatPosition, maxHealth);
+                    ChunkHealths.Add(flatPosition, maxHealth);
             }
 
             Health = 1;
@@ -142,12 +142,12 @@ namespace RockSystem.Chunks
 
         public void DamageChunk(Vector2Int position, float amount)
         {
-            if (!chunkHealths.ContainsKey(position))
+            if (!ChunkHealths.ContainsKey(position))
                 throw new IndexOutOfRangeException($"Position {position} is not in the {nameof(ChunkShape)}");
 
             if (!CanBeDamaged) return;
 
-            chunkHealths[position] = Mathf.Max(0, chunkHealths[position] - amount);
+            ChunkHealths[position] = Mathf.Max(0, ChunkHealths[position] - amount);
 
             healthChanged = true;
             
@@ -155,11 +155,11 @@ namespace RockSystem.Chunks
         }
 
         public float GetChunkHealth(Vector2Int position) =>
-            chunkHealths.ContainsKey(position) ? chunkHealths[position] : 0;
+            ChunkHealths.ContainsKey(position) ? ChunkHealths[position] : 0;
 
         #endregion
 
-        public bool IsHitAtFlatPosition(Vector2Int position) => chunkHealths.ContainsKey(position);
+        public bool IsHitAtFlatPosition(Vector2Int position) => ChunkHealths.ContainsKey(position);
 
         public bool IsExposedAtFlatPosition(Vector2Int flatPosition)
         {
@@ -204,15 +204,15 @@ namespace RockSystem.Chunks
         }
 
         // TODO: Move to top
-        public float MaxTotalHealth => chunkHealths.Count * maxHealth;
+        public float MaxTotalHealth => ChunkHealths.Count * maxHealth;
 
-        public float CurrentTotalHealth => chunkHealths.Values.Sum();
+        public float CurrentTotalHealth => ChunkHealths.Values.Sum();
 
         private void UpdateExposure()
         {
             ExposedChunks = ChunkExposure.Count(i => i.Value);
             
-            int totalChunks = chunkHealths.Count;
+            int totalChunks = ChunkHealths.Count;
 
             Exposure = ExposedChunks / (float) totalChunks;
         }
@@ -222,7 +222,7 @@ namespace RockSystem.Chunks
         {
             int exposedChunks = 0;
             
-            foreach (var flatPosition in chunkHealths.Keys)
+            foreach (var flatPosition in ChunkHealths.Keys)
             {
                 if (IsExposedAtFlatPosition(flatPosition))
                 {
@@ -238,7 +238,7 @@ namespace RockSystem.Chunks
 
             ExposedChunks = exposedChunks;
 
-            int totalChunks = chunkHealths.Count;
+            int totalChunks = ChunkHealths.Count;
 
             Exposure = ExposedChunks / (float) totalChunks;
         }
