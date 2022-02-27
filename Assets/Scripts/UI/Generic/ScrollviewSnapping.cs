@@ -28,7 +28,7 @@ namespace UI.Generic
         private ScrollRect scrollRect;
         private RectTransform scrollRectTransform;
         private bool isLerping;
-        private bool isTweening;
+        //private bool isTweening;
         private bool isFindingClosest;
         private int index;
 
@@ -88,10 +88,10 @@ namespace UI.Generic
             {
                 isLerping = false;
                 scrollRect.velocity = Vector2.zero;
-                isTweening = true;
+                //isTweening = true;
                 Panel.transform.DOLocalMoveX(scrollPositions[index].x, easeDuration, true)
-                    .SetEase(easeMode)
-                    .OnComplete(() => isTweening = false);
+                    .SetEase(easeMode);
+                //.OnComplete(() => isTweening = false);
             }
 
             // TODO: FIX scroll elasticity not lining up. Drag beyond the content to see problem.

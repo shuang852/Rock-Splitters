@@ -11,14 +11,20 @@ namespace Cleaning
         private CleaningManager cleaningManager;
         private ArtefactShapeManager artefactShapeManager;
         
+        [SerializeField] private float perfectThreshold = 0.98f;
         public UnityEvent scoreUpdated = new UnityEvent();
+
+        public float ArtefactsCleaned { get; private set; }
+        public float ArtefactsPerfected { get; private set; }
+        public float TotalArtefactsHealth { get; private set; }
+        public float TotalArtefactsExposure { get; private set; }
 
         public float Score { get; private set; }
 
         protected override void Start()
         {
             base.Start();
-            
+
             cleaningManager = M.GetOrThrow<CleaningManager>();
             artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
 
@@ -43,6 +49,16 @@ namespace Cleaning
                 artefactShapeManager.MainArtefactShape.Health * 
                 artefactShapeManager.MainArtefactShape.Exposure
             );
+
+            ArtefactsCleaned++;
+
+            if (artefactShapeManager.MainArtefactShape.Health >= perfectThreshold)
+            {
+                ArtefactsPerfected++;
+            };
+
+            TotalArtefactsExposure += artefactShapeManager.MainArtefactShape.Exposure;
+            TotalArtefactsHealth += artefactShapeManager.MainArtefactShape.Health;
             
             Score += artefactRockScore;
             scoreUpdated.Invoke();
@@ -51,7 +67,7 @@ namespace Cleaning
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            
+
             cleaningManager.cleaningStarted.RemoveListener(ResetScore);
             cleaningManager.artefactRockSucceeded.RemoveListener(UpdateScore);
             cleaningManager.cleaningEnded.RemoveListener(UpdateScore);
