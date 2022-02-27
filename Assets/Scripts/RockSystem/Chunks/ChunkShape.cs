@@ -20,6 +20,7 @@ namespace RockSystem.Chunks
         public UnityEvent damaged = new UnityEvent();
         public UnityEvent<ChunkShape, Vector2Int> chunkDamaged = new UnityEvent<ChunkShape, Vector2Int>();
         public UnityEvent<ChunkShape> destroyed = new UnityEvent<ChunkShape>();
+        public UnityEvent<ChunkShape> destroyRequest = new UnityEvent<ChunkShape>();
         
         public float Exposure
         {
@@ -49,6 +50,8 @@ namespace RockSystem.Chunks
         public bool CanBeDamaged { get; set; } = true;
         public Sprite Sprite => sprite;
         public int Layer => layer;
+        public float MaxTotalHealth => ChunkHealths.Count * maxHealth;
+        public float CurrentTotalHealth => ChunkHealths.Values.Sum();
 
         protected readonly Dictionary<Vector2Int, float> ChunkHealths = new Dictionary<Vector2Int, float>();
         protected SpriteRenderer SpriteRenderer;
@@ -193,20 +196,10 @@ namespace RockSystem.Chunks
             }
         }
 
-        // TODO: Simplify
         private void UpdateHealth ()
         {
-            float currentTotalHealth = CurrentTotalHealth;
-
-            float maxTotalHealth = MaxTotalHealth;
-            
-            Health = currentTotalHealth / maxTotalHealth;
+            Health = CurrentTotalHealth / MaxTotalHealth;
         }
-
-        // TODO: Move to top
-        public float MaxTotalHealth => ChunkHealths.Count * maxHealth;
-
-        public float CurrentTotalHealth => ChunkHealths.Values.Sum();
 
         private void UpdateExposure()
         {

@@ -6,7 +6,6 @@ namespace ToolSystem.Mines
 {
     public class MineManager : ChunkShapeManager<Mine>
     {
-        [SerializeField] private GameObject minePrefab;
         [SerializeField] private Vector2 rectSize;
         [SerializeField] private int minLayer;
 
@@ -57,7 +56,7 @@ namespace ToolSystem.Mines
 
             boxes.AddRange(bigBoxes);
 
-            var spriteRendererBounds = minePrefab.GetComponent<SpriteRenderer>().bounds;
+            var spriteRendererBounds = chunkShapePrefab.GetComponent<SpriteRenderer>().bounds;
 
             var buffer = new Vector2(
                 spriteRendererBounds.extents.x,
@@ -68,14 +67,10 @@ namespace ToolSystem.Mines
             {
                 Vector2 randomPosInBox = RandomPosInRect(boxes[i], buffer);
                 
-                var go = Instantiate(minePrefab, randomPosInBox, Quaternion.identity, transform);
-                ChunkShapeGameObjects.Add(go);
-
-                var mine = go.GetComponent<Mine>();
-
-                mine.Initialise(Random.Range(minLayer, ChunkManager.Size.z));
-                
-                RegisterChunkShape(mine);
+                CreateChunkShape(
+                    () => Instantiate(chunkShapePrefab, randomPosInBox, Quaternion.identity, transform),
+                    mine => mine.Initialise(Random.Range(minLayer, ChunkManager.Size.z))
+                );
             }
         }
 

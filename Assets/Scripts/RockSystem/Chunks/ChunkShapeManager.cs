@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Managers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace RockSystem.Chunks
 {
     public class ChunkShapeManager<T> : Manager where T : ChunkShape
     {
+        [FormerlySerializedAs("minePrefab")] [SerializeField] protected GameObject chunkShapePrefab;
+        
         public bool ChunkShapesCanBeDamaged
         {
             get => chunkShapesCanBeDamaged;
@@ -20,8 +24,11 @@ namespace RockSystem.Chunks
         
         private bool chunkShapesCanBeDamaged = true;
         protected readonly List<T> ChunkShapes = new List<T>();
-        protected readonly List<GameObject> ChunkShapeGameObjects = new List<GameObject>();
+
+        protected readonly Dictionary<ChunkShape, GameObject> ChunkShapeGameObjects =
+            new Dictionary<ChunkShape, GameObject>();
         protected ChunkManager ChunkManager;
+        private readonly List<ChunkShape> destroyRequests = new List<ChunkShape>();
 
         protected override void Start()
         {
@@ -39,38 +46,58 @@ namespace RockSystem.Chunks
         {
             while (ChunkShapes.Count > 0)
             {
-                UnregisterChunkShape(ChunkShapes.First());
+                DestroyChunkShape(ChunkShapes.First());
             }
-
-            ChunkShapeGameObjects.ForEach(Destroy);
-            
-            ChunkShapes.Clear();
-            ChunkShapeGameObjects.Clear();
         }
 
-        protected virtual void RegisterChunkShape(T chunkShape)
+        protected virtual T CreateChunkShape(Func<GameObject> instantiationFunction, Action<T> initialisationAction)
         {
+            var go = instantiationFunction();
+
+            var chunkShape = go.GetComponent<T>();
+            
+            ChunkShapeGameObjects.Add(chunkShape, go);
+
+            initialisationAction(chunkShape);
+            
             ChunkShapes.Add(chunkShape);
             
             // TODO: Should this just be handled by the ChunkShape? Leads to two way dependency
             ChunkManager.RegisterChunkShape(chunkShape);
 
             chunkShape.CanBeDamaged = ChunkShapesCanBeDamaged;
+            chunkShape.destroyRequest.AddListener(OnChunkShapeDestroyRequest);
             chunkShape.destroyed.AddListener(OnChunkShapeDestroyed);
+
+            return chunkShape;
+        }
+
+        private void OnChunkShapeDestroyRequest(ChunkShape chunkShape)
+        {
+            destroyRequests.Add(chunkShape);
         }
 
         private void OnChunkShapeDestroyed(ChunkShape chunkShape)
         {
-            UnregisterChunkShape((T) chunkShape);
+            if (!ChunkShapes.Contains(chunkShape)) return;
+            
+            Debug.LogWarning($"{nameof(ChunkShape)}s should be destroyed by a {nameof(ChunkShapeManager<ChunkShape>)}. " +
+                             $"Allowing {nameof(ChunkShape)}s to destroy themselves can cause problems.");
+                
+            DestroyChunkShape((T) chunkShape);
         }
 
-        protected virtual void UnregisterChunkShape(T chunkShape)
+        protected virtual void DestroyChunkShape(T chunkShape)
         {
             ChunkShapes.Remove(chunkShape);
 
             ChunkManager.UnregisterChunkShape(chunkShape);
             
             chunkShape.destroyed.RemoveListener(OnChunkShapeDestroyed);
+            
+            Destroy(ChunkShapeGameObjects[chunkShape]);
+
+            ChunkShapeGameObjects.Remove(chunkShape);
         }
         
         protected override void OnDestroy()
@@ -97,10 +124,22 @@ namespace RockSystem.Chunks
 
             if (exposureChanged)
                 OnExposureChanged();
+            
+            HandleDestroyRequests();
         }
         
         protected virtual void OnHealthChanged() {}
         
         protected virtual void OnExposureChanged() {}
+
+        private void HandleDestroyRequests()
+        {
+            while (destroyRequests.Count > 0)
+            {
+                DestroyChunkShape((T) destroyRequests[0]);
+                
+                destroyRequests.RemoveAt(0);
+            }
+        }
     }
 }

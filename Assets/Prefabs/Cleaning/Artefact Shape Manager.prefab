@@ -43,3 +43,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d93195061a64c6bbb0c16bb79070462, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chunkShapePrefab: {fileID: 2237704622389209660, guid: 3ea3447258803e845881ceddd459f43b, type: 3}
+  initialised:
+    m_PersistentCalls:
+      m_Calls: []
+  artefactDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  artefactExposed:
+    m_PersistentCalls:
+      m_Calls: []
+  artefactChunkDamaged:
+    m_PersistentCalls:
+      m_Calls: []

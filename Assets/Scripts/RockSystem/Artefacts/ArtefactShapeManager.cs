@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using RockSystem.Chunks;
 using Stored;
@@ -16,27 +17,23 @@ namespace RockSystem.Artefacts
         public UnityEvent<ArtefactShape, Vector2Int> artefactChunkDamaged = new UnityEvent<ArtefactShape, Vector2Int>();
 
         // TODO: Try to avoid using this whereever possible, it should be switched out for a list of main artefacts
-        public ArtefactShape MainArtefactShape => artefacts.FirstOrDefault();
+        public ArtefactShape MainArtefactShape => Artefacts.FirstOrDefault();
         
         // TODO: Health and exposure can be updated to only include certain "main" artefacts
-        public float Exposure => (float) artefacts.Sum(a => a.ExposedChunks) / artefacts.Sum(a => a.NumOfChunks);
-        public float Health => artefacts.Sum(a => a.CurrentTotalHealth) / artefacts.Sum(a => a.MaxTotalHealth);
+        public float Exposure => (float) Artefacts.Sum(a => a.ExposedChunks) / Artefacts.Sum(a => a.NumOfChunks);
+        public float Health => Artefacts.Sum(a => a.CurrentTotalHealth) / Artefacts.Sum(a => a.MaxTotalHealth);
 
-        private List<ArtefactShape> artefacts => ChunkShapes;
+        private List<ArtefactShape> Artefacts => ChunkShapes;
         
         // TODO: Should support being passed multiple Artefacts
         public void Initialise(Artefact artefact)
         {
             base.Initialise();
             
-            GameObject go = new GameObject(artefact.DisplayName);
-            go.transform.parent = transform;
-            ChunkShapeGameObjects.Add(go);
-            ArtefactShape artefactShape = go.AddComponent<ArtefactShape>();
-
-            artefactShape.Initialise(artefact);
-            
-            RegisterChunkShape(artefactShape);
+            CreateChunkShape(
+                () => Instantiate(chunkShapePrefab, transform),
+                artefactShape => artefactShape.Initialise(artefact)
+            );
 
             initialised.Invoke();
         }
@@ -46,16 +43,18 @@ namespace RockSystem.Artefacts
             artefactChunkDamaged.Invoke((ArtefactShape) chunkShape, flatPosition);
         }
 
-        protected override void RegisterChunkShape(ArtefactShape artefactShape)
+        protected override ArtefactShape CreateChunkShape(Func<GameObject> instantiationFunction, Action<ArtefactShape> initialisationAction)
         {
-            base.RegisterChunkShape(artefactShape);
+            var artefactShape = base.CreateChunkShape(instantiationFunction, initialisationAction);
             
             artefactShape.chunkDamaged.AddListener(OnArtefactShapeChunkDamaged);
+
+            return artefactShape;
         }
 
-        protected override void UnregisterChunkShape(ArtefactShape artefactShape)
+        protected override void DestroyChunkShape(ArtefactShape artefactShape)
         {
-            base.UnregisterChunkShape(artefactShape);
+            base.DestroyChunkShape(artefactShape);
             
             artefactShape.chunkDamaged.RemoveListener(OnArtefactShapeChunkDamaged);
         }
@@ -65,7 +64,7 @@ namespace RockSystem.Artefacts
             Chunk chunk = ChunkManager.ChunkStructure.GetOrNull(oddrChunkCoord);
 
             if (chunk == null)
-                return artefacts.Find(f => f.IsHitAtFlatPosition(oddrChunkCoord));
+                return Artefacts.Find(f => f.IsHitAtFlatPosition(oddrChunkCoord));
 
             return null;
         }
