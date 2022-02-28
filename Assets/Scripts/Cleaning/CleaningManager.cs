@@ -32,6 +32,7 @@ namespace Cleaning
         public UnityEvent artefactRockFailed = new UnityEvent();
         public UnityEvent artefactRockSucceeded = new UnityEvent();
         public UnityEvent artefactRockCompleted = new UnityEvent();
+        public UnityEvent artefactStatsCompleted = new UnityEvent();
 
         private ChunkManager chunkManager;
         private ArtefactShape artefactShape;
@@ -69,9 +70,8 @@ namespace Cleaning
             artefactShape.artefactDamaged.AddListener(CheckIfArtefactRockFailed);
 
             currentGenerationBracketIndex = 0;
-            
-            cleaningStarted.Invoke();
 
+            cleaningStarted.Invoke();
             NextArtefactRock();
         }
 
@@ -119,18 +119,22 @@ namespace Cleaning
 
         public void ArtefactRockFailed()
         {
+            PauseCleaning();
             artefactsCleaned++;
             artefactsCleanedInBracket++;
             artefactsCleanedFailed++;
             
             artefactRockFailed.Invoke();
             artefactRockCompleted.Invoke();
+            artefactStatsCompleted.Invoke();
             
-            NextArtefactRock();
+            //NextArtefactRock();
         }
 
         public void ArtefactRockSucceeded()
         {
+            PauseCleaning();
+            
             artefactsCleaned++;
             artefactsCleanedInBracket++;
             artefactsCleanedSuccessfully++;
@@ -138,8 +142,9 @@ namespace Cleaning
             artefactManager.AddItem(artefactShape.Artefact);
             artefactRockSucceeded.Invoke();
             artefactRockCompleted.Invoke();
-            
-            NextArtefactRock();
+            artefactStatsCompleted.Invoke();
+
+            //NextArtefactRock();
             
             // TODO: Where should this go?
             // chunkManager.HideRock();
@@ -168,7 +173,7 @@ namespace Cleaning
         public void ResumeCleaning()
         {
             toolManager.SelectTool(previousTool);
-            
+
             cleaningResumed.Invoke();
         }
     }

@@ -39,6 +39,7 @@ namespace RockSystem.Chunks
             {
                 GameObject go = new GameObject($"Layered Tilemap [layer {i}]");
                 go.transform.parent = transform;
+                go.transform.localPosition = Vector3.zero;
                 Tilemap tilemap = go.AddComponent<Tilemap>();
                 TilemapRenderer tilemapRenderer = go.AddComponent<TilemapRenderer>();
                 

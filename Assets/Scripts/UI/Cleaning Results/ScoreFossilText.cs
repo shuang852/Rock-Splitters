@@ -2,20 +2,20 @@
 using Cleaning;
 using Managers;
 using RockSystem.Artefacts;
+using TMPro;
 using UI.Core;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace UI.Cleaning_Results
 {
     public class ScoreFossilText : DialogueComponent<CleaningFossilResultsDialogue>
     {
-        [SerializeField] private Text winStateText;
-        [SerializeField] private Text baseArtefactScoreText;
-        [SerializeField] private Text artefactHealthText;
-        [SerializeField] private Text artefactExposureText;
-        [SerializeField] private Text timeRemainingText;
-        [SerializeField] private Text totalScoreText;
+        [SerializeField] private TextMeshProUGUI motivationText;
+        [SerializeField] private TextMeshProUGUI totalScoreText;
+        [SerializeField] private TextMeshProUGUI artefactScoreText;
+        [SerializeField] private TextMeshProUGUI artefactHealthText;
+        [SerializeField] private TextMeshProUGUI bonusText;
+        [SerializeField] private TextMeshProUGUI timeTakenText;
 
         private CleaningManager cleaningManager;
         private CleaningTimerManager timerManager;
@@ -31,13 +31,10 @@ namespace UI.Cleaning_Results
             scoreManager = M.GetOrThrow<CleaningScoreManager>();
             artefactShape = M.GetOrThrow<ArtefactShape>();
 
-            winStateText.text = WinStateToString();
-            baseArtefactScoreText.text = "Not implemented";
+            //baseArtefactScoreText.text = "Not implemented";
             artefactHealthText.text =
                 Mathf.Round(artefactShape.ArtefactHealth * 100).ToString(CultureInfo.InvariantCulture) + "%";
-            artefactExposureText.text =
-                Mathf.Round(artefactShape.ArtefactExposure * 100).ToString(CultureInfo.InvariantCulture) + "%";
-            timeRemainingText.text = timerManager.CurrentTime.ToString(CultureInfo.InvariantCulture);
+            //timeRemainingText.text = timerManager.CurrentTime.ToString(CultureInfo.InvariantCulture);
             totalScoreText.text = scoreManager.Score.ToString(CultureInfo.InvariantCulture);
         }
 
@@ -46,20 +43,20 @@ namespace UI.Cleaning_Results
         protected override void Unsubscribe() { }
 
         // TODO
-        private string WinStateToString()
-        {
-            return "Times Up!";
-
-            // switch (cleaningManager.CurrentCleaningState)
-            // {
-            //     case CleaningManager.CleaningState.Lost:
-            //         return "Better luck next time...";
-            //     case CleaningManager.CleaningState.Won:
-            //         return "Success!";
-            //     default:
-            //         Debug.Log($"Invalid {nameof(CleaningManager.CleaningState)} {cleaningManager.CurrentCleaningState}.");
-            //         return "Invalid State";
-            // }
-        }
+        // private string WinStateToString()
+        // {
+        //     return "Times Up!";
+        //
+        //     // switch (cleaningManager.CurrentCleaningState)
+        //     // {
+        //     //     case CleaningManager.CleaningState.Lost:
+        //     //         return "Better luck next time...";
+        //     //     case CleaningManager.CleaningState.Won:
+        //     //         return "Success!";
+        //     //     default:
+        //     //         Debug.Log($"Invalid {nameof(CleaningManager.CleaningState)} {cleaningManager.CurrentCleaningState}.");
+        //     //         return "Invalid State";
+        //     // }
+        // }
     }
 }
