@@ -370,6 +370,10 @@ MonoBehaviour:
   readyPromptDialoguePrefab: {fileID: 4334455327173032132, guid: f7ed1cf07d232974ca2fb178c9c83977, type: 3}
   brushInput: {fileID: 9142941224467984369}
   canvas: {fileID: 44528007242308491}
+  cleaningArea: {fileID: 0}
+  delayAfterArtefactCleaned: 2
+  rockMoveDuration: 1.5
+  rockMoveWorldPosX: 15
 --- !u!1 &5200572661134338353
 GameObject:
   m_ObjectHideFlags: 0

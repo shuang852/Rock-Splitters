@@ -28,7 +28,8 @@ namespace Cleaning
         public UnityEvent cleaningPaused = new UnityEvent();
         public UnityEvent cleaningResumed = new UnityEvent();
         public UnityEvent cleaningEnded = new UnityEvent();
-        public UnityEvent nextArtefactRock = new UnityEvent();
+        public UnityEvent nextArtefactRockGenerated = new UnityEvent();
+        public UnityEvent nextArtefactRockStarted = new UnityEvent();
         public UnityEvent artefactRockFailed = new UnityEvent();
         public UnityEvent artefactRockSucceeded = new UnityEvent();
         public UnityEvent artefactRockCompleted = new UnityEvent();
@@ -89,7 +90,7 @@ namespace Cleaning
             chunkManager.Initialise(CurrentArtefactRock.RockShape, CurrentArtefactRock.RockColor, CurrentArtefactRock.ChunkDescription);
             artefactShape.Initialise(CurrentArtefactRock.Artefact);
             
-            nextArtefactRock.Invoke();
+            nextArtefactRockGenerated.Invoke();
         }
 
         public ArtefactRock GenerateArtefactRock(GenerationBracket generationBracket)

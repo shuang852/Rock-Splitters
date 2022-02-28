@@ -1139,6 +1139,11 @@ MonoBehaviour:
   artefactHealthText: {fileID: 2274543436485721954}
   bonusText: {fileID: 5695601183006923556}
   timeTakenText: {fileID: 5161532043487412038}
+  textPool:
+  - Amazing!
+  - Great!
+  - Keep it up!
+  - Nice work!
 --- !u!1 &7618040248529332608
 GameObject:
   m_ObjectHideFlags: 0

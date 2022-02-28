@@ -20,6 +20,8 @@ namespace Cleaning
         public float TotalArtefactsExposure { get; private set; }
 
         public float Score { get; private set; }
+        public float ArtefactRockScore { get; private set; }
+        
 
         protected override void Start()
         {
@@ -44,20 +46,19 @@ namespace Cleaning
 
             // TODO: Incorporate rock difficulty.
             // TODO: Final score = Base * Health * Cleanliness * Rock Diff
-            var artefactRockScore = Mathf.Round(artefactShape.Artefact.Score * artefactShape.ArtefactHealth *
+            ArtefactRockScore = Mathf.Round(artefactShape.Artefact.Score * artefactShape.ArtefactHealth *
                                                 artefactShape.ArtefactExposure);
             ArtefactsCleaned++;
-
-            Debug.Log(artefactShape.ArtefactHealth);
+            
             if (artefactShape.ArtefactHealth >= perfectThreshold)
             {
                 ArtefactsPerfected++;
-            };
+            }
 
             TotalArtefactsExposure += artefactShape.ArtefactExposure;
             TotalArtefactsHealth += artefactShape.ArtefactHealth;
             
-            Score += artefactRockScore;
+            Score += ArtefactRockScore;
             scoreUpdated.Invoke();
         }
 

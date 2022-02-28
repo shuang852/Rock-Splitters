@@ -22,6 +22,7 @@ namespace UI.Cleaning
         [SerializeField] private GameObject cleaningArea;
         [SerializeField] private float delayAfterArtefactCleaned = 1.5f;
         [SerializeField] private float rockMoveDuration = 2f;
+        [SerializeField] private float rockMoveWorldPosX = 15;
         
 
         private CleaningManager cleaningManager;
@@ -63,13 +64,16 @@ namespace UI.Cleaning
             
             manager.Pop();
 
-            await cleaningArea.transform.DOMoveX(20, rockMoveDuration).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
+            await cleaningArea.transform.DOMoveX(rockMoveWorldPosX, rockMoveDuration).SetEase(Ease.OutQuad)
+                .AsyncWaitForCompletion();
 
-            cleaningArea.transform.position = new Vector3(-20, 0, 0);
+            cleaningArea.transform.position = new Vector3(-rockMoveWorldPosX, 0, 0);
             cleaningManager.NextArtefactRock();
 
-            await cleaningArea.transform.DOMoveX(0, rockMoveDuration).AsyncWaitForCompletion();
+            await cleaningArea.transform.DOMoveX(0, rockMoveDuration).SetEase(Ease.InQuad)
+                .AsyncWaitForCompletion();
             cleaningManager.ResumeCleaning();
+            cleaningManager.nextArtefactRockStarted.Invoke();
             brushInput.enabled = true;
         }
         
@@ -109,7 +113,7 @@ namespace UI.Cleaning
         {
             cleaningManager.cleaningStarted.RemoveListener(OnCleaningStarted);
             cleaningManager.cleaningEnded.RemoveListener(ShowFinalResults);
-            cleaningManager.nextArtefactRock.RemoveListener(ShowCountdown);
+            cleaningManager.nextArtefactRockGenerated.RemoveListener(ShowCountdown);
         }
         
         public void DeselectToolButton(SelectToolButton selectToolButton)

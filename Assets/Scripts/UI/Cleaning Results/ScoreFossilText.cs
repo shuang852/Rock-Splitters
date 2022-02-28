@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using Cleaning;
 using Managers;
 using RockSystem.Artefacts;
@@ -17,6 +18,9 @@ namespace UI.Cleaning_Results
         [SerializeField] private TextMeshProUGUI bonusText;
         [SerializeField] private TextMeshProUGUI timeTakenText;
 
+        [Header("Motivation texts")] [SerializeField]
+        private List<string> textPool;
+
         private CleaningManager cleaningManager;
         private CleaningTimerManager timerManager;
         private CleaningScoreManager scoreManager;
@@ -31,10 +35,12 @@ namespace UI.Cleaning_Results
             scoreManager = M.GetOrThrow<CleaningScoreManager>();
             artefactShape = M.GetOrThrow<ArtefactShape>();
 
-            //baseArtefactScoreText.text = "Not implemented";
+            motivationText.text = textPool[Random.Range(0, textPool.Count - 1)];
+            artefactScoreText.text = scoreManager.ArtefactRockScore.ToString(CultureInfo.InvariantCulture);
             artefactHealthText.text =
                 Mathf.Round(artefactShape.ArtefactHealth * 100).ToString(CultureInfo.InvariantCulture) + "%";
-            //timeRemainingText.text = timerManager.CurrentTime.ToString(CultureInfo.InvariantCulture);
+            bonusText.text = timerManager.BonusTime.ToString("F2", CultureInfo.InvariantCulture) + "s";
+            timeTakenText.text = timerManager.TimeTaken.ToString("F2", CultureInfo.InvariantCulture) + "s";
             totalScoreText.text = scoreManager.Score.ToString(CultureInfo.InvariantCulture);
         }
 
