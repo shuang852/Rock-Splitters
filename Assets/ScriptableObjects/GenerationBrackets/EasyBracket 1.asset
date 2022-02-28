@@ -17,6 +17,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 45d2e200828bd844fa0bd9e2125f2703, type: 2}
   - {fileID: 11400000, guid: 8c9a4007cfb0ad34fbe3a5e22f6b1921, type: 2}
   - {fileID: 11400000, guid: cc03542e9167afa43a983bd3fadf5005, type: 2}
+  - {fileID: 11400000, guid: 02fc4653b2770d946934c147a6b9761f, type: 2}
+  - {fileID: 11400000, guid: e428964492445b743a866183a296207e, type: 2}
+  - {fileID: 11400000, guid: 05dfecf3bd33d40469830c85543d3ca4, type: 2}
+  - {fileID: 11400000, guid: 7a79304463733754388a571c38066b11, type: 2}
   rockShapes:
   - {fileID: 11400000, guid: fa8a512112676f549a92c37673633f86, type: 2}
   - {fileID: 11400000, guid: 2f9b446985d517a459690f76fd680601, type: 2}
