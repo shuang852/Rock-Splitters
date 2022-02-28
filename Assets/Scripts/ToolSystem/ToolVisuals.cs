@@ -58,14 +58,16 @@ namespace ToolSystem
             {
                 case Tool.ToolAction.Tap:
                     Instantiate(hammerVisPrefab, transform);
-                    cameraShake.Shake();
+                    cameraShake.ShakeOnce();
                     break;
                 case Tool.ToolAction.Continuous:
+                    cameraShake.ShakeContinuous();
                     if (!toolInUse)
                     {
                         drillAnimator.SetBool(cleaning, true);
                         if (!drillParticles.isEmitting) drillParticles.Play();
                         toolInUse = true;
+                        //cameraShake.ShakeContinuous();
                     }
                     break;
                 default:

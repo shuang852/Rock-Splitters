@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20b418a66a9443978ad81769992aea96, type: 3}
+  m_Name: Spinosaurus Torso
+  m_EditorClassIdentifier: 
+  displayName: Spinosaurus Torso
+  sprite: {fileID: 21300000, guid: 4612e3de800442e48a0ab2f1c11f6b7c, type: 3}
+  breakingHealth: 25
+  maxHealth: 40
+  score: 1000
+  overrideSet: 0
+  artefactSet: {fileID: 11400000, guid: 8929fc5819d3deb4ea2d2a9ce293428d, type: 2}

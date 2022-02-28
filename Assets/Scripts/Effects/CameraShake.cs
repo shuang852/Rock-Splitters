@@ -8,9 +8,12 @@ namespace Effects
     {
         [SerializeField, HideInInspector] private new Camera camera;
         
-        [SerializeField] private float amount;
-        [SerializeField] private float duration;
-        [SerializeField] private float period;
+        [SerializeField] private float hammerAmount;
+        [SerializeField] private float hammerDuration;
+        [SerializeField] private float hammerPeriod;
+        [SerializeField] private float drillAmount;
+        [SerializeField] private float drillDuration;
+        [SerializeField] private float drillPeriod;
 
         public bool ShakeEnabled = true;
         private Coroutine _coroutine;
@@ -21,15 +24,25 @@ namespace Effects
             camera = GetComponent<Camera>();
         }
         
+        // TODO: make it more generic and support any values. Derive the shake amounts elsewhere
         [ContextMenu("Start")]
-        public void Shake()
+        public void ShakeOnce()
         {
             if (!ShakeEnabled) return;
             
             Stop();
             
             _rootPosition = transform.position;
-            _coroutine = StartCoroutine(ShakeCoroutine());
+            _coroutine = StartCoroutine(ShakeCoroutine(hammerDuration, hammerAmount, hammerPeriod));
+        } 
+        public void ShakeContinuous()
+        {
+            if (!ShakeEnabled) return;
+            if (_coroutine != null)
+                return;
+
+            _rootPosition = transform.position;
+            _coroutine = StartCoroutine(ShakeCoroutine(drillDuration, drillAmount, drillPeriod));
         }
 
         [ContextMenu("Stop")]
@@ -44,7 +57,7 @@ namespace Effects
             transform.position = _rootPosition;
         }
 
-        private IEnumerator ShakeCoroutine()
+        private IEnumerator ShakeCoroutine(float duration, float amount, float period)
         {
             float remaining = duration;
 
@@ -57,6 +70,7 @@ namespace Effects
                 remaining -= Time.time - startTime;
             }
 
+            _coroutine = null;
             transform.position = _rootPosition;
         }
     }

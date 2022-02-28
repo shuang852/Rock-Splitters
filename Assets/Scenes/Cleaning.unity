@@ -498,6 +498,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: X-Ray Overlay
       objectReference: {fileID: 0}
+    - target: {fileID: 217223948884337079, guid: 5a08d585876884343b5200d5f17a1477, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a08d585876884343b5200d5f17a1477, type: 3}
 --- !u!114 &581684820 stripped
@@ -522,6 +526,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cleaning Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 8984203833170299018, guid: 3683d6c4614ca5849a91dfe20c27be7f, type: 3}
+      propertyPath: generationBrackets.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8984203833170299018, guid: 3683d6c4614ca5849a91dfe20c27be7f, type: 3}
+      propertyPath: generationBrackets.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 00f40be230b46f341876447f877db9b1, type: 2}
+    - target: {fileID: 8984203833170299018, guid: 3683d6c4614ca5849a91dfe20c27be7f, type: 3}
+      propertyPath: generationBrackets.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b14ffbd1de92e6428a47f6b8a3960f1, type: 2}
+    - target: {fileID: 8984203833170299018, guid: 3683d6c4614ca5849a91dfe20c27be7f, type: 3}
+      propertyPath: generationBrackets.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 664b239c100c25843afe7a08f61ba976, type: 2}
+    - target: {fileID: 8984203833170299018, guid: 3683d6c4614ca5849a91dfe20c27be7f, type: 3}
+      propertyPath: generationBrackets.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: e0ce949d2bbbbf440bf7abebf56bd72e, type: 2}
     - target: {fileID: 8984203833170299019, guid: 3683d6c4614ca5849a91dfe20c27be7f, type: 3}
       propertyPath: m_RootOrder
       value: 3

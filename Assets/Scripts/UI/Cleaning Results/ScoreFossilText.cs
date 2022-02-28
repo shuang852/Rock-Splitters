@@ -4,17 +4,16 @@ using Managers;
 using RockSystem.Artefacts;
 using UI.Core;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.Cleaning_Results
 {
-    public class ScoreText : DialogueComponent<CleaningResultsDialogue>
+    public class ScoreFossilText : DialogueComponent<CleaningFossilResultsDialogue>
     {
         [SerializeField] private Text winStateText;
-        [FormerlySerializedAs("baseFossilScoreText")] [SerializeField] private Text baseArtefactScoreText;
-        [FormerlySerializedAs("fossilHealthText")] [SerializeField] private Text artefactHealthText;
-        [FormerlySerializedAs("fossilExposureText")] [SerializeField] private Text artefactExposureText;
+        [SerializeField] private Text baseArtefactScoreText;
+        [SerializeField] private Text artefactHealthText;
+        [SerializeField] private Text artefactExposureText;
         [SerializeField] private Text timeRemainingText;
         [SerializeField] private Text totalScoreText;
 

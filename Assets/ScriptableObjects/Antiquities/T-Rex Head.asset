@@ -18,4 +18,4 @@ MonoBehaviour:
   maxHealth: 40
   score: 1000
   overrideSet: 0
-  AntiquitySet: {fileID: 11400000, guid: d91db3f99ed179d4fb6a05460266acba, type: 2}
+  artefactSet: {fileID: 11400000, guid: d91db3f99ed179d4fb6a05460266acba, type: 2}

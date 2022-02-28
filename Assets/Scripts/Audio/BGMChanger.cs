@@ -29,11 +29,16 @@ namespace Audio
         {
             currentLevel = scene.name;
             if (currentLevel == previousLevel) return;
+            if (previousLevel != null)
+            {
+                if (musicCatalogue[currentLevel].ToString() == 
+                    musicCatalogue[previousLevel].ToString())
+                    return;
+            }
 
             previousLevel = currentLevel;
             instance.stop(STOP_MODE.ALLOWFADEOUT);
             instance.release();
-            Debug.Log(scene);
             var music = musicCatalogue[currentLevel];
             instance = FMODUnity.RuntimeManager.CreateInstance(music);
             instance.start();
