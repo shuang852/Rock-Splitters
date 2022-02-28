@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20b418a66a9443978ad81769992aea96, type: 3}
-  m_Name: T-Rex Legs
+  m_Name: Spinosaurus Tail
   m_EditorClassIdentifier: 
-  displayName: T-Rex Legs
-  sprite: {fileID: 21300000, guid: 8a8032a5f44e306448ed2c858c8fce31, type: 3}
+  displayName: Spinosaurus Tail
+  sprite: {fileID: 21300000, guid: cfc6c9b2988da644297a6326e2ab1fce, type: 3}
   breakingHealth: 25
   maxHealth: 40
   score: 1000
   overrideSet: 0
-  artefactSet: {fileID: 11400000, guid: d91db3f99ed179d4fb6a05460266acba, type: 2}
+  artefactSet: {fileID: 11400000, guid: 8929fc5819d3deb4ea2d2a9ce293428d, type: 2}

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20b418a66a9443978ad81769992aea96, type: 3}
-  m_Name: T-Rex Legs
+  m_Name: T-Rex Arms
   m_EditorClassIdentifier: 
-  displayName: T-Rex Legs
-  sprite: {fileID: 21300000, guid: 8a8032a5f44e306448ed2c858c8fce31, type: 3}
+  displayName: T-Rex Arms
+  sprite: {fileID: 21300000, guid: b7025e6bb453c1d46a13454b4184ef64, type: 3}
   breakingHealth: 25
   maxHealth: 40
   score: 1000

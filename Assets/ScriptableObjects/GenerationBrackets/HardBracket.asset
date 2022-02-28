@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bracketLength: 2
   artefacts:
-  - {fileID: 11400000, guid: 05dfecf3bd33d40469830c85543d3ca4, type: 2}
+  - {fileID: 11400000, guid: 9a06897d45b590c46acec2a92f93c518, type: 2}
+  - {fileID: 11400000, guid: 6ecaa133c0eb1b2419192a352459ab30, type: 2}
+  - {fileID: 11400000, guid: 7163e4dd79057984b9878943f94b7522, type: 2}
+  - {fileID: 11400000, guid: adc43fe9764cd6d42b96d627a6576f57, type: 2}
   rockShapes:
   - {fileID: 11400000, guid: f26eba24682c7aa4fba247ccb1c26435, type: 2}
   - {fileID: 11400000, guid: 7be82a726149b914fa08dc7efdd0957b, type: 2}
