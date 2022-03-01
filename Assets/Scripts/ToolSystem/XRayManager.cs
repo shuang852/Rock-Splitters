@@ -56,7 +56,7 @@ namespace ToolSystem
 
             spriteTransform.position = shapeTransform.position;
             spriteTransform.rotation = shapeTransform.rotation;
-            spriteTransform.localScale = shapeTransform.localScale;
+            spriteTransform.localScale = shapeTransform.lossyScale;
             
             SetOpacity(spriteRenderer, 0);
         }
