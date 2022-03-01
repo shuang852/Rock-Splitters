@@ -9,8 +9,8 @@ namespace Cleaning
     {
         [SerializeField] private float requiredArtefactExposureForScoring;
         private CleaningManager cleaningManager;
-        private ArtefactShape artefactShape;
-
+        private ArtefactShapeManager artefactShapeManager;
+        
         [SerializeField] private float perfectThreshold = 0.98f;
         public UnityEvent scoreUpdated = new UnityEvent();
 
@@ -26,7 +26,7 @@ namespace Cleaning
             base.Start();
 
             cleaningManager = M.GetOrThrow<CleaningManager>();
-            artefactShape = M.GetOrThrow<ArtefactShape>();
+            artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
 
             cleaningManager.cleaningStarted.AddListener(ResetScore);
             cleaningManager.artefactRockSucceeded.AddListener(UpdateScore);
@@ -40,22 +40,25 @@ namespace Cleaning
 
         private void UpdateScore()
         {
-            if (!(artefactShape.ArtefactExposure >= requiredArtefactExposureForScoring)) return;
-
+            if (!(artefactShapeManager.MainArtefactShape.Exposure >= requiredArtefactExposureForScoring)) return;
+            
             // TODO: Incorporate rock difficulty.
             // TODO: Final score = Base * Health * Cleanliness * Rock Diff
-            var artefactRockScore = Mathf.Round(artefactShape.Artefact.Score * artefactShape.ArtefactHealth *
-                                                artefactShape.ArtefactExposure);
+            var artefactRockScore = Mathf.Round(
+                artefactShapeManager.MainArtefactShape.Artefact.Score *
+                artefactShapeManager.MainArtefactShape.Health * 
+                artefactShapeManager.MainArtefactShape.Exposure
+            );
+
             ArtefactsCleaned++;
 
-            Debug.Log(artefactShape.ArtefactHealth);
-            if (artefactShape.ArtefactHealth >= perfectThreshold)
+            if (artefactShapeManager.MainArtefactShape.Health >= perfectThreshold)
             {
                 ArtefactsPerfected++;
             };
 
-            TotalArtefactsExposure += artefactShape.ArtefactExposure;
-            TotalArtefactsHealth += artefactShape.ArtefactHealth;
+            TotalArtefactsExposure += artefactShapeManager.MainArtefactShape.Exposure;
+            TotalArtefactsHealth += artefactShapeManager.MainArtefactShape.Health;
             
             Score += artefactRockScore;
             scoreUpdated.Invoke();

@@ -25,6 +25,8 @@ namespace Audio
 
         private void OnToolUse(Vector2 worldPosition)
         {
+            if (toolManager.CurrentTool == null) return;
+            
             Tool.ToolAction toolAction = toolManager.CurrentTool.action;
 
             dust.PlayOnce();

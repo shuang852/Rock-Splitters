@@ -20,7 +20,7 @@ namespace UI.Cleaning_Results
         private CleaningManager cleaningManager;
         private CleaningTimerManager timerManager;
         private CleaningScoreManager scoreManager;
-        private ArtefactShape artefactShape;
+        private ArtefactShapeManager artefactShapeManager;
 
         protected override void OnComponentStart()
         {
@@ -29,14 +29,14 @@ namespace UI.Cleaning_Results
             cleaningManager = M.GetOrThrow<CleaningManager>();
             timerManager = M.GetOrThrow<CleaningTimerManager>();
             scoreManager = M.GetOrThrow<CleaningScoreManager>();
-            artefactShape = M.GetOrThrow<ArtefactShape>();
+            artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
 
             winStateText.text = WinStateToString();
             baseArtefactScoreText.text = "Not implemented";
             artefactHealthText.text =
-                Mathf.Round(artefactShape.ArtefactHealth * 100).ToString(CultureInfo.InvariantCulture) + "%";
+                Mathf.Round(artefactShapeManager.Health * 100).ToString(CultureInfo.InvariantCulture) + "%";
             artefactExposureText.text =
-                Mathf.Round(artefactShape.ArtefactExposure * 100).ToString(CultureInfo.InvariantCulture) + "%";
+                Mathf.Round(artefactShapeManager.Exposure * 100).ToString(CultureInfo.InvariantCulture) + "%";
             timeRemainingText.text = timerManager.CurrentTime.ToString(CultureInfo.InvariantCulture);
             totalScoreText.text = scoreManager.Score.ToString(CultureInfo.InvariantCulture);
         }
