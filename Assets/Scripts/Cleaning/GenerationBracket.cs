@@ -14,5 +14,7 @@ namespace Cleaning
         public List<RockShape> rockShapes;
         public List<ChunkDescription> chunkDescriptions;
         public Color rockColor;
+        public int minMines;
+        public int maxMines;
     }
 }

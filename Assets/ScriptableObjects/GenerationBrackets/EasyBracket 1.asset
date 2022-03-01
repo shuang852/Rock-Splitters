@@ -19,7 +19,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cc03542e9167afa43a983bd3fadf5005, type: 2}
   - {fileID: 11400000, guid: 02fc4653b2770d946934c147a6b9761f, type: 2}
   - {fileID: 11400000, guid: e428964492445b743a866183a296207e, type: 2}
-  - {fileID: 11400000, guid: 05dfecf3bd33d40469830c85543d3ca4, type: 2}
+  - {fileID: 11400000, guid: 7e3e9bc60b99c7e48b9f8cec91b4f192, type: 2}
   - {fileID: 11400000, guid: 7a79304463733754388a571c38066b11, type: 2}
   rockShapes:
   - {fileID: 11400000, guid: fa8a512112676f549a92c37673633f86, type: 2}
@@ -30,5 +30,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bb11cd0564ac5a448b01a17735f5cb98, type: 2}
   - {fileID: 11400000, guid: 5362f2271fca46041913a0ba8c02d46b, type: 2}
   - {fileID: 11400000, guid: 454308759b0a9754caa422e3ab701ac7, type: 2}
-  chunkDescriptions: []
+  chunkDescriptions:
+  - {fileID: 11400000, guid: e1f46564eb7d04062a1cb2e119403c01, type: 2}
   rockColor: {r: 1, g: 1, b: 1, a: 0}

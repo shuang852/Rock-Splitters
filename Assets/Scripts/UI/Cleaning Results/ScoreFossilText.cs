@@ -25,7 +25,7 @@ namespace UI.Cleaning_Results
         private CleaningManager cleaningManager;
         private CleaningTimerManager timerManager;
         private CleaningScoreManager scoreManager;
-        private ArtefactShape artefactShape;
+        private ArtefactShapeManager artefactShapeManager;
 
         protected override void OnComponentStart()
         {
@@ -34,12 +34,12 @@ namespace UI.Cleaning_Results
             cleaningManager = M.GetOrThrow<CleaningManager>();
             timerManager = M.GetOrThrow<CleaningTimerManager>();
             scoreManager = M.GetOrThrow<CleaningScoreManager>();
-            artefactShape = M.GetOrThrow<ArtefactShape>();
+            artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
 
             motivationText.text = textPool[Random.Range(0, textPool.Count - 1)];
             artefactScoreText.text = scoreManager.ArtefactRockScore.ToString(CultureInfo.InvariantCulture);
             artefactHealthText.text =
-                Mathf.Round(artefactShape.ArtefactHealth * 100).ToString(CultureInfo.InvariantCulture) + "%";
+                Mathf.Round(artefactShapeManager.ArtefactHealth * 100).ToString(CultureInfo.InvariantCulture) + "%";
             bonusText.text = timerManager.BonusTime.ToString("F2", CultureInfo.InvariantCulture) + "s";
             timeTakenText.text = timerManager.TimeTaken.ToString("F2", CultureInfo.InvariantCulture) + "s";
             totalScoreText.text = scoreManager.Score.ToString(CultureInfo.InvariantCulture);
