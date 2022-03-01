@@ -13,12 +13,12 @@ namespace Cleaning
 
         public UnityEvent timeChanged = new UnityEvent();
 
-        public float CurrentTime
+        public float CurrentTimeLeft
         {
-            get => currentTime;
+            get => currentTimeLeft;
             private set
             {
-                currentTime = value;
+                currentTimeLeft = value;
                 
                 timeChanged.Invoke();
             }
@@ -32,7 +32,8 @@ namespace Cleaning
         private ArtefactShape artefactShape;
 
         private bool timerActive;
-        private float currentTime;
+        private float currentTimeLeft;
+        private float prevRockTime;
 
         protected override void Start()
         {
@@ -42,8 +43,9 @@ namespace Cleaning
             artefactShape = M.GetOrThrow<ArtefactShape>();
 
             TotalTime = startTime;
+            prevRockTime = startTime;
             TimeTaken = 0f;
-            
+
             cleaningManager.cleaningStarted.AddListener(ResetAndStartTimer);
             cleaningManager.cleaningEnded.AddListener(StopTimer);
             cleaningManager.artefactRockCompleted.AddListener(OnArtefactRockCompleted);
@@ -60,8 +62,10 @@ namespace Cleaning
         private void OnArtefactRockCompleted()
         {
             BonusTime = artefactRockCompletionBonusCurve.Evaluate(artefactShape.ArtefactHealth);
-            CurrentTime += BonusTime;
+            TimeTaken = prevRockTime - CurrentTimeLeft;
+            CurrentTimeLeft += BonusTime;
             TotalTime += BonusTime;
+            prevRockTime = CurrentTimeLeft;
         }
 
         protected override void Update()
@@ -70,12 +74,11 @@ namespace Cleaning
             
             if (!timerActive) return;
             
-            CurrentTime -= Time.deltaTime;
-            TimeTaken += Time.deltaTime;
+            CurrentTimeLeft -= Time.deltaTime;
 
-            if (!(CurrentTime <= 0)) return;
+            if (!(CurrentTimeLeft <= 0)) return;
             
-            CurrentTime = 0;
+            CurrentTimeLeft = 0;
 
             timerActive = false;
             
@@ -84,14 +87,14 @@ namespace Cleaning
 
         public void ResetTimer()
         {
-            CurrentTime = startTime;
+            CurrentTimeLeft = startTime;
         }
 
         public void StartTimer()
         {
             // Prevents game ending when pausing the game without having started cleaning
             // Can remove later if the cleaning phase doesn't start paused
-            if (CurrentTime != 0)
+            if (CurrentTimeLeft != 0)
             {
                 timerActive = true;
             }

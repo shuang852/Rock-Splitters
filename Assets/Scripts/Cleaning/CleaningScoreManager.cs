@@ -19,6 +19,7 @@ namespace Cleaning
         public float TotalArtefactsHealth { get; private set; }
         public float TotalArtefactsExposure { get; private set; }
 
+        public float PreviousScore { get; private set; }
         public float Score { get; private set; }
         public float ArtefactRockScore { get; private set; }
         
@@ -37,12 +38,14 @@ namespace Cleaning
 
         private void ResetScore()
         {
+            PreviousScore = 0;
             Score = 0;
         }
 
         private void UpdateScore()
         {
             if (!(artefactShape.ArtefactExposure >= requiredArtefactExposureForScoring)) return;
+            PreviousScore = Score;
 
             // TODO: Incorporate rock difficulty.
             // TODO: Final score = Base * Health * Cleanliness * Rock Diff

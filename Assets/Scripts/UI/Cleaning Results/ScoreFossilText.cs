@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using Cleaning;
+using DG.Tweening;
 using Managers;
 using RockSystem.Artefacts;
 using TMPro;
@@ -42,6 +43,12 @@ namespace UI.Cleaning_Results
             bonusText.text = timerManager.BonusTime.ToString("F2", CultureInfo.InvariantCulture) + "s";
             timeTakenText.text = timerManager.TimeTaken.ToString("F2", CultureInfo.InvariantCulture) + "s";
             totalScoreText.text = scoreManager.Score.ToString(CultureInfo.InvariantCulture);
+            DOTween.To(
+                () => totalScoreText.text, 
+                x => totalScoreText.text = x, 
+                scoreManager.Score.ToString(CultureInfo.InvariantCulture), 
+                1) ;
+            //totalScoreText.text = scoreManager.Score.ToString(CultureInfo.InvariantCulture);
         }
 
         protected override void Subscribe() { }
