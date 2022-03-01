@@ -14,11 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bracketLength: 2
   artefacts:
-  - {fileID: 11400000, guid: 05dfecf3bd33d40469830c85543d3ca4, type: 2}
+  - {fileID: 11400000, guid: 9a06897d45b590c46acec2a92f93c518, type: 2}
+  - {fileID: 11400000, guid: 6ecaa133c0eb1b2419192a352459ab30, type: 2}
+  - {fileID: 11400000, guid: 7163e4dd79057984b9878943f94b7522, type: 2}
+  - {fileID: 11400000, guid: adc43fe9764cd6d42b96d627a6576f57, type: 2}
   rockShapes:
   - {fileID: 11400000, guid: f26eba24682c7aa4fba247ccb1c26435, type: 2}
   - {fileID: 11400000, guid: 7be82a726149b914fa08dc7efdd0957b, type: 2}
   - {fileID: 11400000, guid: 5eef1a555c767bc4eb7f68aea00f18cc, type: 2}
   - {fileID: 11400000, guid: d30ced714e5d1794cb8aceb859f84527, type: 2}
-  chunkDescriptions: []
+  chunkDescriptions:
+  - {fileID: 11400000, guid: e1f46564eb7d04062a1cb2e119403c01, type: 2}
   rockColor: {r: 0.6037736, g: 0.31555712, b: 0.31555712, a: 0}
