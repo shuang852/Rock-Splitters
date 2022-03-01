@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Brachiosaurus Head
   sprite: {fileID: 21300000, guid: 038658dcf67e8e24eb35a3ec6341b8e2, type: 3}
-  breakingHealth: 0
-  maxHealth: 0
-  score: 0
+  breakingHealth: 25
+  maxHealth: 40
+  score: 1000
   overrideSet: 0
-  AntiquitySet: {fileID: 11400000, guid: ffc2699d28d501f47805445e32a8ff7b, type: 2}
+  artefactSet: {fileID: 11400000, guid: ffc2699d28d501f47805445e32a8ff7b, type: 2}
