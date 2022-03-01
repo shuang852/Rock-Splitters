@@ -61,7 +61,7 @@ namespace Cleaning
 
         private void OnArtefactRockCompleted()
         {
-            BonusTime = artefactRockCompletionBonusCurve.Evaluate(artefactShapeManager.ArtefactHealth);
+            BonusTime = artefactRockCompletionBonusCurve.Evaluate(artefactShapeManager.Health);
             TimeTaken = prevRockTime - CurrentTimeLeft;
             CurrentTimeLeft += BonusTime;
             TotalTime += BonusTime;

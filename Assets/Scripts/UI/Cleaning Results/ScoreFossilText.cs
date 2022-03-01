@@ -39,15 +39,15 @@ namespace UI.Cleaning_Results
             motivationText.text = textPool[Random.Range(0, textPool.Count - 1)];
             artefactScoreText.text = scoreManager.ArtefactRockScore.ToString(CultureInfo.InvariantCulture);
             artefactHealthText.text =
-                Mathf.Round(artefactShapeManager.ArtefactHealth * 100).ToString(CultureInfo.InvariantCulture) + "%";
+                Mathf.Round(artefactShapeManager.Health * 100).ToString(CultureInfo.InvariantCulture) + "%";
             bonusText.text = timerManager.BonusTime.ToString("F2", CultureInfo.InvariantCulture) + "s";
             timeTakenText.text = timerManager.TimeTaken.ToString("F2", CultureInfo.InvariantCulture) + "s";
             totalScoreText.text = scoreManager.Score.ToString(CultureInfo.InvariantCulture);
-            DOTween.To(
-                () => totalScoreText.text, 
-                x => totalScoreText.text = x, 
-                scoreManager.Score.ToString(CultureInfo.InvariantCulture), 
-                1) ;
+            // DOTween.To(
+            //     () => totalScoreText.text, 
+            //     x => totalScoreText.text = x, 
+            //     scoreManager.Score.ToString(CultureInfo.InvariantCulture), 
+            //     1) ;
             //totalScoreText.text = scoreManager.Score.ToString(CultureInfo.InvariantCulture);
         }
 
