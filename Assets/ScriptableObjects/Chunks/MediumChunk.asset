@@ -15,5 +15,5 @@ MonoBehaviour:
   sprite: {fileID: 2747690628134850419, guid: 5cd4fcb5c0a5f2fd79a80b5ef0cfdb8f, type: 3}
   offset: {x: 0, y: 0}
   damagedColor: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 0.25490198}
-  health: 10
+  health: 8
   healthVariation: 0

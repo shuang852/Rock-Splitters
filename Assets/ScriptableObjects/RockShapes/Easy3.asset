@@ -15,4 +15,4 @@ MonoBehaviour:
   rockShapeMask: {fileID: 21300000, guid: be7dbb847b4b5e44aa9aaafc048f09d2, type: 3}
   position: {x: 0, y: 0, z: 0}
   rotation: {x: 0, y: 0, z: 0}
-  scale: {x: 40, y: 40, z: 1}
+  scale: {x: 2, y: 2, z: 1}
