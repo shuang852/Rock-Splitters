@@ -30,22 +30,12 @@ namespace UI.Cleaning_Results
             timerManager = M.GetOrThrow<CleaningTimerManager>();
             scoreManager = M.GetOrThrow<CleaningScoreManager>();
 
-            // artefactHealthText.text =
-            //     Mathf.Round(artefactShape.ArtefactHealth * 100).ToString(CultureInfo.InvariantCulture) + "%";
-            // artefactExposureText.text =
-            //     Mathf.Round(artefactShape.ArtefactExposure * 100).ToString(CultureInfo.InvariantCulture) + "%";
-            // //timeRemainingText.text = timerManager.CurrentTime.ToString(CultureInfo.InvariantCulture);
-            //Debug.Log(artefactsCleanedText);
+          
             artefactsCleanedText.text = scoreManager.ArtefactsCleaned.ToString(CultureInfo.InvariantCulture);
-            //Debug.Log(artefactsCleanedText.text);
-            //Debug.Log(scoreManager.ArtefactsCleaned);
             artefactsPerfectedText.text = scoreManager.ArtefactsPerfected.ToString(CultureInfo.InvariantCulture);
             averageHealthText.text = Mathf
                 .Round(scoreManager.TotalArtefactsHealth / scoreManager.ArtefactsCleaned * 100)
                 .ToString(CultureInfo.InvariantCulture) + "%";
-            // averageExposureText.text = Mathf
-            //     .Round(scoreManager.TotalArtefactsExposure / scoreManager.ArtefactsCleaned * 100)
-            //     .ToString(CultureInfo.InvariantCulture) + "%";
             totalScoreText.text = scoreManager.Score.ToString(CultureInfo.InvariantCulture);
             totalTimeText.text = timerManager.TotalTime.ToString(CultureInfo.InvariantCulture);
         }

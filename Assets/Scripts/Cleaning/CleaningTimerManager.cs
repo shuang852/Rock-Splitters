@@ -13,24 +13,27 @@ namespace Cleaning
 
         public UnityEvent timeChanged = new UnityEvent();
 
-        public float CurrentTime
+        public float CurrentTimeLeft
         {
-            get => currentTime;
+            get => currentTimeLeft;
             private set
             {
-                currentTime = value;
+                currentTimeLeft = value;
                 
                 timeChanged.Invoke();
             }
         }
 
+        public float BonusTime { get; private set; }
         public float TotalTime { get; private set; }
+        public float TimeTaken { get; private set; } 
 
         private CleaningManager cleaningManager;
         private ArtefactShapeManager artefactShapeManager;
 
         private bool timerActive;
-        private float currentTime;
+        private float currentTimeLeft;
+        private float prevRockTime;
 
         protected override void Start()
         {
@@ -40,19 +43,29 @@ namespace Cleaning
             artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
 
             TotalTime = startTime;
-            
+            prevRockTime = startTime;
+            TimeTaken = 0f;
+
             cleaningManager.cleaningStarted.AddListener(ResetAndStartTimer);
             cleaningManager.cleaningEnded.AddListener(StopTimer);
             cleaningManager.artefactRockCompleted.AddListener(OnArtefactRockCompleted);
+            cleaningManager.nextArtefactRockStarted.AddListener(OnNextArtefactRockStarted);
             cleaningManager.cleaningPaused.AddListener(StopTimer);
             cleaningManager.cleaningResumed.AddListener(StartTimer);
         }
 
+        private void OnNextArtefactRockStarted()
+        {
+            TimeTaken = 0f;
+        }
+
         private void OnArtefactRockCompleted()
         {
-            var bonusTime = artefactRockCompletionBonusCurve.Evaluate(artefactShapeManager.Health);
-            CurrentTime += bonusTime;
-            TotalTime += bonusTime;
+            BonusTime = artefactRockCompletionBonusCurve.Evaluate(artefactShapeManager.Health);
+            TimeTaken = prevRockTime - CurrentTimeLeft;
+            CurrentTimeLeft += BonusTime;
+            TotalTime += BonusTime;
+            prevRockTime = CurrentTimeLeft;
         }
 
         protected override void Update()
@@ -61,11 +74,11 @@ namespace Cleaning
             
             if (!timerActive) return;
             
-            CurrentTime -= Time.deltaTime;
+            CurrentTimeLeft -= Time.deltaTime;
 
-            if (!(CurrentTime <= 0)) return;
+            if (!(CurrentTimeLeft <= 0)) return;
             
-            CurrentTime = 0;
+            CurrentTimeLeft = 0;
 
             timerActive = false;
             
@@ -74,14 +87,14 @@ namespace Cleaning
 
         public void ResetTimer()
         {
-            CurrentTime = startTime;
+            CurrentTimeLeft = startTime;
         }
 
         public void StartTimer()
         {
             // Prevents game ending when pausing the game without having started cleaning
             // Can remove later if the cleaning phase doesn't start paused
-            if (CurrentTime != 0)
+            if (CurrentTimeLeft != 0)
             {
                 timerActive = true;
             }

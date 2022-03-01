@@ -177,12 +177,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f31319181b984cf78bbddd9c5fbe7165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 30, y: 70, z: 6}
+  size: {x: 25, y: 50, z: 6}
   rockShapeMask: {fileID: 0}
   damageOverflow:
     m_PersistentCalls:
       m_Calls: []
   chunkCleared:
+    m_PersistentCalls:
+      m_Calls: []
+  chunkShapeRegistered:
+    m_PersistentCalls:
+      m_Calls: []
+  chunkShapeUnregistered:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &4991831999567798634
