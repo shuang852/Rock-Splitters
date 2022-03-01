@@ -53,7 +53,12 @@ namespace ToolSystem.Mines
             
             toolManager.UseTool(transform.position, tool);
 
-            destroyRequest.Invoke(this);
+            // TODO: Quick fix. Needs looking at again.
+            gameObject.SetActive(false);
+
+            // destroyRequest.Invoke(this);
+            
+            // Debug.Log($"destroy request detonate {name}");
             
             // TODO: Will need an explosion animation
         }
@@ -70,7 +75,11 @@ namespace ToolSystem.Mines
         private void Destroy()
         {
             // TODO: Should Mine destroy itself or should it ask to be destroyed by its manager? 
-            destroyRequest.Invoke(this);
+            // destroyRequest.Invoke(this);
+            // Debug.Log($"destroy request defuse {name}");
+            
+            // TODO: Quick fix. Needs looking at again.
+            gameObject.SetActive(false);
         }
     }
 }

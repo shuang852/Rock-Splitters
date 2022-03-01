@@ -68,14 +68,26 @@ namespace Cleaning
         {
             CurrentCleaningState = CleaningState.InProgress;
             
-            artefactShapeManager.artefactExposed.AddListener(CheckIfArtefactRockSucceeded);
-            artefactShapeManager.artefactDamaged.AddListener(CheckIfArtefactRockFailed);
+            // artefactShapeManager.artefactExposed.AddListener(CheckIfArtefactRockSucceeded);
+            // artefactShapeManager.artefactDamaged.AddListener(CheckIfArtefactRockFailed);
+            
+            // TODO: Prevents end checks being called more than once per frame. Quick solve, should be checked.
+            toolManager.toolDown.AddListener(OnToolDownOrInUse);
+            toolManager.toolInUse.AddListener(OnToolDownOrInUse);
+            toolManager.toolDown.AddListener(OnToolDownOrInUse);
+            toolManager.toolInUse.AddListener(OnToolDownOrInUse);
 
             currentGenerationBracketIndex = 0;
             
             cleaningStarted.Invoke();
 
             NextArtefactRock();
+        }
+
+        private void OnToolDownOrInUse(Vector2 arg0)
+        {
+            CheckIfArtefactRockSucceeded();
+            CheckIfArtefactRockFailed();
         }
 
         public void NextArtefactRock()
@@ -115,8 +127,13 @@ namespace Cleaning
         {
             CurrentCleaningState = CleaningState.Finished;
             
-            artefactShapeManager.artefactExposed.RemoveListener(CheckIfArtefactRockSucceeded);
-            artefactShapeManager.artefactDamaged.RemoveListener(CheckIfArtefactRockFailed);
+            // artefactShapeManager.artefactExposed.RemoveListener(CheckIfArtefactRockSucceeded);
+            // artefactShapeManager.artefactDamaged.RemoveListener(CheckIfArtefactRockFailed);
+            
+            toolManager.toolDown.AddListener(OnToolDownOrInUse);
+            toolManager.toolInUse.AddListener(OnToolDownOrInUse);
+            toolManager.toolDown.AddListener(OnToolDownOrInUse);
+            toolManager.toolInUse.AddListener(OnToolDownOrInUse);
             
             cleaningEnded.Invoke();
         }

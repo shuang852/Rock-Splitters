@@ -136,6 +136,7 @@ namespace RockSystem.Chunks
         {
             while (destroyRequests.Count > 0)
             {
+                // Debug.Log($"chunk shape destroyed {destroyRequests[0].name}");
                 DestroyChunkShape((T) destroyRequests[0]);
                 
                 destroyRequests.RemoveAt(0);

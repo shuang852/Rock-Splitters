@@ -67,10 +67,12 @@ namespace ToolSystem.Mines
             {
                 Vector2 randomPosInBox = RandomPosInRect(boxes[i], buffer);
                 
-                CreateChunkShape(
+                var chunkShape = CreateChunkShape(
                     () => Instantiate(chunkShapePrefab, randomPosInBox, Quaternion.identity, transform),
                     mine => mine.Initialise(Random.Range(minLayer, ChunkManager.Size.z))
                 );
+
+                chunkShape.name = $"Mine {i + 1}";
             }
         }
 
