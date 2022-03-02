@@ -21,7 +21,7 @@ namespace ToolSystem
         public UnityEvent<Vector2> toolInUse = new UnityEvent<Vector2>();
         public UnityEvent<Vector2> toolUp = new UnityEvent<Vector2>();
         public UnityEvent toolUsed = new UnityEvent();
-
+        
         protected override void Start()
         {
             base.Start();

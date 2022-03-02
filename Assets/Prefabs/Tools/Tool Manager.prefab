@@ -57,6 +57,7 @@ MonoBehaviour:
   toolUsed:
     m_PersistentCalls:
       m_Calls: []
+  ToolVisuals: {fileID: 0}
 --- !u!1001 &3097560684055201045
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -112,10 +113,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tool Audio
       objectReference: {fileID: 0}
-    - target: {fileID: 3097560682993219998, guid: 30e6cbf988595bb44b1c0b5f1e7a00fc, type: 3}
-      propertyPath: dirtHammer
-      value: 
-      objectReference: {fileID: 1196784780}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30e6cbf988595bb44b1c0b5f1e7a00fc, type: 3}
 --- !u!4 &1196784783 stripped
@@ -123,17 +120,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3097560682993219994, guid: 30e6cbf988595bb44b1c0b5f1e7a00fc, type: 3}
   m_PrefabInstance: {fileID: 3097560684055201045}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1196784780 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3097560682993219993, guid: 30e6cbf988595bb44b1c0b5f1e7a00fc, type: 3}
-  m_PrefabInstance: {fileID: 3097560684055201045}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21a0b70be3664e319384fafa45b74089, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &7776205603093960910
 PrefabInstance:
   m_ObjectHideFlags: 0

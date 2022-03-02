@@ -15,7 +15,7 @@ namespace ToolSystem
         [SerializeField] private Animator drillAnimator;
         [SerializeField] private CameraShake cameraShake; 
         private ToolManager toolManager;
-        
+
         private bool toolInUse;
         private static readonly int cleaning = Animator.StringToHash("Cleaning");
 
@@ -67,7 +67,6 @@ namespace ToolSystem
                         drillAnimator.SetBool(cleaning, true);
                         if (!drillParticles.isEmitting) drillParticles.Play();
                         toolInUse = true;
-                        //cameraShake.ShakeContinuous();
                     }
                     break;
                 default:
@@ -75,7 +74,7 @@ namespace ToolSystem
             }
         }
 
-        private void StopClean()
+        public void StopClean()
         {
             drillAnimator.SetBool(cleaning, false);
             toolInUse = false;
