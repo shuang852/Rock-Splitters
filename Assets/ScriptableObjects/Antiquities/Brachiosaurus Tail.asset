@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Brachiosaurus Tail
   sprite: {fileID: 21300000, guid: 847584e21ed8a454bbbcf16b271f0929, type: 3}
-  breakingHealth: 0
-  maxHealth: 0
-  score: 0
+  breakingHealth: 25
+  maxHealth: 40
+  score: 1000
   overrideSet: 0
-  AntiquitySet: {fileID: 11400000, guid: ffc2699d28d501f47805445e32a8ff7b, type: 2}
+  artefactSet: {fileID: 11400000, guid: ffc2699d28d501f47805445e32a8ff7b, type: 2}

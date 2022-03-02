@@ -752,7 +752,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dcbab0fe1ac4e1a9475d8bb92534adf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuIndex: 0
+  mainMenuSceneReference:
+    sceneAsset: {fileID: 102900000, guid: ddbb52029525352478d5ad4546b483cb, type: 3}
+    scenePath: Assets/Scenes/MainMenu.unity
 --- !u!114 &5265271575523084251
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ using RockSystem.Artefacts;
 using RockSystem.Chunks;
 using ToolSystem;
 using Stored;
+using ToolSystem.Mines;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -28,15 +29,18 @@ namespace Cleaning
         public UnityEvent cleaningPaused = new UnityEvent();
         public UnityEvent cleaningResumed = new UnityEvent();
         public UnityEvent cleaningEnded = new UnityEvent();
-        public UnityEvent nextArtefactRock = new UnityEvent();
+        public UnityEvent nextArtefactRockGenerated = new UnityEvent();
+        public UnityEvent nextArtefactRockStarted = new UnityEvent();
         public UnityEvent artefactRockFailed = new UnityEvent();
         public UnityEvent artefactRockSucceeded = new UnityEvent();
         public UnityEvent artefactRockCompleted = new UnityEvent();
+        public UnityEvent artefactStatsCompleted = new UnityEvent();
 
         private ChunkManager chunkManager;
-        private ArtefactShape artefactShape;
+        private ArtefactShapeManager artefactShapeManager;
         private ToolManager toolManager;
         private ArtefactManager artefactManager;
+        private MineManager mineManager;
 
         private int currentGenerationBracketIndex;
         private GenerationBracket CurrentGenerationBracket => generationBrackets[currentGenerationBracketIndex];
@@ -56,23 +60,35 @@ namespace Cleaning
             // StartCleaning();
 
             chunkManager = M.GetOrThrow<ChunkManager>();
-            artefactShape = M.GetOrThrow<ArtefactShape>();
+            artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
             toolManager = M.GetOrThrow<ToolManager>();
             artefactManager = M.GetOrThrow<ArtefactManager>();
+            mineManager = M.GetOrThrow<MineManager>();
         }
 
         public void StartCleaning()
         {
             CurrentCleaningState = CleaningState.InProgress;
             
-            artefactShape.artefactExposed.AddListener(CheckIfArtefactRockSucceeded);
-            artefactShape.artefactDamaged.AddListener(CheckIfArtefactRockFailed);
+            // artefactShapeManager.artefactExposed.AddListener(CheckIfArtefactRockSucceeded);
+            // artefactShapeManager.artefactDamaged.AddListener(CheckIfArtefactRockFailed);
+            
+            // TODO: Prevents end checks being called more than once per frame. Quick solve, should be checked.
+            toolManager.toolDown.AddListener(OnToolDownOrInUse);
+            toolManager.toolInUse.AddListener(OnToolDownOrInUse);
+            toolManager.toolDown.AddListener(OnToolDownOrInUse);
+            toolManager.toolInUse.AddListener(OnToolDownOrInUse);
 
             currentGenerationBracketIndex = 0;
-            
-            cleaningStarted.Invoke();
 
+            cleaningStarted.Invoke();
             NextArtefactRock();
+        }
+
+        private void OnToolDownOrInUse(Vector2 arg0)
+        {
+            CheckIfArtefactRockSucceeded();
+            CheckIfArtefactRockFailed();
         }
 
         public void NextArtefactRock()
@@ -87,9 +103,10 @@ namespace Cleaning
             CurrentArtefactRock = GenerateArtefactRock(CurrentGenerationBracket);
             
             chunkManager.Initialise(CurrentArtefactRock.RockShape, CurrentArtefactRock.RockColor, CurrentArtefactRock.ChunkDescription);
-            artefactShape.Initialise(CurrentArtefactRock.Artefact);
+            artefactShapeManager.Initialise(CurrentArtefactRock.Artefact);
+            mineManager.Initialise(Random.Range(CurrentGenerationBracket.minMines, CurrentGenerationBracket.maxMines + 1));
             
-            nextArtefactRock.Invoke();
+            nextArtefactRockGenerated.Invoke();
         }
 
         public ArtefactRock GenerateArtefactRock(GenerationBracket generationBracket)
@@ -111,35 +128,45 @@ namespace Cleaning
         {
             CurrentCleaningState = CleaningState.Finished;
             
-            artefactShape.artefactExposed.RemoveListener(CheckIfArtefactRockSucceeded);
-            artefactShape.artefactDamaged.RemoveListener(CheckIfArtefactRockFailed);
+            // artefactShapeManager.artefactExposed.RemoveListener(CheckIfArtefactRockSucceeded);
+            // artefactShapeManager.artefactDamaged.RemoveListener(CheckIfArtefactRockFailed);
+            
+            toolManager.toolDown.AddListener(OnToolDownOrInUse);
+            toolManager.toolInUse.AddListener(OnToolDownOrInUse);
+            toolManager.toolDown.AddListener(OnToolDownOrInUse);
+            toolManager.toolInUse.AddListener(OnToolDownOrInUse);
             
             cleaningEnded.Invoke();
         }
 
         public void ArtefactRockFailed()
         {
+            PauseCleaning();
             artefactsCleaned++;
             artefactsCleanedInBracket++;
             artefactsCleanedFailed++;
             
             artefactRockFailed.Invoke();
             artefactRockCompleted.Invoke();
+            artefactStatsCompleted.Invoke();
             
-            NextArtefactRock();
+            //NextArtefactRock();
         }
 
         public void ArtefactRockSucceeded()
         {
+            PauseCleaning();
+            
             artefactsCleaned++;
             artefactsCleanedInBracket++;
             artefactsCleanedSuccessfully++;
 
-            artefactManager.AddItem(artefactShape.Artefact);
+            artefactManager.AddItem(artefactShapeManager.MainArtefactShape.Artefact);
             artefactRockSucceeded.Invoke();
             artefactRockCompleted.Invoke();
-            
-            NextArtefactRock();
+            artefactStatsCompleted.Invoke();
+
+            //NextArtefactRock();
             
             // TODO: Where should this go?
             // chunkManager.HideRock();
@@ -147,13 +174,13 @@ namespace Cleaning
 
         private void CheckIfArtefactRockFailed()
         {
-            if (artefactShape.ArtefactHealth < requiredHealthForFailure)
+            if (artefactShapeManager.Health < requiredHealthForFailure)
                 ArtefactRockFailed();
         }
 
         private void CheckIfArtefactRockSucceeded()
         {
-            if (artefactShape.ArtefactExposure > requiredExposureForCompletion)
+            if (artefactShapeManager.Exposure > requiredExposureForCompletion)
                 ArtefactRockSucceeded();
         }
 
@@ -168,7 +195,7 @@ namespace Cleaning
         public void ResumeCleaning()
         {
             toolManager.SelectTool(previousTool);
-            
+
             cleaningResumed.Invoke();
         }
     }

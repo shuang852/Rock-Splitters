@@ -10,7 +10,7 @@ namespace RockSystem.Artefacts.DebugUtil
         [SerializeField] private int sortingOrder;
         [SerializeField] private Sprite tileSprite;
         
-        private ArtefactShape artefactShape;
+        private ArtefactShapeManager artefactShapeManager;
 
         private Tilemap tilemap;
         private Tile tile;
@@ -20,12 +20,13 @@ namespace RockSystem.Artefacts.DebugUtil
             CreateTilemap();
         }
 
+        // TODO: Needs to be updated to support multiple ArtefactShapes
         private void Start()
         {
-            artefactShape = M.GetOrThrow<ArtefactShape>();
+            artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
             
-            artefactShape.artefactExposed.AddListener(OnArtefactExposed);
-            artefactShape.initialised.AddListener(Initialise);
+            artefactShapeManager.MainArtefactShape.exposed.AddListener(OnArtefactExposed);
+            artefactShapeManager.MainArtefactShape.initialised.AddListener(Initialise);
         }
         
         private void Initialise()
@@ -35,9 +36,9 @@ namespace RockSystem.Artefacts.DebugUtil
 
         private void OnArtefactExposed()
         {
-            foreach (var flatPosition in artefactShape.ChunkExposure.Keys)
+            foreach (var flatPosition in artefactShapeManager.MainArtefactShape.ChunkExposure.Keys)
             {
-                tilemap.SetTile((Vector3Int)flatPosition, artefactShape.ChunkExposure[flatPosition] ? tile : null);
+                tilemap.SetTile((Vector3Int)flatPosition, artefactShapeManager.MainArtefactShape.ChunkExposure[flatPosition] ? tile : null);
             }
         }
         
@@ -61,8 +62,8 @@ namespace RockSystem.Artefacts.DebugUtil
 
         private void OnDestroy()
         {
-            artefactShape.artefactExposed.RemoveListener(OnArtefactExposed);
-            artefactShape.initialised.RemoveListener(Initialise);
+            artefactShapeManager.MainArtefactShape.exposed.RemoveListener(OnArtefactExposed);
+            artefactShapeManager.MainArtefactShape.initialised.RemoveListener(Initialise);
         }
     }
 }

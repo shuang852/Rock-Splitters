@@ -9,8 +9,8 @@ namespace Cleaning
     {
         [SerializeField] private float requiredArtefactExposureForScoring;
         private CleaningManager cleaningManager;
-        private ArtefactShape artefactShape;
-
+        private ArtefactShapeManager artefactShapeManager;
+        
         [SerializeField] private float perfectThreshold = 0.98f;
         public UnityEvent scoreUpdated = new UnityEvent();
 
@@ -19,14 +19,17 @@ namespace Cleaning
         public float TotalArtefactsHealth { get; private set; }
         public float TotalArtefactsExposure { get; private set; }
 
+        public float PreviousScore { get; private set; }
         public float Score { get; private set; }
+        public float ArtefactRockScore { get; private set; }
+        
 
         protected override void Start()
         {
             base.Start();
 
             cleaningManager = M.GetOrThrow<CleaningManager>();
-            artefactShape = M.GetOrThrow<ArtefactShape>();
+            artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
 
             cleaningManager.cleaningStarted.AddListener(ResetScore);
             cleaningManager.artefactRockSucceeded.AddListener(UpdateScore);
@@ -35,29 +38,34 @@ namespace Cleaning
 
         private void ResetScore()
         {
+            PreviousScore = 0;
             Score = 0;
         }
 
         private void UpdateScore()
         {
-            if (!(artefactShape.ArtefactExposure >= requiredArtefactExposureForScoring)) return;
+            if (!(artefactShapeManager.MainArtefactShape.Exposure >= requiredArtefactExposureForScoring)) return;
+            PreviousScore = Score;
 
             // TODO: Incorporate rock difficulty.
             // TODO: Final score = Base * Health * Cleanliness * Rock Diff
-            var artefactRockScore = Mathf.Round(artefactShape.Artefact.Score * artefactShape.ArtefactHealth *
-                                                artefactShape.ArtefactExposure);
+            ArtefactRockScore = Mathf.Round(
+                artefactShapeManager.MainArtefactShape.Artefact.Score *
+                artefactShapeManager.MainArtefactShape.Health * 
+                artefactShapeManager.MainArtefactShape.Exposure
+            );
+
             ArtefactsCleaned++;
 
-            Debug.Log(artefactShape.ArtefactHealth);
-            if (artefactShape.ArtefactHealth >= perfectThreshold)
+            if (artefactShapeManager.MainArtefactShape.Health >= perfectThreshold)
             {
                 ArtefactsPerfected++;
-            };
+            }
 
-            TotalArtefactsExposure += artefactShape.ArtefactExposure;
-            TotalArtefactsHealth += artefactShape.ArtefactHealth;
+            TotalArtefactsExposure += artefactShapeManager.MainArtefactShape.Exposure;
+            TotalArtefactsHealth += artefactShapeManager.MainArtefactShape.Health;
             
-            Score += artefactRockScore;
+            Score += ArtefactRockScore;
             scoreUpdated.Invoke();
         }
 

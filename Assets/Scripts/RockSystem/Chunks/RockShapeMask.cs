@@ -19,7 +19,7 @@ namespace RockSystem.Chunks
         {
             var t = transform;
             
-            t.position = rockShape.position;
+            t.localPosition = rockShape.position;
             t.rotation = Quaternion.Euler(rockShape.rotation);
             t.localScale = rockShape.scale;
             

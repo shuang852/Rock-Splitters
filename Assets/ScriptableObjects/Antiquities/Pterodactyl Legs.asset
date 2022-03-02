@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Pterodactyl Legs
   sprite: {fileID: 21300000, guid: 031a0985353d99f44b75a09f09308b8a, type: 3}
-  breakingHealth: 0
-  maxHealth: 0
-  score: 0
+  breakingHealth: 25
+  maxHealth: 40
+  score: 1000
   overrideSet: 0
-  AntiquitySet: {fileID: 11400000, guid: 33f0c696d450276479e7feba8c0154ea, type: 2}
+  artefactSet: {fileID: 11400000, guid: 33f0c696d450276479e7feba8c0154ea, type: 2}

@@ -177,12 +177,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f31319181b984cf78bbddd9c5fbe7165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 30, y: 70, z: 6}
+  size: {x: 25, y: 50, z: 6}
   rockShapeMask: {fileID: 0}
   damageOverflow:
     m_PersistentCalls:
       m_Calls: []
   chunkCleared:
+    m_PersistentCalls:
+      m_Calls: []
+  chunkShapeRegistered:
+    m_PersistentCalls:
+      m_Calls: []
+  chunkShapeUnregistered:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &4991831999567798634
@@ -212,8 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad918263d6d4cf0b0f9dc0292d47baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sortingLayer: Artefact
-  sortingOrder: 1
+  sortingLayer: FX
+  sortingOrder: -1
   damageSprites:
   - {fileID: 2747690628134850419, guid: 460d300c11787d122a06e451b2d08f17, type: 3}
   - {fileID: 2747690628134850419, guid: ea92cedff614a44519357ae51acdc43d, type: 3}
