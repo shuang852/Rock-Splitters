@@ -14,7 +14,7 @@ namespace Audio
         private static bool playing;
         public float delay;
 
-        public async void PlayRandomOnce()
+        public async void PlayAudio()
         {
             if (playing) return;
             
