@@ -9,7 +9,7 @@ namespace Audio
     {
         [SerializeField] private PlayOneShot drill;
         [SerializeField] private PlayOneShot hammer;
-        [SerializeField] private PlayOneShot dust;
+        [SerializeField] private PlayOneShot dirtHammer;
         
         private ToolManager toolManager;
         private bool toolInUse;
@@ -29,12 +29,13 @@ namespace Audio
             
             Tool.ToolAction toolAction = toolManager.CurrentTool.action;
 
-            dust.PlayOnce();
+            //dust.PlayOnce();
                 
             switch (toolAction)
             {
                 case Tool.ToolAction.Tap:
                     hammer.PlayOnce();
+                    dirtHammer.PlayOnce();
                     break;
                 case Tool.ToolAction.Continuous:
                     if (!toolInUse)
@@ -52,7 +53,6 @@ namespace Audio
             toolInUse = false;
             //drill.StopFadeOut();
             FMODUnity.RuntimeManager.StudioSystem.setParameterByNameWithLabel("Drill", "Not Drilling");
-
         }
 
         private void OnDisable()

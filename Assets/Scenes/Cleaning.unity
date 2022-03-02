@@ -729,6 +729,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3413115747114561082, guid: 339eab7ba0c7df1408764a1ad1e2e028, type: 3}
   m_PrefabInstance: {fileID: 1489224322}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1140780323 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1196784780, guid: 52f6fef69090ca4449dcf5a00e47bfa6, type: 3}
+  m_PrefabInstance: {fileID: 2060547246}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21a0b70be3664e319384fafa45b74089, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1289007311 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2554768411198860982, guid: 339eab7ba0c7df1408764a1ad1e2e028, type: 3}
@@ -1054,13 +1065,37 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 285517038}
     m_Modifications:
+    - target: {fileID: 1196784779, guid: 52f6fef69090ca4449dcf5a00e47bfa6, type: 3}
+      propertyPath: dirtHammer
+      value: 
+      objectReference: {fileID: 1140780323}
+    - target: {fileID: 1196784780, guid: 52f6fef69090ca4449dcf5a00e47bfa6, type: 3}
+      propertyPath: fmodEvent.Path
+      value: event:/Sound Events/Excavation/sfx_soundevent_dirt-crumbling-3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1196784780, guid: 52f6fef69090ca4449dcf5a00e47bfa6, type: 3}
+      propertyPath: fmodEvent.Guid.Data1
+      value: -739602275
+      objectReference: {fileID: 0}
+    - target: {fileID: 1196784780, guid: 52f6fef69090ca4449dcf5a00e47bfa6, type: 3}
+      propertyPath: fmodEvent.Guid.Data2
+      value: 1193239432
+      objectReference: {fileID: 0}
+    - target: {fileID: 1196784780, guid: 52f6fef69090ca4449dcf5a00e47bfa6, type: 3}
+      propertyPath: fmodEvent.Guid.Data3
+      value: -1877666628
+      objectReference: {fileID: 0}
+    - target: {fileID: 1196784780, guid: 52f6fef69090ca4449dcf5a00e47bfa6, type: 3}
+      propertyPath: fmodEvent.Guid.Data4
+      value: 1374828310
+      objectReference: {fileID: 0}
     - target: {fileID: 3935285584067897173, guid: 52f6fef69090ca4449dcf5a00e47bfa6, type: 3}
       propertyPath: cameraShake
       value: 
       objectReference: {fileID: 1289007311}
     - target: {fileID: 3935285584764835453, guid: 52f6fef69090ca4449dcf5a00e47bfa6, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3935285584764835453, guid: 52f6fef69090ca4449dcf5a00e47bfa6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1126,7 +1161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1405523756379320297, guid: 7b6a6c5f30eb32a478a9e9e5cad2409d, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1405523756379320297, guid: 7b6a6c5f30eb32a478a9e9e5cad2409d, type: 3}
       propertyPath: m_LocalPosition.x
