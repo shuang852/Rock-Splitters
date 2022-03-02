@@ -15,7 +15,7 @@ namespace Audio
         public GenericDictionary<string, FMODUnity.EventReference> musicCatalogue;
         private static FMOD.Studio.EventInstance instance;
 
-        private void Start()
+        private void Awake()
         {
             previousLevel = SceneManager.GetActiveScene().name;
             // currentLevel = previousLevel;
@@ -25,9 +25,16 @@ namespace Audio
             // instance.release();
         }
 
+        // TODO Revamp to use FMOD transition states
         private void ChangeMusic(Scene scene, LoadSceneMode mode)
         {
+            if (!musicCatalogue.ContainsKey(scene.name) || !musicCatalogue.ContainsKey(previousLevel))
+            {
+                Debug.LogWarning("Scene doesn't exist in catalogue: " + currentLevel);
+                return;
+            }
             currentLevel = scene.name;
+            
             if (currentLevel == previousLevel) return;
             if (previousLevel != null)
             {
