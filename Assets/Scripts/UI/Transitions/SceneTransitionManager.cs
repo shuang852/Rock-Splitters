@@ -12,9 +12,9 @@ namespace UI.Transitions
         public override bool PersistBetweenScenes => true;
 
         [SerializeField] private float transitionDuration = 1f;
-        [SerializeField, HideInInspector] private CanvasGroup canvasGroup;
         [SerializeField] private Ease easeMode;
-        
+        [SerializeField, HideInInspector] private CanvasGroup canvasGroup;
+
         private void TransitionIn(Scene scene, LoadSceneMode loadSceneMode)
         {
             canvasGroup.DOFade(0, transitionDuration)
@@ -26,7 +26,7 @@ namespace UI.Transitions
             await canvasGroup.DOFade(1, transitionDuration)
                 .SetEase(easeMode)
                 .AsyncWaitForCompletion();
-            SceneManager.LoadSceneAsync(sceneReference);
+            await SceneManager.LoadSceneAsync(sceneReference);
         }
         
         protected override void OnValidate()
