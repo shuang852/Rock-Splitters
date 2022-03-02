@@ -16,6 +16,8 @@ namespace Cleaning
         public enum CleaningState
         {
             InProgress,
+            Succeeded,
+            Failed,
             Finished
         }
 
@@ -78,11 +80,18 @@ namespace Cleaning
             toolManager.toolInUse.AddListener(OnToolDownOrInUse);
             toolManager.toolDown.AddListener(OnToolDownOrInUse);
             toolManager.toolInUse.AddListener(OnToolDownOrInUse);
+            
+            nextArtefactRockStarted.AddListener(OnNextArtefactRockStarted);
 
             currentGenerationBracketIndex = 0;
 
             cleaningStarted.Invoke();
             NextArtefactRock();
+        }
+
+        private void OnNextArtefactRockStarted()
+        {
+            CurrentCleaningState = CleaningState.InProgress;
         }
 
         private void OnToolDownOrInUse(Vector2 arg0)
@@ -131,16 +140,21 @@ namespace Cleaning
             // artefactShapeManager.artefactExposed.RemoveListener(CheckIfArtefactRockSucceeded);
             // artefactShapeManager.artefactDamaged.RemoveListener(CheckIfArtefactRockFailed);
             
-            toolManager.toolDown.AddListener(OnToolDownOrInUse);
-            toolManager.toolInUse.AddListener(OnToolDownOrInUse);
-            toolManager.toolDown.AddListener(OnToolDownOrInUse);
-            toolManager.toolInUse.AddListener(OnToolDownOrInUse);
+            toolManager.toolDown.RemoveListener(OnToolDownOrInUse);
+            toolManager.toolInUse.RemoveListener(OnToolDownOrInUse);
+            toolManager.toolDown.RemoveListener(OnToolDownOrInUse);
+            toolManager.toolInUse.RemoveListener(OnToolDownOrInUse);
+            
+            nextArtefactRockStarted.RemoveListener(OnNextArtefactRockStarted);
             
             cleaningEnded.Invoke();
         }
 
+        // TODO: Duplicate code. See ArtefactRockSucceeded.
         public void ArtefactRockFailed()
         {
+            CurrentCleaningState = CleaningState.Failed;
+            
             PauseCleaning();
             artefactsCleaned++;
             artefactsCleanedInBracket++;
@@ -153,8 +167,11 @@ namespace Cleaning
             //NextArtefactRock();
         }
 
+        // TODO: Duplicate code. See ArtefactRockFailed.
         public void ArtefactRockSucceeded()
         {
+            CurrentCleaningState = CleaningState.Succeeded;
+            
             PauseCleaning();
             
             artefactsCleaned++;
@@ -174,13 +191,13 @@ namespace Cleaning
 
         private void CheckIfArtefactRockFailed()
         {
-            if (artefactShapeManager.Health < requiredHealthForFailure)
+            if (CurrentCleaningState == CleaningState.InProgress && artefactShapeManager.Health < requiredHealthForFailure)
                 ArtefactRockFailed();
         }
 
         private void CheckIfArtefactRockSucceeded()
         {
-            if (artefactShapeManager.Exposure > requiredExposureForCompletion)
+            if (CurrentCleaningState == CleaningState.InProgress && artefactShapeManager.Exposure > requiredExposureForCompletion)
                 ArtefactRockSucceeded();
         }
 

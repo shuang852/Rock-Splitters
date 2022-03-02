@@ -34,6 +34,9 @@ namespace RockSystem.Artefacts
                 () => Instantiate(chunkShapePrefab, transform),
                 artefactShape => artefactShape.Initialise(artefact)
             );
+            
+            artefactDamaged.Invoke();
+            artefactExposed.Invoke();
 
             initialised.Invoke();
         }
