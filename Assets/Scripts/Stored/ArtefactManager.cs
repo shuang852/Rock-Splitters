@@ -1,7 +1,6 @@
 using Managers;
 using Stored.Database;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Stored
 {
@@ -16,7 +15,7 @@ namespace Stored
         protected override void Start()
         {
             base.Start();
-            ValidateAllSets();
+            // ValidateAllSets();
         }
 
         public bool AddItem(Artefact item)
@@ -33,7 +32,7 @@ namespace Stored
             {
                 //Debug.Log("No item");
                 success = Inventory.AddItem(item);
-                item.artefactSet.ValidateSet(Inventory);
+                // item.artefactSet.ValidateSet(Inventory);
                 //CalculateStats();
             }
             return success;
@@ -53,7 +52,7 @@ namespace Stored
             // Don't think it is supported so not sure why I have it. Player can't go below 1 of an item.
             // Update the item set as it no longer contains the item.
             if (Inventory.Contains(item)) return success;
-            item.artefactSet.ValidateSet(Inventory);
+            // item.artefactSet.ValidateSet(Inventory);
             //CalculateStats();
 
             return success;

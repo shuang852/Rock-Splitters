@@ -1,9 +1,8 @@
-using System;
 using UnityEngine;
 
 namespace Stored
 {
-    public class PersistantMangerSpawner : MonoBehaviour
+    public class PersistentMangerSpawner : MonoBehaviour
     {
         [SerializeField] private PersistentManagersDB db;
 
