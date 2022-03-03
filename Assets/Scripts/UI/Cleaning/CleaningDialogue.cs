@@ -62,8 +62,6 @@ namespace UI.Cleaning
             
             await UniTask.Delay(TimeSpan.FromSeconds(results.TotalDuration));
             
-            manager.Pop();
-
             await cleaningArea.transform.DOMoveX(rockMoveWorldPosX, rockMoveDuration).SetEase(Ease.OutQuad)
                 .AsyncWaitForCompletion();
 
@@ -72,6 +70,7 @@ namespace UI.Cleaning
 
             await cleaningArea.transform.DOMoveX(0, rockMoveDuration).SetEase(Ease.InQuad)
                 .AsyncWaitForCompletion();
+            manager.Pop();
             cleaningManager.ResumeCleaning();
             cleaningManager.nextArtefactRockStarted.Invoke();
             brushInput.enabled = true;

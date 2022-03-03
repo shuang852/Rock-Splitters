@@ -203,6 +203,7 @@ namespace Cleaning
 
         public void PauseCleaning()
         {
+            toolManager.toolUp.Invoke(Vector2.zero);
             previousTool = toolManager.CurrentTool;
             toolManager.SelectTool(null);
             

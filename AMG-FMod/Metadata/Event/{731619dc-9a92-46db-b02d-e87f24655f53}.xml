@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{731619dc-9a92-46db-b02d-e87f24655f53}">
 		<property name="name">
-			<value>sfx_soundevent_dirt-crumbling</value>
+			<value>sfx_soundevent_dirt-crumbling-1</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
@@ -122,6 +122,9 @@
 	</object>
 	<object class="MixerBusPanner" id="{229e2aaf-e5c2-432a-8085-e218fa21ae4e}" />
 	<object class="SingleSound" id="{853ce25d-da8c-4136-a824-df4d273a40ee}">
+		<property name="volume">
+			<value>7</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{b5a86975-49ec-49b1-a65c-1d4d28713cd3}</destination>
 		</relationship>

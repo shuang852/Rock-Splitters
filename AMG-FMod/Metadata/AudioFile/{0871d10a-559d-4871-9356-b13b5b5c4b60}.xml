@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{0871d10a-559d-4871-9356-b13b5b5c4b60}">
+		<property name="assetPath">
+			<value>Final SFX/Drill2End.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.29562358276643991</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{0fd82df8-fea7-4a74-8a29-40716597822a}</destination>
+		</relationship>
+	</object>
+</objects>
