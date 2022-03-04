@@ -43,6 +43,10 @@ namespace Audio
             }
             else
             {
+                if (hitArtefact.PlaybackState == PLAYBACK_STATE.PLAYING)
+                {
+                    hitArtefact.StopFadeOut();
+                }
                 if (hitBrokenArtefact.PlaybackState != PLAYBACK_STATE.PLAYING)
                 {
                     hitBrokenArtefact.PlayOnce();

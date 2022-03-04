@@ -11,6 +11,7 @@ namespace ToolSystem
             Continuous
         }
         
+        [Tooltip("Radius for the tool. This is in world radius not HexCell radius")]
         public float radius;
         [Tooltip("When action is set to Continuous, damage is dealt every frame.")]
         public ToolAction action;

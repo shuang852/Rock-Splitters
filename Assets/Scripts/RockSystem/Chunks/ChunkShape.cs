@@ -61,7 +61,7 @@ namespace RockSystem.Chunks
 
         private IEnumerable<Vector2Int> HitFlatPositions => ChunkHealths.Keys;
         // TODO: Inefficient, should be cached.
-        private IEnumerable<Vector3Int> HitPositions => ChunkHealths.Keys.Select(v => new Vector3Int(v.x, v.y, layer));
+        private HashSet<Vector3Int> hitPositions;
 
         private bool exposureChanged;
         private bool healthChanged;
@@ -115,6 +115,7 @@ namespace RockSystem.Chunks
             
             ForceUpdateExposure();
             
+            
             initialised.Invoke();
         }
         
@@ -139,6 +140,8 @@ namespace RockSystem.Chunks
             }
 
             Health = 1;
+            
+            hitPositions = new HashSet<Vector3Int>(from x in ChunkHealths.Keys select new Vector3Int(x.x, x.y, layer));
         }
 
         #region Damage
@@ -177,7 +180,7 @@ namespace RockSystem.Chunks
         
         public bool IsHitAtPosition(Vector3Int position)
         {
-            return HitPositions.Contains(position);
+            return hitPositions.Contains(position);
         }
 
         protected virtual void OnDrawGizmos()
