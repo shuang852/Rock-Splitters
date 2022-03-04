@@ -12,6 +12,7 @@ namespace UI.Transitions
         public override bool PersistBetweenScenes => true;
 
         [SerializeField] private float transitionDuration = 1f;
+        [Tooltip("Sets the transitions ease mode")]
         [SerializeField] private Ease easeMode;
         [SerializeField, HideInInspector] private CanvasGroup canvasGroup;
 
@@ -21,6 +22,10 @@ namespace UI.Transitions
                 .SetEase(easeMode);
         }
 
+        /// <summary>
+        /// Call when transitioning out of a scene. Runs a transition then loads. 
+        /// </summary>
+        /// <param name="sceneReference">Scene to load to</param>
         public async void TransitionOut(SceneReference sceneReference)
         {
             await canvasGroup.DOFade(1, transitionDuration)
