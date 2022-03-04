@@ -7,6 +7,14 @@ namespace Audio
     {
         [SerializeField] private FMODUnity.EventReference fmodEvent;
 
+        public PLAYBACK_STATE PlaybackState
+        {
+            get
+            {
+                instance.getPlaybackState(out var pS);
+                return pS;
+            }
+        }
         private EventInstance instance;
         
         public void PlayOnce()
@@ -21,6 +29,7 @@ namespace Audio
         private void OnEnable()
         {
             instance = FMODUnity.RuntimeManager.CreateInstance(fmodEvent);
+            StopImmediate();
         }
 
         private void OnDisable()
