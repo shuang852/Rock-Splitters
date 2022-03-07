@@ -49,8 +49,8 @@ namespace ToolSystem.Mines
             detonated = true;
             
             // Stop the mine blocking the rock underneath
-            ChunkHealths.Clear(); 
-            
+            ClearChunkHealths();
+
             toolManager.UseTool(transform.position, tool);
 
             // TODO: Quick fix. Needs looking at again.
