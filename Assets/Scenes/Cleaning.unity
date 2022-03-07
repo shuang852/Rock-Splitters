@@ -830,15 +830,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
       propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[2].value
-      value: 40
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
       propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[3].value
-      value: 60
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
       propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[4].value
-      value: 80
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
       propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[0].inSlope
@@ -850,7 +850,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
       propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[2].inSlope
-      value: 200.00002
+      value: 175.00002
       objectReference: {fileID: 0}
     - target: {fileID: 5436117501723669573, guid: bf5fa9dc412d8ac48b55f76cd59b7921, type: 3}
       propertyPath: artefactRockCompletionBonusCurve.m_Curve.Array.data[3].inSlope
