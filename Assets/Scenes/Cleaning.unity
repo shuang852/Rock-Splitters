@@ -187,14 +187,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3869575329181246262, guid: 6036648a57cf00c46b07af0386d2a4b5, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: -5.1241
-      objectReference: {fileID: 0}
-    - target: {fileID: 3869575329181246262, guid: 6036648a57cf00c46b07af0386d2a4b5, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.43789673
-      objectReference: {fileID: 0}
     - target: {fileID: 4482031849516264367, guid: 6036648a57cf00c46b07af0386d2a4b5, type: 3}
       propertyPath: m_Name
       value: Cleaning Dialogue
@@ -242,22 +234,6 @@ PrefabInstance:
     - target: {fileID: 4548589467092868662, guid: 6036648a57cf00c46b07af0386d2a4b5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4796712034284842469, guid: 6036648a57cf00c46b07af0386d2a4b5, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: -5.1241
-      objectReference: {fileID: 0}
-    - target: {fileID: 4796712034284842469, guid: 6036648a57cf00c46b07af0386d2a4b5, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.43789673
-      objectReference: {fileID: 0}
-    - target: {fileID: 5411985434878147732, guid: 6036648a57cf00c46b07af0386d2a4b5, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: -142.0821
-      objectReference: {fileID: 0}
-    - target: {fileID: 5411985434878147732, guid: 6036648a57cf00c46b07af0386d2a4b5, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -41.042
       objectReference: {fileID: 0}
     - target: {fileID: 6962989290166006405, guid: 6036648a57cf00c46b07af0386d2a4b5, type: 3}
       propertyPath: m_AnchorMax.y
