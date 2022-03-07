@@ -33,9 +33,11 @@ namespace UI.Cleaning_Results
           
             artefactsCleanedText.text = scoreManager.ArtefactsCleaned.ToString(CultureInfo.InvariantCulture);
             artefactsPerfectedText.text = scoreManager.ArtefactsPerfected.ToString(CultureInfo.InvariantCulture);
-            averageHealthText.text = Mathf
-                .Round(scoreManager.TotalArtefactsHealth / scoreManager.ArtefactsCleaned * 100)
-                .ToString(CultureInfo.InvariantCulture) + "%";
+            averageHealthText.text = scoreManager.ArtefactsCleaned == 0
+                ? "0%"
+                : Mathf
+                    .Round(scoreManager.TotalArtefactsHealth / scoreManager.ArtefactsCleaned * 100)
+                    .ToString(CultureInfo.InvariantCulture) + "%";
             totalScoreText.text = scoreManager.Score.ToString(CultureInfo.InvariantCulture);
             totalTimeText.text = timerManager.TotalTime.ToString(CultureInfo.InvariantCulture);
         }

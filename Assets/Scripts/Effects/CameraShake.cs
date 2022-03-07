@@ -23,7 +23,7 @@ namespace Effects
 
         private ToolManager toolManager;
         
-        private void Awake()
+        private void Start()
         {
             camera = GetComponent<Camera>();
             toolManager = M.GetOrThrow<ToolManager>();
