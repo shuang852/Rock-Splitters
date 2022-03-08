@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drill: {fileID: 3097560682993219999}
   hammer: {fileID: 3097560682993219992}
-  dust: {fileID: 3097560682993219993}
+  dirtHammer: {fileID: 3097560682993219993}
 --- !u!114 &3097560682993219999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,8 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fmodEvent:
     Guid:
-      Data1: 1930828252
-      Data2: 1188797074
-      Data3: 2145922480
-      Data4: 1398760740
-    Path: event:/Sound Events/Excavation/sfx_soundevent_dirt-crumbling
+      Data1: -739602275
+      Data2: 1193239432
+      Data3: -1877666628
+      Data4: 1374828310
+    Path: event:/Sound Events/Excavation/sfx_soundevent_dirt-crumbling-3

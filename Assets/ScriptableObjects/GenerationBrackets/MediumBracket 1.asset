@@ -31,5 +31,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d07e3f3b54f1e4540a8b9f2ae5f73ba5, type: 2}
   - {fileID: 11400000, guid: dceb0315129d34549946f9e2eca4fe7e, type: 2}
   - {fileID: 11400000, guid: dc37a0a341c81674e8d0762e18f76130, type: 2}
-  chunkDescriptions: []
+  chunkDescriptions:
+  - {fileID: 11400000, guid: e1f46564eb7d04062a1cb2e119403c01, type: 2}
   rockColor: {r: 0.251602, g: 0.5188679, b: 0.28083682, a: 0}

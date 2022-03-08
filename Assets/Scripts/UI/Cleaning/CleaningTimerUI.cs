@@ -32,7 +32,7 @@ namespace UI.Cleaning
         
         private void OnTimeChanged()
         {
-            text.text = timer.CurrentTime.ToString("F2", CultureInfo.InvariantCulture);
+            text.text = timer.CurrentTimeLeft.ToString("F2", CultureInfo.InvariantCulture);
         }
 
         private void OnDestroy()

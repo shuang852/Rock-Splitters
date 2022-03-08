@@ -11,6 +11,7 @@ namespace ToolSystem
             Continuous
         }
         
+        [Tooltip("Radius for the tool. This is in world radius not HexCell radius")]
         public float radius;
         [Tooltip("When action is set to Continuous, damage is dealt every frame.")]
         public ToolAction action;
@@ -24,5 +25,7 @@ namespace ToolSystem
         public AnimationCurve damageFalloff;
         [Tooltip("Will only damage the artefact if not damaging rock.")]
         public bool artefactSafety;
+        [Tooltip("Will only damage mines if not damaging rock.")]
+        public bool mineSafety;
     }
 }

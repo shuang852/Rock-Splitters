@@ -364,11 +364,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef396c6ac02043ef9900d266a76177bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cleaningResultsDialoguePrefab: {fileID: 7618040246967651954, guid: 5cb0942a33bec9945931d0f7be3e0c68, type: 3}
+  cleaningArtefactResultsDialoguePrefab: {fileID: 7618040246967651954, guid: 06687ed7f86242c46b85fc1e7f898fd1, type: 3}
+  cleaningCompletedResultsDialoguePrefab: {fileID: 7618040246967651954, guid: 5cb0942a33bec9945931d0f7be3e0c68, type: 3}
   cleaningCountdownDialoguePrefab: {fileID: 1546002305934989458, guid: f6c72e22d45faf44a9b44135e4ef8c4a, type: 3}
   readyPromptDialoguePrefab: {fileID: 4334455327173032132, guid: f7ed1cf07d232974ca2fb178c9c83977, type: 3}
   brushInput: {fileID: 9142941224467984369}
   canvas: {fileID: 44528007242308491}
+  cleaningArea: {fileID: 0}
+  delayAfterArtefactCleaned: 2
+  rockMoveDuration: 1.5
+  rockMoveWorldPosX: 15
 --- !u!1 &5200572661134338353
 GameObject:
   m_ObjectHideFlags: 0
@@ -1339,7 +1344,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3593339153674635779, guid: b3beeec0c0a18e44ab21aa0f28fe0314, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -140
+      value: -142.0821
       objectReference: {fileID: 0}
     - target: {fileID: 3593339153674635779, guid: b3beeec0c0a18e44ab21aa0f28fe0314, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1375,7 +1380,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3593339153674635779, guid: b3beeec0c0a18e44ab21aa0f28fe0314, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -40
+      value: -41.042
       objectReference: {fileID: 0}
     - target: {fileID: 3593339153674635779, guid: b3beeec0c0a18e44ab21aa0f28fe0314, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1394,16 +1399,8 @@ PrefabInstance:
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 4059008623473056626, guid: b3beeec0c0a18e44ab21aa0f28fe0314, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: -3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4059008623473056626, guid: b3beeec0c0a18e44ab21aa0f28fe0314, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4059008623473056626, guid: b3beeec0c0a18e44ab21aa0f28fe0314, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5492129823794117410, guid: b3beeec0c0a18e44ab21aa0f28fe0314, type: 3}
       propertyPath: m_Sprite
@@ -1426,16 +1423,8 @@ PrefabInstance:
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 5725861535160391073, guid: b3beeec0c0a18e44ab21aa0f28fe0314, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: -3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5725861535160391073, guid: b3beeec0c0a18e44ab21aa0f28fe0314, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5725861535160391073, guid: b3beeec0c0a18e44ab21aa0f28fe0314, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5860952416187174485, guid: b3beeec0c0a18e44ab21aa0f28fe0314, type: 3}
       propertyPath: m_Pivot.x

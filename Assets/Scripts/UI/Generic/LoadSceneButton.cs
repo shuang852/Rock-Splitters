@@ -1,4 +1,6 @@
-﻿using UI.Core;
+﻿using Managers;
+using UI.Core;
+using UI.Transitions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,9 +11,16 @@ namespace UI.Generic
     public class LoadSceneButton : DialogueButton<Dialogue>
     {
         [SerializeField] private SceneReference sceneReference;
+        private SceneTransitionManager sceneTransitionManager;
 
         private static bool loadingInProgress;
-        
+
+        protected override void OnComponentStart()
+        {
+            base.OnComponentStart();
+            sceneTransitionManager = M.GetOrThrow<SceneTransitionManager>();
+        }
+
         protected override void OnClick()
         {
             base.OnClick();
@@ -25,7 +34,7 @@ namespace UI.Generic
             Debug.Log($"Loading Scene '{sceneReference.ScenePath}'.");
             loadingInProgress = true;
             
-            SceneManager.LoadSceneAsync(sceneReference);
+            sceneTransitionManager.TransitionOut(sceneReference);
         }
         
         private void OnDestroy()

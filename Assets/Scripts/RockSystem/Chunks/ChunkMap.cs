@@ -39,6 +39,7 @@ namespace RockSystem.Chunks
             {
                 GameObject go = new GameObject($"Layered Tilemap [layer {i}]");
                 go.transform.parent = transform;
+                go.transform.localPosition = Vector3.zero;
                 Tilemap tilemap = go.AddComponent<Tilemap>();
                 TilemapRenderer tilemapRenderer = go.AddComponent<TilemapRenderer>();
                 
@@ -54,7 +55,7 @@ namespace RockSystem.Chunks
                     1f
                 );
                 
-                tilemapRenderer.sortingOrder = i;
+                tilemapRenderer.sortingOrder = i * 2 + 1;
                 tilemapRenderer.sortingLayerName = tilemapSortingLayer;
 
                 layeredTilemaps.Add(tilemap);

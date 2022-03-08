@@ -1,65 +1,89 @@
-﻿using System.Collections.Generic;
-using Managers;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using RockSystem.Chunks;
+using Stored;
 using UnityEngine;
 using UnityEngine.Events;
 using Utility;
 
 namespace RockSystem.Artefacts
 {
-    public class ArtefactShapeManager : Manager
+    public class ArtefactShapeManager : ChunkShapeManager<ArtefactShape>
     {
-        public UnityEvent<ArtefactShape, Vector2Int> artefactDamaged = new UnityEvent<ArtefactShape, Vector2Int>();
+        public UnityEvent initialised = new UnityEvent();
+        public UnityEvent artefactDamaged = new UnityEvent();
+        public UnityEvent artefactExposed = new UnityEvent();
+        public UnityEvent<ArtefactShape, Vector2Int> artefactChunkDamaged = new UnityEvent<ArtefactShape, Vector2Int>();
+
+        // TODO: Try to avoid using this whereever possible, it should be switched out for a list of main artefacts
+        public ArtefactShape MainArtefactShape => Artefacts.FirstOrDefault();
         
-        private ChunkManager chunkManager;
+        // TODO: Health and exposure can be updated to only include certain "main" artefacts
+        public float Exposure => (float) Artefacts.Sum(a => a.ExposedChunks) / Artefacts.Sum(a => a.NumOfChunks);
+        public float Health => Artefacts.Sum(a => a.CurrentTotalHealth) / Artefacts.Sum(a => a.MaxTotalHealth);
+
+        private List<ArtefactShape> Artefacts => ChunkShapes;
         
-        private readonly List<ArtefactShape> artefacts = new List<ArtefactShape>();
-        
-        protected override void Start()
+        // TODO: Should support being passed multiple Artefacts
+        public void Initialise(Artefact artefact)
         {
-            base.Start();
-
-            chunkManager = M.GetOrThrow<ChunkManager>();
-
-            chunkManager.damageOverflow.AddListener(OnDamageOverflow);
-        }
-
-        private void OnDamageOverflow(Vector2Int flatPosition, float damage)
-        {
-            ArtefactShape artefact = GetExposedArtefactAtFlatPosition(flatPosition);
-
-            if (artefact == null) return;
+            base.Initialise();
             
-            artefact.DamageArtefactChunk(flatPosition, damage);
+            CreateChunkShape(
+                () => Instantiate(chunkShapePrefab, transform),
+                artefactShape => artefactShape.Initialise(artefact)
+            );
             
-            artefactDamaged.Invoke(artefact, flatPosition);
-        }
-        
-        internal void RegisterArtefact(ArtefactShape artefact)
-        {
-            artefacts.Add(artefact);
+            artefactDamaged.Invoke();
+            artefactExposed.Invoke();
+
+            initialised.Invoke();
         }
 
-        internal void UnregisterArtefact(ArtefactShape artefact)
+        private void OnArtefactShapeChunkDamaged(ChunkShape chunkShape, Vector2Int flatPosition)
         {
-            artefacts.Remove(artefact);
+            artefactChunkDamaged.Invoke((ArtefactShape) chunkShape, flatPosition);
+        }
+
+        protected override ArtefactShape CreateChunkShape(Func<GameObject> instantiationFunction, Action<ArtefactShape> initialisationAction)
+        {
+            var artefactShape = base.CreateChunkShape(instantiationFunction, initialisationAction);
+            
+            artefactShape.chunkDamaged.AddListener(OnArtefactShapeChunkDamaged);
+
+            return artefactShape;
+        }
+
+        protected override void DestroyChunkShape(ArtefactShape artefactShape)
+        {
+            base.DestroyChunkShape(artefactShape);
+            
+            artefactShape.chunkDamaged.RemoveListener(OnArtefactShapeChunkDamaged);
         }
 
         public ArtefactShape GetExposedArtefactAtFlatPosition(Hexagons.OddrChunkCoord oddrChunkCoord)
         {
-            Chunk chunk = chunkManager.ChunkStructure.GetOrNull(oddrChunkCoord);
+            Chunk chunk = ChunkManager.ChunkStructure.GetOrNull(oddrChunkCoord);
 
             if (chunk == null)
-                return artefacts.Find(f => f.IsHitAtFlatPosition(oddrChunkCoord));
+                return Artefacts.Find(f => f.IsHitAtFlatPosition(oddrChunkCoord));
 
             return null;
         }
 
-        protected override void OnDestroy()
+        protected override void OnHealthChanged()
         {
-            base.OnDestroy();
+            base.OnHealthChanged();
             
-            chunkManager.damageOverflow.RemoveListener(OnDamageOverflow);
+            artefactDamaged.Invoke();
+        }
+
+        protected override void OnExposureChanged()
+        {
+            base.OnExposureChanged();
+            
+            artefactExposed.Invoke();
         }
     }
 }

@@ -88,11 +88,11 @@ MonoBehaviour:
     - Key: Cleaning
       Value:
         Guid:
-          Data1: -2003367070
-          Data2: 1250786620
-          Data3: -1664457034
-          Data4: 1674244703
-        Path: event:/Music/GameBGM
+          Data1: 1925428504
+          Data2: 1084310705
+          Data3: 892135823
+          Data4: 15393572
+        Path: event:/Music/ArcadeBGM
     - Key: Exhibition
       Value:
         Guid:
