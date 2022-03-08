@@ -17,7 +17,9 @@ namespace ToolSystem.Mines
             List<Rect> bigBoxes = new List<Rect>();
 
             // Generate first box, centred on the transform
-            bigBoxes.Add(new Rect(rectSize.x / -2, rectSize.y / -2, rectSize.x, rectSize.y));
+            var position = transform.position;
+            
+            bigBoxes.Add(new Rect(position.x + rectSize.x / -2, position.y + rectSize.y / -2, rectSize.x, rectSize.y));
 
             // Divide boxes
             for (int i = 0; i < minesToGenerate - 1; i++)
