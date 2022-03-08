@@ -277,7 +277,8 @@ namespace RockSystem.Chunks
         protected void ClearChunkHealths()
         {
             chunkHealths.Clear();
-            hitPositions.Clear();
+            // Null check because it doesn't get initialised before this is called
+            hitPositions?.Clear();
             
             // TODO: Should this clear ChunkExposure as well?
         }
