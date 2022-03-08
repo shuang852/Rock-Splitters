@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9c1d488228a09c14d8954d1868634009
+guid: 55bddc3960a402b4fbc157532fb880a4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1652038275889866373
-    second: drillpushed_0
+      213: 6820215874043876974
+    second: xraybuttonpressed_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -90,17 +90,29 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: drillpushed_0
+      name: xraybuttonpressed_0
       rect:
         serializedVersion: 2
         x: 60
-        y: 188
+        y: 156
         width: 392
-        height: 132
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -108,8 +120,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 586a3cd1f083de610800000000000000
-      internalID: 1652038275889866373
+      spriteID: e669ddfc33646ae50800000000000000
+      internalID: 6820215874043876974
       vertices: []
       indices: 
       edges: []
