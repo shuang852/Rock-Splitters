@@ -93,8 +93,8 @@ CanvasGroup:
   m_GameObject: {fileID: 7751157790600068932}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!114 &7751157790600068934
 MonoBehaviour:
@@ -108,9 +108,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4fc3078411343ef87a00a31f93097f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transitionDuration: 1
-  canvasGroup: {fileID: 7751157790600068937}
+  transitionDuration: 1.5
   easeMode: 4
+  canvasGroup: {fileID: 7751157790600068937}
+  sprites:
+  - {fileID: 21300000, guid: e7d027b714e554d4b9ce1522aba084f9, type: 3}
+  - {fileID: 21300000, guid: 076c0b828ffbd5b4d8138261ee49ea18, type: 3}
+  - {fileID: 21300000, guid: c3a11a41fd83d72499678ff4a81d2118, type: 3}
+  image: {fileID: 7751157790705293613}
+  minSize: 0.01
+  maxSize: 10
 --- !u!1 &7751157790705293611
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,7 +145,7 @@ RectTransform:
   m_GameObject: {fileID: 7751157790705293611}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 7751157790600068933}
   m_RootOrder: 0
@@ -169,16 +176,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.066037714, g: 0.066037714, b: 0.066037714, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
+  m_Sprite: {fileID: 21300000, guid: e7d027b714e554d4b9ce1522aba084f9, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
