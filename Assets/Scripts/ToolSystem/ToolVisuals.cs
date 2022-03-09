@@ -1,5 +1,4 @@
 using System;
-using Effects;
 using Managers;
 using UnityEngine;
 
@@ -13,7 +12,6 @@ namespace ToolSystem
         [SerializeField] private ParticleSystem drillParticles;
         [SerializeField] private GameObject hammerVisPrefab;
         [SerializeField] private Animator drillAnimator;
-        [SerializeField] private CameraShake cameraShake; 
         private ToolManager toolManager;
 
         private bool toolInUse;
@@ -27,6 +25,8 @@ namespace ToolSystem
             toolManager.toolInUse.AddListener(OnToolInUse);
             toolManager.toolUp.AddListener(OnToolUp);
         }
+
+        #region Listener Functions
 
         private void OnToolDown(Vector2 worldPosition)
         {
@@ -43,6 +43,8 @@ namespace ToolSystem
             StopClean();
         }
 
+        #endregion
+
         /// <summary>
         /// Activates the tools particle and visual system based on current tool
         /// For tap it's a one shot particles. For continuous its continuous.
@@ -58,10 +60,8 @@ namespace ToolSystem
             {
                 case Tool.ToolAction.Tap:
                     Instantiate(hammerVisPrefab, transform);
-                    cameraShake.ShakeOnce();
                     break;
                 case Tool.ToolAction.Continuous:
-                    cameraShake.ShakeContinuous();
                     if (!toolInUse)
                     {
                         drillAnimator.SetBool(cleaning, true);
@@ -74,7 +74,7 @@ namespace ToolSystem
             }
         }
 
-        public void StopClean()
+        private void StopClean()
         {
             drillAnimator.SetBool(cleaning, false);
             toolInUse = false;

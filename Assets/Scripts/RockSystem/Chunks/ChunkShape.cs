@@ -44,24 +44,23 @@ namespace RockSystem.Chunks
 
         public int ExposedChunks { get; private set; }
 
-        public int NumOfChunks => ChunkHealths.Count;
+        public int NumOfChunks => chunkHealths.Count;
 
         public readonly Dictionary<Vector2Int, bool> ChunkExposure = new Dictionary<Vector2Int, bool>();
         public bool CanBeDamaged { get; set; } = true;
         public Sprite Sprite => sprite;
         public int Layer => layer;
-        public float MaxTotalHealth => ChunkHealths.Count * maxHealth;
-        public float CurrentTotalHealth => ChunkHealths.Values.Sum();
+        public float MaxTotalHealth => chunkHealths.Count * maxHealth;
+        public float CurrentTotalHealth => chunkHealths.Values.Sum();
 
-        protected readonly Dictionary<Vector2Int, float> ChunkHealths = new Dictionary<Vector2Int, float>();
+        private readonly Dictionary<Vector2Int, float> chunkHealths = new Dictionary<Vector2Int, float>();
         protected SpriteRenderer SpriteRenderer;
         private SpriteMask spriteMask;
         private PolygonCollider2D polyCollider;
         private ChunkManager chunkManager;
 
-        private IEnumerable<Vector2Int> HitFlatPositions => ChunkHealths.Keys;
-        // TODO: Inefficient, should be cached.
-        private IEnumerable<Vector3Int> HitPositions => ChunkHealths.Keys.Select(v => new Vector3Int(v.x, v.y, layer));
+        private IEnumerable<Vector2Int> HitFlatPositions => chunkHealths.Keys;
+        private HashSet<Vector3Int> hitPositions;
 
         private bool exposureChanged;
         private bool healthChanged;
@@ -115,6 +114,7 @@ namespace RockSystem.Chunks
             
             ForceUpdateExposure();
             
+            
             initialised.Invoke();
         }
         
@@ -129,28 +129,30 @@ namespace RockSystem.Chunks
 
         private void SetupChunks()
         {
-            ChunkHealths.Clear();
+            ClearChunkHealths();
             ChunkExposure.Clear();
             
             foreach (Vector2Int flatPosition in chunkManager.ChunkStructure.FlatPositions)
             {
                 if (Hexagons.HexagonOverlapsCollider(chunkManager.CurrentGrid, flatPosition, polyCollider))
-                    ChunkHealths.Add(flatPosition, maxHealth);
+                    chunkHealths.Add(flatPosition, maxHealth);
             }
 
             Health = 1;
+            
+            hitPositions = new HashSet<Vector3Int>(from x in chunkHealths.Keys select new Vector3Int(x.x, x.y, layer));
         }
 
         #region Damage
 
         public void DamageChunk(Vector2Int position, float amount)
         {
-            if (!ChunkHealths.ContainsKey(position))
-                throw new IndexOutOfRangeException($"Position {position} is not in the {nameof(ChunkShape)}");
+            if (!chunkHealths.ContainsKey(position))
+                throw new IndexOutOfRangeException($"Position {position} is not in the {nameof(ChunkShape)} {name}");
 
             if (!CanBeDamaged) return;
 
-            ChunkHealths[position] = Mathf.Max(0, ChunkHealths[position] - amount);
+            chunkHealths[position] = Mathf.Max(0, chunkHealths[position] - amount);
 
             healthChanged = true;
             
@@ -158,11 +160,11 @@ namespace RockSystem.Chunks
         }
 
         public float GetChunkHealth(Vector2Int position) =>
-            ChunkHealths.ContainsKey(position) ? ChunkHealths[position] : 0;
+            chunkHealths.ContainsKey(position) ? chunkHealths[position] : 0;
 
         #endregion
 
-        public bool IsHitAtFlatPosition(Vector2Int position) => ChunkHealths.ContainsKey(position);
+        public bool IsHitAtFlatPosition(Vector2Int position) => chunkHealths.ContainsKey(position);
 
         public bool IsExposedAtFlatPosition(Vector2Int flatPosition)
         {
@@ -177,7 +179,7 @@ namespace RockSystem.Chunks
         
         public bool IsHitAtPosition(Vector3Int position)
         {
-            return HitPositions.Contains(position);
+            return hitPositions.Contains(position);
         }
 
         protected virtual void OnDrawGizmos()
@@ -205,7 +207,7 @@ namespace RockSystem.Chunks
         {
             ExposedChunks = ChunkExposure.Count(i => i.Value);
             
-            int totalChunks = ChunkHealths.Count;
+            int totalChunks = chunkHealths.Count;
 
             Exposure = ExposedChunks / (float) totalChunks;
         }
@@ -215,7 +217,7 @@ namespace RockSystem.Chunks
         {
             int exposedChunks = 0;
             
-            foreach (var flatPosition in ChunkHealths.Keys)
+            foreach (var flatPosition in chunkHealths.Keys)
             {
                 if (IsExposedAtFlatPosition(flatPosition))
                 {
@@ -231,7 +233,7 @@ namespace RockSystem.Chunks
 
             ExposedChunks = exposedChunks;
 
-            int totalChunks = ChunkHealths.Count;
+            int totalChunks = chunkHealths.Count;
 
             Exposure = ExposedChunks / (float) totalChunks;
         }
@@ -270,6 +272,15 @@ namespace RockSystem.Chunks
             chunkManager.chunkCleared.RemoveListener(OnChunkDestroyed);
             
             destroyed.Invoke(this);
+        }
+
+        protected void ClearChunkHealths()
+        {
+            chunkHealths.Clear();
+            // Null check because it doesn't get initialised before this is called
+            hitPositions?.Clear();
+            
+            // TODO: Should this clear ChunkExposure as well?
         }
     }
 }
