@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{c5ddcf13-f543-49a8-b333-f9003c99aef7}">
+		<property name="assetPath">
+			<value>Final SFX/Cleaning_Fail.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.3815873015873017</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{0fd82df8-fea7-4a74-8a29-40716597822a}</destination>
+		</relationship>
+	</object>
+</objects>

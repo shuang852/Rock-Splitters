@@ -9,13 +9,12 @@ namespace Audio
     {
         [SerializeField] private PlayOneShot drill;
         [SerializeField] private PlayOneShot hammer;
-        [SerializeField] private PlayOneShot dirtHammer;
         
         private ToolManager toolManager;
         private bool toolInUse;
         
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             toolManager = M.GetOrThrow<ToolManager>();
             toolManager.toolDown.AddListener(OnToolUse);
@@ -28,14 +27,11 @@ namespace Audio
             if (toolManager.CurrentTool == null) return;
             
             Tool.ToolAction toolAction = toolManager.CurrentTool.action;
-
-            //dust.PlayOnce();
-                
+            
             switch (toolAction)
             {
                 case Tool.ToolAction.Tap:
                     hammer.PlayOnce();
-                    dirtHammer.PlayOnce();
                     break;
                 case Tool.ToolAction.Continuous:
                     if (!toolInUse)
@@ -51,7 +47,6 @@ namespace Audio
         private void OnToolStop(Vector2 worldPosition)
         {
             toolInUse = false;
-            //drill.StopFadeOut();
             FMODUnity.RuntimeManager.StudioSystem.setParameterByNameWithLabel("Drill", "Not Drilling");
         }
 

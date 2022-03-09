@@ -13,6 +13,7 @@ namespace ToolSystem.Mines
         [SerializeField] private string defuseLayer;
 
         private ToolManager toolManager;
+        private MineManager mineManager;
         private bool detonated;
         private static readonly int defuse = Animator.StringToHash("Defuse");
 
@@ -21,6 +22,7 @@ namespace ToolSystem.Mines
             base.Start();
 
             toolManager = M.GetOrThrow<ToolManager>();
+            mineManager = M.GetOrThrow<MineManager>();
         }
 
         public void Initialise(int layer)
@@ -53,6 +55,7 @@ namespace ToolSystem.Mines
 
             toolManager.UseTool(transform.position, tool);
 
+            mineManager.mineDetonated.Invoke();
             // TODO: Quick fix. Needs looking at again.
             gameObject.SetActive(false);
 
@@ -70,6 +73,8 @@ namespace ToolSystem.Mines
             SpriteRenderer.sortingLayerName = defuseLayer;
             
             animator.SetTrigger(defuse);
+            mineManager.mineDefused.Invoke();
+            // TODO: destroy or disable object after animation/delay
         }
 
         private void Destroy()

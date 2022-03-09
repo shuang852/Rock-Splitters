@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using RockSystem.Chunks;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ToolSystem.Mines
 {
@@ -8,6 +9,9 @@ namespace ToolSystem.Mines
     {
         [SerializeField] private Vector2 rectSize;
         [SerializeField] private int minLayer;
+
+        public UnityEvent mineDefused;
+        public UnityEvent mineDetonated;
 
         public void Initialise(int minesToGenerate)
         {

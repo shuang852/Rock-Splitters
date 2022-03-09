@@ -14,7 +14,7 @@ namespace Audio
         private float musicVol =1;
         private float sfxVol =1;
 
-        public override bool PersistBetweenScenes => true;
+        public override bool PersistBetweenScenes => true; 
 
         protected override void Start()
         {
