@@ -25,6 +25,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d30ced714e5d1794cb8aceb859f84527, type: 2}
   chunkDescriptions:
   - {fileID: 11400000, guid: e1f46564eb7d04062a1cb2e119403c01, type: 2}
-  rockColor: {r: 0.6037736, g: 0.31555712, b: 0.31555712, a: 0}
+  rockColor: {r: 0.6037736, g: 0.31555712, b: 0.31555712, a: 1}
   minMines: 2
   maxMines: 5
