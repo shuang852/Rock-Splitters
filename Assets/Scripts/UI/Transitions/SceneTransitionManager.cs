@@ -17,22 +17,18 @@ namespace UI.Transitions
         [Tooltip("Sets the transitions ease mode")]
         [SerializeField] private Ease easeMode;
         [SerializeField, HideInInspector] private CanvasGroup canvasGroup;
-        [SerializeField] private Sprite[] sprites;
-        [SerializeField] private Image image;
-        [SerializeField] private float minSize = 0.01f;
-        [SerializeField] private float maxSize = 10f;
+        [SerializeField] private Image animatedDino;
 
+        /// <summary>
+        /// Call when transitioning into a scene. Runs a transition then disables itself. 
+        /// </summary>
         private async void TransitionIn(Scene scene, LoadSceneMode loadSceneMode)
-        {
-            image.sprite = sprites[Random.Range(0, sprites.Length - 1)];
-            //transform.localScale = new Vector3()
-            await image.transform.DOScale(new Vector3(minSize, minSize, 1), transitionDuration)
+        {;
+            await canvasGroup.DOFade(0, transitionDuration)
                 .SetEase(easeMode)
                 .AsyncWaitForCompletion();
-            image.gameObject.SetActive(false);
+            animatedDino.gameObject.SetActive(false);
             canvasGroup.blocksRaycasts = false;
-            // canvasGroup.DOFade(0, transitionDuration)
-            //     .SetEase(easeMode);
         }
 
         /// <summary>
@@ -41,15 +37,11 @@ namespace UI.Transitions
         /// <param name="sceneReference">Scene to load to</param>
         public async void TransitionOut(SceneReference sceneReference)
         {
-            // await canvasGroup.DOFade(1, transitionDuration)
-            //     .SetEase(easeMode)
-            //     .AsyncWaitForCompletion();
-            image.sprite = sprites[Random.Range(0, sprites.Length - 1)];
-            image.gameObject.SetActive(true);
-            canvasGroup.blocksRaycasts = true;
-            await image.transform.DOScale(new Vector3(maxSize, maxSize, 1), transitionDuration)
+            animatedDino.gameObject.SetActive(true);
+            await canvasGroup.DOFade(1, transitionDuration)
                 .SetEase(easeMode)
                 .AsyncWaitForCompletion();
+            canvasGroup.blocksRaycasts = true;
             await SceneManager.LoadSceneAsync(sceneReference);
         }
         
