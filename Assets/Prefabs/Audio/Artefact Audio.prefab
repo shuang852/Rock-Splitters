@@ -80,8 +80,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fmodEvent:
     Guid:
-      Data1: -1767480089
-      Data2: 1259700340
-      Data3: -2074431061
-      Data4: 1770531358
-    Path: event:/UI Events/sfx_soundevent_ui-select
+      Data1: -655066628
+      Data2: 1081480617
+      Data3: -1207191619
+      Data4: -81846913
+    Path: event:/Sound Events/Excavation/sfx_soundevent_hit-bone-negative-ding
