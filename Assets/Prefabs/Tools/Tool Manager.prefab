@@ -57,6 +57,7 @@ MonoBehaviour:
   toolUsed:
     m_PersistentCalls:
       m_Calls: []
+  ToolVisuals: {fileID: 0}
 --- !u!1001 &3097560684055201045
 PrefabInstance:
   m_ObjectHideFlags: 0

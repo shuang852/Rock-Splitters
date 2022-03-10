@@ -39,7 +39,7 @@ namespace UI.Exhibition
             setNameText.text = artefactSet.SetName;
             setInfoNameText.text = artefactSet.SetName;
             setDescriptionText.text = artefactSet.Description;
-            setStatsText.text = $"Income/Capacity: {artefactSet.CurrentSetIncome} / {artefactSet.CurrentSetCapacity}";
+            //setStatsText.text = $"Income/Capacity: {artefactSet.CurrentSetIncome} / {artefactSet.CurrentSetCapacity}";
 
             // If we run into performance issues in the future for this, we can store a completed variable in ArtefactSet
             foreach (var artefact in artefactSet.SetItems)

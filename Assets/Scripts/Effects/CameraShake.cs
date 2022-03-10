@@ -1,4 +1,6 @@
 using System.Collections;
+using Managers;
+using ToolSystem;
 using UnityEngine;
 
 namespace Effects
@@ -20,10 +22,16 @@ namespace Effects
         private Vector3 _rootPosition;
 
         private readonly string prefName = "CameraShakeEnabled"; 
+
+        private ToolManager toolManager;
         
-        private void Awake()
+        private void Start()
         {
             camera = GetComponent<Camera>();
+            toolManager = M.GetOrThrow<ToolManager>();
+            
+            toolManager.toolDown.AddListener(ShakeOnce);
+            toolManager.toolInUse.AddListener(ShakeContinuous);
             
             LoadSettings();
         }
@@ -35,7 +43,7 @@ namespace Effects
 
         // TODO: make it more generic and support any values. Derive the shake amounts elsewhere
         [ContextMenu("Start")]
-        public void ShakeOnce()
+        private void ShakeOnce(Vector2 pos)
         {
             if (!ShakeEnabled) return;
             
@@ -43,8 +51,9 @@ namespace Effects
             
             _rootPosition = transform.position;
             _coroutine = StartCoroutine(ShakeCoroutine(hammerDuration, hammerAmount, hammerPeriod));
-        } 
-        public void ShakeContinuous()
+        }
+
+        private void ShakeContinuous(Vector2 pos)
         {
             if (!ShakeEnabled) return;
             if (_coroutine != null)

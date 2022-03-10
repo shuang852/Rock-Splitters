@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using RockSystem.Chunks;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ToolSystem.Mines
 {
@@ -8,6 +9,9 @@ namespace ToolSystem.Mines
     {
         [SerializeField] private Vector2 rectSize;
         [SerializeField] private int minLayer;
+
+        public UnityEvent mineDefused;
+        public UnityEvent mineDetonated;
 
         public void Initialise(int minesToGenerate)
         {
@@ -17,7 +21,9 @@ namespace ToolSystem.Mines
             List<Rect> bigBoxes = new List<Rect>();
 
             // Generate first box, centred on the transform
-            bigBoxes.Add(new Rect(rectSize.x / -2, rectSize.y / -2, rectSize.x, rectSize.y));
+            var position = transform.position;
+            
+            bigBoxes.Add(new Rect(position.x + rectSize.x / -2, position.y + rectSize.y / -2, rectSize.x, rectSize.y));
 
             // Divide boxes
             for (int i = 0; i < minesToGenerate - 1; i++)

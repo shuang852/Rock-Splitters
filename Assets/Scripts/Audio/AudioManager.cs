@@ -8,7 +8,7 @@ namespace Audio
     {
         [SerializeField] private List<AudioBus> audioBuses;
 
-        public override bool PersistBetweenScenes => true;
+        public override bool PersistBetweenScenes => true; 
 
         protected override void Start()
         {

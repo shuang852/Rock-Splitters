@@ -36,7 +36,9 @@ namespace UI.Cleaning_Results
             scoreManager = M.GetOrThrow<CleaningScoreManager>();
             artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
 
-            motivationText.text = textPool[Random.Range(0, textPool.Count - 1)];
+            motivationText.text = scoreManager.ArtefactRockScore == 0
+                ? "Try again!"
+                : textPool[Random.Range(0, textPool.Count - 1)];
             artefactScoreText.text = scoreManager.ArtefactRockScore.ToString(CultureInfo.InvariantCulture);
             artefactHealthText.text =
                 Mathf.Round(artefactShapeManager.Health * 100).ToString(CultureInfo.InvariantCulture) + "%";
@@ -51,9 +53,13 @@ namespace UI.Cleaning_Results
             //totalScoreText.text = scoreManager.Score.ToString(CultureInfo.InvariantCulture);
         }
 
-        protected override void Subscribe() { }
+        protected override void Subscribe()
+        {
+        }
 
-        protected override void Unsubscribe() { }
+        protected override void Unsubscribe()
+        {
+        }
 
         // TODO
         // private string WinStateToString()
