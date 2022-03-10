@@ -18,12 +18,21 @@ namespace Effects
         public bool ShakeEnabled = true;
         private Coroutine _coroutine;
         private Vector3 _rootPosition;
+
+        private readonly string prefName = "CameraShakeEnabled"; 
         
         private void Awake()
         {
             camera = GetComponent<Camera>();
+            
+            LoadSettings();
         }
-        
+
+        private void OnDestroy()
+        {
+            SaveSettings();
+        }
+
         // TODO: make it more generic and support any values. Derive the shake amounts elsewhere
         [ContextMenu("Start")]
         public void ShakeOnce()
@@ -72,6 +81,18 @@ namespace Effects
 
             _coroutine = null;
             transform.position = _rootPosition;
+        }
+
+        private void SaveSettings()
+        {
+            PlayerPrefs.SetInt(prefName, ShakeEnabled ? 1 : 0);
+        }
+
+        private void LoadSettings()
+        {
+            if (!PlayerPrefs.HasKey(prefName)) return;
+
+            ShakeEnabled = PlayerPrefs.GetInt(prefName) == 1;
         }
     }
 }
