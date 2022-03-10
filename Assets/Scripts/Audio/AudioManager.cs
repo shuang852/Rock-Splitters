@@ -15,6 +15,15 @@ namespace Audio
             base.Start();
             
             audioBuses.ForEach(a => a.Initialise());
+            
+            LoadSettings();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            SaveSettings();
         }
 
         public void ChangeVolume(Bus bus, float value)
@@ -38,6 +47,31 @@ namespace Audio
         private AudioBus GetAudioBus(Bus bus)
         {
             return audioBuses.Find(a => a.enumValue == bus);
+        }
+
+        private void SaveSettings()
+        {
+            foreach (var audioBus in audioBuses)
+            {
+                PlayerPrefs.SetFloat(PrefName(audioBus), audioBus.Volume);
+            }
+        }
+
+        private void LoadSettings()
+        {
+            foreach (var audioBus in audioBuses)
+            {
+                if (!PlayerPrefs.HasKey(PrefName(audioBus))) continue;
+                
+                audioBus.Volume = PlayerPrefs.GetFloat(PrefName(audioBus));
+            }
+            
+            PlayerPrefs.Save();
+        }
+
+        private static string PrefName(AudioBus audioBus)
+        {
+            return "Audio" + audioBus.enumValue;
         }
     }
 }
