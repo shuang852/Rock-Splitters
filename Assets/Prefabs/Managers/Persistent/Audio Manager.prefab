@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5718939523510071259}
   - component: {fileID: 20311376925394934}
   m_Layer: 0
-  m_Name: AudioManager
+  m_Name: Audio Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,6 +63,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd5bf8785c1e44c4830b328f004aed1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioBuses:
+  - enumValue: 0
+    path: bus:/
+  - enumValue: 1
+    path: bus:/Music
+  - enumValue: 2
+    path: bus:/SFX
 --- !u!114 &20311376925394934
 MonoBehaviour:
   m_ObjectHideFlags: 0

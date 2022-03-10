@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0cc3e28d28c40069eaaef7ddc3fd635, type: 3}
-  m_Name: Antiquity Sets Database
+  m_Name: Artefact Sets Database
   m_EditorClassIdentifier: 
   assetPath: Assets/ScriptableObjects/AntiquitySets
   items:

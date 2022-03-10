@@ -21,6 +21,8 @@ namespace Effects
         private Coroutine _coroutine;
         private Vector3 _rootPosition;
 
+        private readonly string prefName = "CameraShakeEnabled"; 
+
         private ToolManager toolManager;
         
         private void Start()
@@ -30,8 +32,15 @@ namespace Effects
             
             toolManager.toolDown.AddListener(ShakeOnce);
             toolManager.toolInUse.AddListener(ShakeContinuous);
+            
+            LoadSettings();
         }
-        
+
+        private void OnDestroy()
+        {
+            SaveSettings();
+        }
+
         // TODO: make it more generic and support any values. Derive the shake amounts elsewhere
         [ContextMenu("Start")]
         private void ShakeOnce(Vector2 pos)
@@ -81,6 +90,18 @@ namespace Effects
 
             _coroutine = null;
             transform.position = _rootPosition;
+        }
+
+        private void SaveSettings()
+        {
+            PlayerPrefs.SetInt(prefName, ShakeEnabled ? 1 : 0);
+        }
+
+        private void LoadSettings()
+        {
+            if (!PlayerPrefs.HasKey(prefName)) return;
+
+            ShakeEnabled = PlayerPrefs.GetInt(prefName) == 1;
         }
     }
 }
