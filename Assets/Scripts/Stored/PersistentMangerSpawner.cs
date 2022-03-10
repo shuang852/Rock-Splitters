@@ -10,10 +10,10 @@ namespace Stored
         {
             foreach (var manager in db.Items)
             {
-                if (!GameObject.Find(manager.name))
-                {
-                    Instantiate(manager);
-                }
+                if (GameObject.Find(manager.name + "(Clone)")) continue;
+                
+                Debug.Log($"Instantiating {manager.name}");
+                Instantiate(manager);
             }
         }
     }

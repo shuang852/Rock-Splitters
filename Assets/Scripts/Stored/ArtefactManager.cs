@@ -1,3 +1,4 @@
+using System.Linq;
 using Managers;
 using Stored.Database;
 using UnityEngine;
@@ -11,6 +12,13 @@ namespace Stored
         // public float TotalIncome { private set;  get; }
         // public float TotalCapacity { private set;  get; }
         public ArtefactSetDatabase artefactSetDatabase;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            
+            LoadInventory();
+        }
 
         protected override void Start()
         {
@@ -94,6 +102,34 @@ namespace Stored
             {
                 Debug.Log("Database is empty. Please manually assign!");
             }
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            SaveInventory();
+        }
+
+        private void LoadInventory()
+        {
+            if (!PlayerPrefs.HasKey("Inventory")) return;
+            
+            var saveData = JsonUtility.FromJson<InventorySaveData>(PlayerPrefs.GetString("Inventory"));
+            
+            foreach (var artefact in saveData.artefacts)
+            {
+                Inventory.AddItem(artefact);
+            }
+        }
+
+        private void SaveInventory()
+        {
+            var saveData = new InventorySaveData(Inventory.Items.ToList());
+
+            PlayerPrefs.SetString("Inventory", JsonUtility.ToJson(saveData));
+            
+            PlayerPrefs.Save();
         }
     }
 }
