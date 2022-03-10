@@ -1,63 +1,77 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Managers;
+using UnityEngine;
 
 namespace Audio
 {
     public class AudioManager : Manager
     {
-        private FMOD.Studio.Bus master;
-        private FMOD.Studio.Bus music;
-        private FMOD.Studio.Bus sfx;
-        
-        private float masterVol = 1;
-        private float musicVol =1;
-        private float sfxVol =1;
+        [SerializeField] private List<AudioBus> audioBuses;
 
         public override bool PersistBetweenScenes => true; 
 
         protected override void Start()
         {
             base.Start();
-            master = FMODUnity.RuntimeManager.GetBus("bus:/");
-            music = FMODUnity.RuntimeManager.GetBus("bus:/Music");
-            sfx = FMODUnity.RuntimeManager.GetBus("bus:/SFX");
+            
+            audioBuses.ForEach(a => a.Initialise());
+            
+            LoadSettings();
+        }
 
-            master.setVolume(masterVol);
-            music.setVolume(musicVol);
-            sfx.setVolume(sfxVol);
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            SaveSettings();
         }
 
         public void ChangeVolume(Bus bus, float value)
         {
-            switch (bus)
-            {
-                case Bus.Master:
-                    master.setVolume(value);
-                    masterVol = value;
-                    break;
-                case Bus.Music:
-                    music.setVolume(value);
-                    musicVol = value;
-                    break;
-                case Bus.SFX:
-                    sfx.setVolume(value);
-                    sfxVol = value;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(bus), bus, null);
-            }
+            var audioBus = GetAudioBus(bus);
+            
+            if (audioBus == null) return;
+
+            audioBus.Volume = value;
         }
 
         public float GetVolume(Bus bus)
         {
-            return bus switch
+            var audioBus = GetAudioBus(bus);
+            
+            if (audioBus == null) return 0;
+
+            return audioBus.Volume;
+        }
+
+        private AudioBus GetAudioBus(Bus bus)
+        {
+            return audioBuses.Find(a => a.enumValue == bus);
+        }
+
+        private void SaveSettings()
+        {
+            foreach (var audioBus in audioBuses)
             {
-                Bus.Master => masterVol,
-                Bus.Music => musicVol,
-                Bus.SFX => sfxVol,
-                _ => throw new ArgumentOutOfRangeException(nameof(bus), bus, null)
-            };
+                PlayerPrefs.SetFloat(PrefName(audioBus), audioBus.Volume);
+            }
+        }
+
+        private void LoadSettings()
+        {
+            foreach (var audioBus in audioBuses)
+            {
+                if (!PlayerPrefs.HasKey(PrefName(audioBus))) continue;
+                
+                audioBus.Volume = PlayerPrefs.GetFloat(PrefName(audioBus));
+            }
+            
+            PlayerPrefs.Save();
+        }
+
+        private static string PrefName(AudioBus audioBus)
+        {
+            return "Audio" + audioBus.enumValue;
         }
     }
 }

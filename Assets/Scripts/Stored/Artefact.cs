@@ -24,6 +24,7 @@ namespace Stored
         public float MaxHealth => maxHealth;
         public bool OverrideSet => overrideSet;
         public float Score => score;
-        public ArtefactSet artefactSet;
+        // TODO: Cyclic dependency with ArtefactSet. Should be removed.
+        // public ArtefactSet artefactSet;
     }
 }

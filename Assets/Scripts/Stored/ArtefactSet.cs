@@ -42,9 +42,9 @@ namespace Stored
         {
             if (setItems.Length <= 0) return;
             
-            foreach (var item in setItems)
-                if (item is { OverrideSet: false })
-                    item.artefactSet = this;
+            // foreach (var item in setItems)
+            //     if (item is { OverrideSet: false })
+            //         item.artefactSet = this;
         }
 
         // TODO: Possibly change this to only 1 item if we face optimisation problems. This would mean a version without resetting count
