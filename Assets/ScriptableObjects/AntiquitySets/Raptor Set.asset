@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c91581845e8245cfadd3d8854b344f19, type: 3}
+  m_Name: Raptor Set
+  m_EditorClassIdentifier: 
+  setName: Raptor
+  sprite: {fileID: 21300000, guid: 7f662aca9e9ab18419bb3f8c0624309d, type: 3}
+  prodID: 4
+  description: Velociraptors, often abbreviated to 'raptors', are a dimunitive species
+    of dinosaur who hunt in packs. While often depicted scaled, it is now considered
+    likely that they were actually a feathered species, reminiscent of modern birds.
+  setItems:
+  - {fileID: 11400000, guid: 7e3e9bc60b99c7e48b9f8cec91b4f192, type: 2}
+  - {fileID: 11400000, guid: 50f59ad98068c964ea3f78e03010ae89, type: 2}

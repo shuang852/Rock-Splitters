@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc5474258d44318a3f35f96ff2b3e65, type: 3}
   m_Name: Drill
   m_EditorClassIdentifier: 
-  radius: 0.5
+  radius: 0.4
   action: 1
-  damage: 80
+  damage: 40
   unlocked: 1
   startingTool: 1
   damageFalloff:
@@ -42,3 +42,4 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   artefactSafety: 1
+  mineSafety: 1

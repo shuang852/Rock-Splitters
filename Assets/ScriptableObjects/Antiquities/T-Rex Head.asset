@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: T-Rex Head
   sprite: {fileID: 21300000, guid: a02d85f7c54326f47bdad4095fb6b6fe, type: 3}
+  breakingHealth: 25
+  maxHealth: 40
+  score: 1000
+  overrideSet: 0
+  artefactSet: {fileID: 11400000, guid: d91db3f99ed179d4fb6a05460266acba, type: 2}

@@ -43,14 +43,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 154c960b246e4ef3b6334bd471ea3863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RequiredExposureForCompletion: 0.995
-  RequiredHealthForFailure: 0.5
-  CleaningStarted:
+  generationBrackets:
+  - {fileID: 11400000, guid: 8d8882c57b4eee64f91339212fbf02d1, type: 2}
+  - {fileID: 11400000, guid: e50ad4daebdacfb4f9e99d837779adaa, type: 2}
+  requiredExposureForCompletion: 0.995
+  requiredHealthForFailure: 0.5
+  cleaningStarted:
     m_PersistentCalls:
       m_Calls: []
-  CleaningWon:
+  cleaningEnded:
     m_PersistentCalls:
       m_Calls: []
-  CleaningLost:
+  nextArtefactRock:
+    m_PersistentCalls:
+      m_Calls: []
+  artefactRockFailed:
+    m_PersistentCalls:
+      m_Calls: []
+  artefactRockSucceeded:
     m_PersistentCalls:
       m_Calls: []

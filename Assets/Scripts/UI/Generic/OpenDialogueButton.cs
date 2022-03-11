@@ -8,11 +8,10 @@ namespace UI.Pause
     {
         [SerializeField] private GameObject dialoguePrefab;
 
-        protected override void Subscribe() { }
-        protected override void Unsubscribe() { }
-
         protected override void OnClick()
         {
+            base.OnClick();
+            
             Instantiate(dialoguePrefab);
         }
     }

@@ -12,7 +12,7 @@ namespace UI.Exhibition
         [SerializeField] private ScrollviewSnapping scroll;
         [SerializeField] private GameObject setPrefab;
         
-        private AntiquityManager antiquityManager;
+        private ArtefactManager artefactManager;
         protected override void OnClose() {}
 
         protected override void OnPromote() {}
@@ -21,7 +21,7 @@ namespace UI.Exhibition
 
         private async void Start()
         {
-            antiquityManager = M.GetOrThrow<AntiquityManager>();
+            artefactManager = M.GetOrThrow<ArtefactManager>();
             foreach (Transform child in scroll.Panel.transform)
             {
                Destroy(child.gameObject);
@@ -29,10 +29,10 @@ namespace UI.Exhibition
 
             await UniTask.Yield();
             
-            foreach (var antiquitySet in antiquityManager.antiquitySetDatabase.OrderedItems)
+            foreach (var artefactSet in artefactManager.artefactSetDatabase.OrderedItems)
             {
                 var go = Instantiate(setPrefab, scroll.Panel.transform);
-                go.GetComponent<AntiquitySetUI>().Setup(antiquitySet);
+                go.GetComponent<ArtefactSetUI>().Setup(artefactSet);
             }
             await UniTask.Yield();
             scroll.CalculateChildren();

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace UI.Cleaning
 {
+    // TODO: Remove
     public class StartCleaningButton : DialogueComponent<CleaningDialogue>
     {
         private Button button;
@@ -14,7 +15,6 @@ namespace UI.Cleaning
         protected override void OnComponentAwake()
         {
             TryGetComponent(out button);
-            button.onClick.AddListener(OnSubmit);
         }
 
         protected override void OnComponentStart()
@@ -23,10 +23,16 @@ namespace UI.Cleaning
 
             cleaningManager = M.GetOrThrow<CleaningManager>();
         }
-        
-        protected override void Subscribe() { }
 
-        protected override void Unsubscribe() { }
+        protected override void Subscribe()
+        {
+            button.onClick.AddListener(OnSubmit);
+        }
+
+        protected override void Unsubscribe()
+        {
+            button.onClick.RemoveListener(OnSubmit);
+        }
         
         private void OnSubmit()
         {

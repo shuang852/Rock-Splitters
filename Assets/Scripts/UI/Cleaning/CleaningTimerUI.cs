@@ -3,6 +3,7 @@ using Cleaning;
 using Managers;
 using TMPro;
 using UI.Core;
+using UnityEngine;
 
 namespace UI.Cleaning
 {
@@ -22,7 +23,7 @@ namespace UI.Cleaning
 
             timer = M.GetOrThrow<CleaningTimerManager>();
             
-            timer.TimeChanged.AddListener(OnTimeChanged);
+            timer.timeChanged.AddListener(OnTimeChanged);
         }
 
         protected override void Subscribe() { }
@@ -31,12 +32,12 @@ namespace UI.Cleaning
         
         private void OnTimeChanged()
         {
-            text.text = timer.CurrentTime.ToString(CultureInfo.InvariantCulture);
+            text.text = timer.CurrentTimeLeft.ToString("F2", CultureInfo.InvariantCulture);
         }
 
         private void OnDestroy()
         {
-            timer.TimeChanged.RemoveListener(OnTimeChanged);
+            timer.timeChanged.RemoveListener(OnTimeChanged);
         }
     }
 }

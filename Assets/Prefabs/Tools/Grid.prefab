@@ -108,7 +108,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1117476481
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 4991831999567798633}
   - component: {fileID: 4991831999567798634}
   - component: {fileID: 4991831999567798632}
+  - component: {fileID: 7741337470395327647}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -177,9 +178,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f31319181b984cf78bbddd9c5fbe7165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 30, y: 70}
-  rocks:
-  - {fileID: 11400000, guid: e1f46564eb7d04062a1cb2e119403c01, type: 2}
+  size: {x: 25, y: 50, z: 6}
+  rockShapeMask: {fileID: 0}
+  damageOverflow:
+    m_PersistentCalls:
+      m_Calls: []
+  chunkCleared:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7741337470395327647}
+        m_TargetAssemblyTypeName: Audio.ChunkAudio, Audio
+        m_MethodName: PlayAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  chunkShapeRegistered:
+    m_PersistentCalls:
+      m_Calls: []
+  chunkShapeUnregistered:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4991831999567798634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,7 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9e30b18cc3649cdb418e37c26c1b915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerLength: 6
+  rockColor: {r: 1, g: 1, b: 1, a: 1}
   colorGradient: 8
   tilemapSortingLayer: Chunk
 --- !u!114 &4991831999567798632
@@ -207,9 +231,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad918263d6d4cf0b0f9dc0292d47baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sortingLayer: Chunk
-  sortingOrder: 20
+  sortingLayer: FX
+  sortingOrder: -1
   damageSprites:
   - {fileID: 2747690628134850419, guid: 460d300c11787d122a06e451b2d08f17, type: 3}
   - {fileID: 2747690628134850419, guid: ea92cedff614a44519357ae51acdc43d, type: 3}
   bustedDamageSprite: {fileID: 21300000, guid: 4771ffefba172a2ad97823375f3b20bd, type: 3}
+--- !u!114 &7741337470395327647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4991831999567798637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8cd3db76426451bbfda5ac0d444d6b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fmodEvent:
+    Guid:
+      Data1: 349334726
+      Data2: 1192160479
+      Data3: 1093402548
+      Data4: 761253975
+    Path: event:/Sound Events/Excavation/sfx_soundevent_dirt-crumble-random
+  delay: 0.25

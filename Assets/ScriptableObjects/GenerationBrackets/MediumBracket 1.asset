@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09a2d52914554d9c84d4ef87ad12d365, type: 3}
+  m_Name: MediumBracket 1
+  m_EditorClassIdentifier: 
+  bracketLength: 2
+  artefacts:
+  - {fileID: 11400000, guid: 05dfecf3bd33d40469830c85543d3ca4, type: 2}
+  - {fileID: 11400000, guid: 8736d688eead039479631e5d15d05609, type: 2}
+  - {fileID: 11400000, guid: 02487cf5ce8f62e429b0c9fc5c9b5a8d, type: 2}
+  - {fileID: 11400000, guid: e428964492445b743a866183a296207e, type: 2}
+  - {fileID: 11400000, guid: 50f59ad98068c964ea3f78e03010ae89, type: 2}
+  - {fileID: 11400000, guid: 7e3e9bc60b99c7e48b9f8cec91b4f192, type: 2}
+  - {fileID: 11400000, guid: e01da8ebde6f60248b5866e8e5fe7999, type: 2}
+  - {fileID: 11400000, guid: 8311cd82328d95349948f1395c08ed1a, type: 2}
+  rockShapes:
+  - {fileID: 11400000, guid: fa8a512112676f549a92c37673633f86, type: 2}
+  - {fileID: 11400000, guid: 2f9b446985d517a459690f76fd680601, type: 2}
+  - {fileID: 11400000, guid: 4a7926a7e75b6e44f927e22061f4845c, type: 2}
+  - {fileID: 11400000, guid: b58afa544a6682f4384bee5e61f3504f, type: 2}
+  - {fileID: 11400000, guid: dd0ba5d12fa08fd4d96431ef2543b507, type: 2}
+  - {fileID: 11400000, guid: d07e3f3b54f1e4540a8b9f2ae5f73ba5, type: 2}
+  - {fileID: 11400000, guid: dceb0315129d34549946f9e2eca4fe7e, type: 2}
+  - {fileID: 11400000, guid: dc37a0a341c81674e8d0762e18f76130, type: 2}
+  chunkDescriptions:
+  - {fileID: 11400000, guid: e1f46564eb7d04062a1cb2e119403c01, type: 2}
+  rockColor: {r: 0.251602, g: 0.5188679, b: 0.28083682, a: 1}
+  minMines: 1
+  maxMines: 3

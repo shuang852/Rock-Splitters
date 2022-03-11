@@ -6,7 +6,7 @@ namespace Stored
 {
     public class Inventory
     {
-        private readonly Antiquity[] items;
+        private readonly Artefact[] items;
         private int lastEmptySlot = 0;
         private int itemCount;
 
@@ -19,18 +19,18 @@ namespace Stored
         /// <summary>
         /// Get all items that are in the inventory.
         /// </summary>
-        public IEnumerable<Antiquity> Items => items.Where(i => i != null);
+        public IEnumerable<Artefact> Items => items.Where(i => i != null);
 
         public Inventory(int size)
         {
-            items = new Antiquity[size];
+            items = new Artefact[size];
         }
 
         /// <summary>
         /// Add an item at the best empty slot.
         /// </summary>
         /// <returns>True if item is successfully added. Otherwise there may be no space.</returns>
-        public bool AddItem(Antiquity item)
+        public bool AddItem(Artefact item)
         {
             if (!HasSpace()) return false;
             items[lastEmptySlot] = item;
@@ -44,7 +44,7 @@ namespace Stored
         /// </summary>
         /// <returns>True if item is successfully added. Otherwise there may be no space.</returns>
         /// <exception cref="IndexOutOfRangeException">If the slot number is not valid.</exception>
-        public bool AddItem(Antiquity item, int slot)
+        public bool AddItem(Artefact item, int slot)
         {
             AssertSlot(slot);
             if (IsOccupiedAt(slot)) return false;
@@ -96,7 +96,7 @@ namespace Stored
             return true;
         }
 
-        public bool RemoveItem(Antiquity item)
+        public bool RemoveItem(Artefact item)
         {
             int? slot = FindItemSlot(item);
             return slot.HasValue && RemoveItem(slot.Value);
@@ -106,7 +106,7 @@ namespace Stored
         /// Get an item at some slot, if nothing is there then it will return null.
         /// </summary>
         /// <exception cref="IndexOutOfRangeException">If the slot number is not valid.</exception>
-        public Antiquity GetItemAtOrNull(int slot)
+        public Artefact GetItemAtOrNull(int slot)
         {
             AssertSlot(slot);
             return items[slot];
@@ -115,7 +115,7 @@ namespace Stored
         /// <summary>
         /// Get the item slot for a certain item. If the item does not exist in this inventory, return null.
         /// </summary>
-        public int? FindItemSlot(Antiquity item)
+        public int? FindItemSlot(Artefact item)
         {
             for (int i = 0; i < items.Length; i++)
             {
@@ -131,7 +131,7 @@ namespace Stored
         /// <summary>
         /// Check if a certain item exist in this inventory.
         /// </summary>
-        public bool Contains(Antiquity item) => Items.Contains(item);
+        public bool Contains(Artefact item) => Items.Contains(item);
 
         /// <summary>
         /// Can we add more items into the inventory?
@@ -198,6 +198,11 @@ namespace Stored
         {
             var elements = items.Select(i => i == null ? "EMPTY" : i.DisplayName);
             return "[" + string.Join(", ", elements) + " ]";
+        }
+
+        public int GetNumberOfItem(Artefact item)
+        {
+            return Items.Count(v => v == item);
         }
     }
 }

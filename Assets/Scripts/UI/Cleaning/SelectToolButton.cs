@@ -1,30 +1,28 @@
 ﻿using Managers;
 using ToolSystem;
-using UI.Cleaning;
-using UI.Core;
+using UI.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.Cleaning
 {
     [RequireComponent(typeof(Button))]
-    public class SelectToolButton : DialogueComponent<CleaningDialogue>
+    public class SelectToolButton : DialogueButton<CleaningDialogue>
     {
         [SerializeField] private Tool tool;
         [SerializeField] private Color activatedColor;
+        [SerializeField] private Sprite unpushedButtonSprite;
+        [SerializeField] private Sprite pushedButtonSprite;
         
         private ToolManager toolManager;
         
         private Image image;
-        private Button dialogueButton;
 
         protected override void OnComponentAwake()
         {
-            TryGetComponent(out dialogueButton);
+            base.OnComponentAwake();
             
-            if (!tool || !tool.unlocked) dialogueButton.interactable = false;
-
-            dialogueButton.onClick.AddListener(OnSubmit);
+            if (!tool || !tool.unlocked) button.interactable = false;
         }
 
         protected override void OnComponentStart()
@@ -43,12 +41,10 @@ namespace UI.Cleaning
                 tool.startingTool = false;
         }
 
-        protected override void Subscribe() { }
-
-        protected override void Unsubscribe() { }
-
-        private void OnSubmit()
+        protected override void OnClick()
         {
+            base.OnClick();
+            
             if (toolManager.CurrentTool == tool) return;
             
             SelectTool();
@@ -58,9 +54,14 @@ namespace UI.Cleaning
         {
             toolManager.SelectTool(tool);
             image.color = activatedColor;
+            image.sprite = pushedButtonSprite;
             Dialogue.DeselectToolButton(this);
         }
 
-        public void DeselectButton() => image.color = Color.white;
+        public void DeselectButton()
+        {
+            image.color = Color.white;
+            image.sprite = unpushedButtonSprite;
+        }
     }
 }

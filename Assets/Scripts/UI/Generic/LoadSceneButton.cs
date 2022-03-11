@@ -1,4 +1,6 @@
-﻿using UI.Core;
+﻿using Managers;
+using UI.Core;
+using UI.Transitions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -6,26 +8,23 @@ using UnityEngine.UI;
 namespace UI.Generic
 {
     [RequireComponent(typeof(Button))]
-    public class LoadSceneButton : DialogueComponent<Dialogue>
+    public class LoadSceneButton : DialogueButton<Dialogue>
     {
         [SerializeField] private SceneReference sceneReference;
-        
-        private Button dialogueButton;
+        private SceneTransitionManager sceneTransitionManager;
 
         private static bool loadingInProgress;
-        
-        protected override void OnComponentAwake()
-        {
-            TryGetComponent(out dialogueButton);
-            dialogueButton.onClick.AddListener(OnSubmit);
-        }
-        
-        protected override void Subscribe() { }
-        
-        protected override void Unsubscribe() { }
 
-        private void OnSubmit()
+        protected override void OnComponentStart()
         {
+            base.OnComponentStart();
+            sceneTransitionManager = M.GetOrThrow<SceneTransitionManager>();
+        }
+
+        protected override void OnClick()
+        {
+            base.OnClick();
+            
             if (loadingInProgress)
             {
                 Debug.LogError("Tried loading scene while another was already being loaded!");
@@ -33,10 +32,9 @@ namespace UI.Generic
             }
                 
             Debug.Log($"Loading Scene '{sceneReference.ScenePath}'.");
-
             loadingInProgress = true;
             
-            SceneManager.LoadSceneAsync(sceneReference);
+            sceneTransitionManager.TransitionOut(sceneReference);
         }
         
         private void OnDestroy()

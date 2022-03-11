@@ -1,35 +1,46 @@
 using System;
 using Cleaning;
 using Managers;
-using ToolSystem;
 using UI.Core;
+using UnityEngine;
 
-public class PauseDialogue : Dialogue
+namespace UI.Pause
 {
-    public Action Abandoned;
-
-    private CleaningTimerManager timerManager;
-    private ToolManager toolManager;
-
-    private Tool previousTool;
-
-    protected override void OnAwake() => Abandoned += OnAbandoned;
-
-    protected override void OnClose()
+    public class PauseDialogue : Dialogue
     {
-        timerManager.StartTimer();
-        toolManager.SelectTool(previousTool);
-    }
-    protected override void OnPromote()
-    {
-        timerManager = M.GetOrThrow<CleaningTimerManager>();
-        toolManager = M.GetOrThrow<ToolManager>();
+        public Action Abandoned;
+
+        [SerializeField] private GameObject blurBackground;
+
+        private bool opened;
+        private CleaningManager cleaningManager;
+
+        protected override void OnAwake() => Abandoned += OnAbandoned;
+
+        protected override void OnClose()
+        {
+            cleaningManager.ResumeCleaning();
+            opened = false;
+        }
         
-        timerManager.StopTimer();
-        previousTool = toolManager.CurrentTool;
-        toolManager.SelectTool(null);
-    }
-    protected override void OnDemote() { }
+        protected override void OnPromote()
+        {
+            cleaningManager = M.GetOrThrow<CleaningManager>();
+            
+            if (!blurBackground.activeSelf) blurBackground.SetActive(true);
 
-    private void OnAbandoned() => canvasGroup.interactable = false;
+            // Only call these functions once
+            if (opened) return;
+
+            cleaningManager.PauseCleaning();
+            opened = true;
+        }
+
+        protected override void OnDemote()
+        {
+            blurBackground.SetActive(false);
+        }
+
+        private void OnAbandoned() => canvasGroup.interactable = false;
+    }
 }

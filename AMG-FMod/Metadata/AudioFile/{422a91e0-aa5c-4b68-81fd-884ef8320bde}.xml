@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{422a91e0-aa5c-4b68-81fd-884ef8320bde}">
+		<property name="assetPath">
+			<value>Final SFX/Bomb_Explosion.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.1236281179138321</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{0fd82df8-fea7-4a74-8a29-40716597822a}</destination>
+		</relationship>
+	</object>
+</objects>
