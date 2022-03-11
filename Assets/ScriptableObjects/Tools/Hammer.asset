@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc5474258d44318a3f35f96ff2b3e65, type: 3}
   m_Name: Hammer
   m_EditorClassIdentifier: 
-  radius: 1.8
+  radius: 1.6
   action: 0
   damage: 12
   unlocked: 1
