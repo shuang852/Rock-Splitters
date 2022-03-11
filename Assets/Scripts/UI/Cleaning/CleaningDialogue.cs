@@ -36,7 +36,6 @@ namespace UI.Cleaning
 
             cleaningManager.cleaningStarted.AddListener(OnCleaningStarted);
             cleaningManager.cleaningEnded.AddListener(ShowFinalResults);
-            cleaningManager.cleaningStarted.AddListener(ShowCountdown);
             cleaningManager.artefactStatsCompleted.AddListener(ShowArtefactResults);
 
             canvas.worldCamera = Camera.main;
@@ -49,6 +48,8 @@ namespace UI.Cleaning
         private void OnCleaningStarted()
         {
             brushInput.enabled = true;
+            
+            ShowCountdown();
         }
 
         private async void ShowArtefactResults()
@@ -97,6 +98,7 @@ namespace UI.Cleaning
 
         protected override void OnClose() { }
 
+        // TODO: This is gross
         protected override void OnPromote()
         {
             if (!readyPromptShown) return;
@@ -112,7 +114,7 @@ namespace UI.Cleaning
         {
             cleaningManager.cleaningStarted.RemoveListener(OnCleaningStarted);
             cleaningManager.cleaningEnded.RemoveListener(ShowFinalResults);
-            cleaningManager.nextArtefactRockGenerated.RemoveListener(ShowCountdown);
+            cleaningManager.artefactStatsCompleted.RemoveListener(ShowArtefactResults);
         }
         
         public void DeselectToolButton(SelectToolButton selectToolButton)
