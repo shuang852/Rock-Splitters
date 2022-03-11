@@ -76,9 +76,9 @@ namespace ToolSystem.Mines
             
             animator.SetTrigger(defuse);
             defused.Invoke(this);
-            // TODO: destroy or disable object after animation/delay
         }
 
+        // Called by the end of the defuse animation
         private void Destroy()
         {
             // TODO: Should Mine destroy itself or should it ask to be destroyed by its manager? 

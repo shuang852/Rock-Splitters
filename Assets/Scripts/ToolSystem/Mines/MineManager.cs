@@ -12,8 +12,8 @@ namespace ToolSystem.Mines
         [SerializeField] private Vector2 rectSize;
         [SerializeField] private int minLayer;
 
-        public UnityEvent mineDefused;
-        public UnityEvent mineDetonated;
+        public UnityEvent<Mine> mineDefused = new UnityEvent<Mine>();
+        public UnityEvent<Mine> mineDetonated = new UnityEvent<Mine>();
 
         public void Initialise(int minesToGenerate)
         {
@@ -104,12 +104,12 @@ namespace ToolSystem.Mines
 
         private void OnMineDefused(Mine mine)
         {
-            mineDefused.Invoke();
+            mineDefused.Invoke(mine);
         }
 
         private void OnMineDetonated(Mine mine)
         {
-            mineDetonated.Invoke();
+            mineDetonated.Invoke(mine);
         }
 
         private Vector2 RandomPosInRect(Rect rect, Vector2 buffer)
