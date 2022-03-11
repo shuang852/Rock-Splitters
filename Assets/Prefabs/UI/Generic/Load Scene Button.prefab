@@ -64,7 +64,6 @@ MonoBehaviour:
   sceneReference:
     sceneAsset: {fileID: 0}
     scenePath: 
-  audio: {fileID: 8671629797905860733}
 --- !u!114 &8671629797905860733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,9 +103,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 9c0f2e6c08fa73c42b0a7575ba72b1e0, type: 3}
   m_Type: 1
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1

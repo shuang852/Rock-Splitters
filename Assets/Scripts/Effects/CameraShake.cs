@@ -8,7 +8,7 @@ namespace Effects
     [RequireComponent(typeof(Camera))]
     public class CameraShake : MonoBehaviour
     {
-        [SerializeField, HideInInspector] private new Camera camera;
+        //[SerializeField, HideInInspector] private new Camera camera;
         
         [SerializeField] private float hammerAmount;
         [SerializeField] private float hammerDuration;
@@ -27,7 +27,7 @@ namespace Effects
         
         private void Start()
         {
-            camera = GetComponent<Camera>();
+            //camera = GetComponent<Camera>();
             toolManager = M.GetOrThrow<ToolManager>();
             
             toolManager.toolDown.AddListener(ShakeOnce);
