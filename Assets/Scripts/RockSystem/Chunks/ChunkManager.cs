@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Managers;
@@ -100,15 +101,26 @@ namespace RockSystem.Chunks
             }
         }
 
-        // BUG: If the chunks below a fossil get removed it makes the fossil impossible to damage.
         private ChunkShape GetExposedChunkShape(OddrChunkCoord flatPosition)
         {
             Chunk chunk = ChunkStructure.GetOrNull(flatPosition);
 
             // A ChunkShape is only exposed if it is above the top chunk layer
-            int zPos = chunk == null ? 0 : chunk.Position.z + 1;
+            int zPos = size.z;
+            int chunkZPos = chunk == null ? -1 : chunk.Position.z;
 
-            return GetChunkShape(new Vector3Int(flatPosition.col, flatPosition.row, zPos));
+            while (zPos > chunkZPos)
+            {
+                var chunkShape = GetChunkShape(new Vector3Int(flatPosition.col, flatPosition.row, zPos));
+                
+                zPos--;
+                
+                if (chunkShape == null) continue;
+
+                return chunkShape;
+            }
+
+            return null;
             
             // TODO: Is it more effcient to just use chunkShape.IsExposedAtFlatPosition?
         }

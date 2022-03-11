@@ -88,7 +88,6 @@ namespace RockSystem.Chunks
             chunkManager.chunkCleared.AddListener(OnChunkDestroyed);
         }
 
-        // TODO: Setup sorting layer and order in layer
         protected void Initialise(Sprite sprite, float maxHealth, int layer)
         {
             GetManagers();

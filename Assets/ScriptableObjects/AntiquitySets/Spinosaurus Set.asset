@@ -15,7 +15,9 @@ MonoBehaviour:
   setName: Spinosaurus
   sprite: {fileID: 21300000, guid: be80380446ff28f4ebf47311627cbfdf, type: 3}
   prodID: 3
-  description: This was a cool spiky dino
+  description: While original envisioned as a terrestrial dinosaur, further evidence
+    discovered about the Spinosaurus has proven that it is semi-aquatic in nature.
+    Note its rudder-like tail!
   setItems:
   - {fileID: 11400000, guid: 02487cf5ce8f62e429b0c9fc5c9b5a8d, type: 2}
   - {fileID: 11400000, guid: 8311cd82328d95349948f1395c08ed1a, type: 2}
