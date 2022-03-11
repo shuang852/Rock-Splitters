@@ -371,6 +371,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Menu Dialogue
       objectReference: {fileID: 0}
+    - target: {fileID: 1646694272771646912, guid: 4d73cbc5e75b846419fc4379e8ac8a09, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1646694272771646912, guid: 4d73cbc5e75b846419fc4379e8ac8a09, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1646694272771646912, guid: 4d73cbc5e75b846419fc4379e8ac8a09, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1646694272771646912, guid: 4d73cbc5e75b846419fc4379e8ac8a09, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 130
+      objectReference: {fileID: 0}
     - target: {fileID: 8089424360249835732, guid: 4d73cbc5e75b846419fc4379e8ac8a09, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
