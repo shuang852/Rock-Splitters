@@ -36,7 +36,7 @@ namespace UI.Cleaning_Results
             scoreManager = M.GetOrThrow<CleaningScoreManager>();
             artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
 
-            motivationText.text = scoreManager.ArtefactRockScore == 0
+            motivationText.text = Mathf.Round(artefactShapeManager.Health * 100) <= 50
                 ? "Try again!"
                 : textPool[Random.Range(0, textPool.Count - 1)];
             artefactScoreText.text = scoreManager.ArtefactRockScore.ToString(CultureInfo.InvariantCulture);
