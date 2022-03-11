@@ -8,12 +8,14 @@ namespace RockSystem.Artefacts.DebugUtil
     {
         [SerializeField] private string sortingLayer;
         [SerializeField] private int sortingOrder;
-        [SerializeField] private Sprite tileSprite;
+        [SerializeField] private Sprite unexposedTileSprite;
+        [SerializeField] private Sprite exposedTileSprite;
         
         private ArtefactShapeManager artefactShapeManager;
 
         private Tilemap tilemap;
-        private Tile tile;
+        private Tile unexposedTile;
+        private Tile exposedTile;
 
         private void Awake()
         {
@@ -25,20 +27,22 @@ namespace RockSystem.Artefacts.DebugUtil
         {
             artefactShapeManager = M.GetOrThrow<ArtefactShapeManager>();
             
-            artefactShapeManager.MainArtefactShape.exposed.AddListener(OnArtefactExposed);
-            artefactShapeManager.MainArtefactShape.initialised.AddListener(Initialise);
+            artefactShapeManager.artefactExposed.AddListener(OnArtefactExposed);
+            artefactShapeManager.initialised.AddListener(Initialise);
         }
         
         private void Initialise()
         {
             tilemap.ClearAllTiles();
+            
+            OnArtefactExposed();
         }
 
         private void OnArtefactExposed()
         {
             foreach (var flatPosition in artefactShapeManager.MainArtefactShape.ChunkExposure.Keys)
             {
-                tilemap.SetTile((Vector3Int)flatPosition, artefactShapeManager.MainArtefactShape.ChunkExposure[flatPosition] ? tile : null);
+                tilemap.SetTile((Vector3Int)flatPosition, artefactShapeManager.MainArtefactShape.ChunkExposure[flatPosition] ? unexposedTile : exposedTile);
             }
         }
         
@@ -56,14 +60,16 @@ namespace RockSystem.Artefacts.DebugUtil
             // Fix tile offset from grid
             tilemap.tileAnchor = Vector3.zero;
             
-            tile = ScriptableObject.CreateInstance<Tile>();
-            tile.sprite = tileSprite;
+            unexposedTile = ScriptableObject.CreateInstance<Tile>();
+            unexposedTile.sprite = unexposedTileSprite;
+            exposedTile = ScriptableObject.CreateInstance<Tile>();
+            exposedTile.sprite = exposedTileSprite;
         }
 
         private void OnDestroy()
         {
-            artefactShapeManager.MainArtefactShape.exposed.RemoveListener(OnArtefactExposed);
-            artefactShapeManager.MainArtefactShape.initialised.RemoveListener(Initialise);
+            artefactShapeManager.artefactExposed.RemoveListener(OnArtefactExposed);
+            artefactShapeManager.initialised.RemoveListener(Initialise);
         }
     }
 }

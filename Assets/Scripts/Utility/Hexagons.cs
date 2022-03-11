@@ -165,7 +165,7 @@ namespace Utility
             float radius = grid.cellSize.x / 2f;
             
             var cornerPositions = GetHexagonCornerPositions(centerWorldPosition, radius)
-                .Append((Vector2Int) flatPosition);
+                .Append(centerWorldPosition);
 
             return cornerPositions.Any(collider.OverlapPoint);
         }
