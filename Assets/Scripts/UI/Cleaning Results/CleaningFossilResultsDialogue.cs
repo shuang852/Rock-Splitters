@@ -21,10 +21,17 @@ namespace UI.Cleaning_Results
 
         protected override async void OnPromote()
         { 
+            // await canvasGroup.DOFade(1, fadeDuration).AsyncWaitForCompletion();
+            // await UniTask.Delay(TimeSpan.FromSeconds(fadeWait));
+            // canvasGroup.DOFade(0, fadeDuration);
+            //OnDemote();
+        }
+
+        public async UniTask FadeInAndOut()
+        {
             await canvasGroup.DOFade(1, fadeDuration).AsyncWaitForCompletion();
             await UniTask.Delay(TimeSpan.FromSeconds(fadeWait));
-            canvasGroup.DOFade(0, fadeDuration);
-            //OnDemote();
+            await canvasGroup.DOFade(0, fadeDuration).AsyncWaitForCompletion();
         }
 
         protected override void OnDemote()
