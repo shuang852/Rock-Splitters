@@ -32,8 +32,10 @@ namespace ToolSystem.Mines
             damaged.AddListener(OnDamaged);
             
             exposed.AddListener(OnExposed);
+
+            chunkCollider = GetComponent<CircleCollider2D>();
             
-            Initialise(sprite, maxHealth, layer);
+            Initialise(sprite, maxHealth, layer, chunkCollider);
         }
 
         private void OnDamaged()
