@@ -56,7 +56,7 @@ namespace RockSystem.Chunks
         private readonly Dictionary<Vector2Int, float> chunkHealths = new Dictionary<Vector2Int, float>();
         protected SpriteRenderer SpriteRenderer;
         private SpriteMask spriteMask;
-        private PolygonCollider2D polyCollider;
+        protected Collider2D chunkCollider;
         private ChunkManager chunkManager;
 
         private IEnumerable<Vector2Int> HitFlatPositions => chunkHealths.Keys;
@@ -88,8 +88,7 @@ namespace RockSystem.Chunks
             chunkManager.chunkCleared.AddListener(OnChunkDestroyed);
         }
 
-        // TODO: Setup sorting layer and order in layer
-        protected void Initialise(Sprite sprite, float maxHealth, int layer)
+        protected void Initialise(Sprite sprite, float maxHealth, int layer, Collider2D collider2D = null)
         {
             GetManagers();
             
@@ -104,11 +103,14 @@ namespace RockSystem.Chunks
             SpriteRenderer.sortingLayerName = sortingLayer;
             SpriteRenderer.sortingOrder = layer * 2;
             
-            // Setup colliders
-            if (polyCollider != null)
-                Destroy(polyCollider);
+            // Setup colliders if it doesn't have a preset collider
+            if (collider2D == null)
+            {
+                if (chunkCollider != null)
+                    Destroy(chunkCollider);
             
-            polyCollider = gameObject.AddComponent<PolygonCollider2D>();
+                chunkCollider = gameObject.AddComponent<PolygonCollider2D>();
+            }
             
             SetupChunks();
             
@@ -134,7 +136,7 @@ namespace RockSystem.Chunks
             
             foreach (Vector2Int flatPosition in chunkManager.ChunkStructure.FlatPositions)
             {
-                if (Hexagons.HexagonOverlapsCollider(chunkManager.CurrentGrid, flatPosition, polyCollider))
+                if (Hexagons.HexagonOverlapsCollider(chunkManager.CurrentGrid, flatPosition, chunkCollider))
                     chunkHealths.Add(flatPosition, maxHealth);
             }
 

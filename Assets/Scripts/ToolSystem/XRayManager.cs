@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Managers;
 using RockSystem.Chunks;
+using ToolSystem.Mines;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -25,6 +26,7 @@ namespace ToolSystem
         private Coroutine coroutine;
 
         private ChunkManager chunkManager;
+        private MineManager mineManager;
 
         private readonly Dictionary<ChunkShape, GameObject> gameObjects = new Dictionary<ChunkShape, GameObject>();
         private readonly Dictionary<ChunkShape, SpriteRenderer> spriteRenderers = new Dictionary<ChunkShape, SpriteRenderer>();
@@ -34,9 +36,13 @@ namespace ToolSystem
             base.Start();
 
             chunkManager = M.GetOrThrow<ChunkManager>();
+            mineManager = M.GetOrThrow<MineManager>();
             
             chunkManager.chunkShapeRegistered.AddListener(OnChunkShapeRegistered);
             chunkManager.chunkShapeUnregistered.AddListener(OnChunkShapeUnregistered);
+            
+            mineManager.mineDefused.AddListener(OnMineDisabled);
+            mineManager.mineDetonated.AddListener(OnMineDisabled);
         }
 
         private void OnChunkShapeRegistered(ChunkShape chunkShape)
@@ -73,6 +79,15 @@ namespace ToolSystem
 
             gameObjects.Remove(chunkShape);
             spriteRenderers.Remove(chunkShape);
+        }
+
+        // TODO: This is a quick fix because destroying mines causes issues  
+        private void OnMineDisabled(Mine mine)
+        {
+            if (!gameObjects.ContainsKey(mine))
+                throw new ArgumentException($"The GameObject for {nameof(ChunkShape)} {mine} could not be found.");
+
+            gameObjects[mine].SetActive(false);
         }
 
         public void ShowXRay()

@@ -15,12 +15,11 @@ MonoBehaviour:
   setName: Brachiosaurus
   sprite: {fileID: 21300000, guid: 038658dcf67e8e24eb35a3ec6341b8e2, type: 3}
   prodID: 1
-  description: This was a dino with a cool neck
+  description: Known for their distinct, long necks, Brachiosauruses are one of the
+    most iconic dinosaurs in pop culture. Did you know that their front legs are
+    longer than their rear legs?
   setItems:
   - {fileID: 11400000, guid: 02fc4653b2770d946934c147a6b9761f, type: 2}
   - {fileID: 11400000, guid: 7a79304463733754388a571c38066b11, type: 2}
   - {fileID: 11400000, guid: 05dfecf3bd33d40469830c85543d3ca4, type: 2}
   - {fileID: 11400000, guid: e428964492445b743a866183a296207e, type: 2}
-  baseSetIncome: 0
-  baseSetCapacity: 0
-  setBonus: 1.3
