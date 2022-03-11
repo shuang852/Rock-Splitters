@@ -31,7 +31,7 @@ namespace UI.Cleaning
 
         private void UpdateScore()
         {
-            text.text = "Score: " + manager.Score.ToString(CultureInfo.InvariantCulture);
+            text.text = "Score: " + manager.TotalScore.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

@@ -56,12 +56,14 @@ namespace UI.Cleaning
         {
             brushInput.enabled = false;
 
-            await UniTask.Delay(TimeSpan.FromSeconds(delayAfterArtefactCleaned));
-            
             var results = Instantiate(cleaningArtefactResultsDialoguePrefab, transform.parent)
                 .GetComponent<CleaningFossilResultsDialogue>();
             
-            await UniTask.Delay(TimeSpan.FromSeconds(results.TotalDuration));
+            await UniTask.Delay(TimeSpan.FromSeconds(delayAfterArtefactCleaned));
+            
+            await results.FadeInAndOut();
+
+            //await UniTask.Delay(TimeSpan.FromSeconds(results.TotalDuration));
             
             await cleaningArea.transform.DOMoveX(rockMoveWorldPosX, rockMoveDuration).SetEase(Ease.OutQuad)
                 .AsyncWaitForCompletion();
