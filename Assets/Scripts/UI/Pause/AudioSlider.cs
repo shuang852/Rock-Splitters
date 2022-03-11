@@ -12,7 +12,7 @@ namespace UI.Pause
         private Slider slider;
         private AudioManager manager;
 
-        protected override void OnComponentAwake()
+        protected override void OnComponentStart()
         {
             manager = M.GetOrThrow<AudioManager>();
             TryGetComponent(out slider);

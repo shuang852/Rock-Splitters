@@ -1,6 +1,7 @@
-﻿using Managers;
+using Managers;
 using RockSystem.Chunks;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ToolSystem.Mines
 {
@@ -12,9 +13,11 @@ namespace ToolSystem.Mines
         [SerializeField] private Animator animator;
         [SerializeField] private string defuseLayer;
 
+        public UnityEvent<Mine> detonated = new UnityEvent<Mine>();
+        public UnityEvent<Mine> defused = new UnityEvent<Mine>();
+
         private ToolManager toolManager;
-        private MineManager mineManager;
-        private bool detonated;
+        private bool hasDetonated;
         private static readonly int defuse = Animator.StringToHash("Defuse");
 
         protected override void Start()
@@ -22,42 +25,44 @@ namespace ToolSystem.Mines
             base.Start();
 
             toolManager = M.GetOrThrow<ToolManager>();
-            mineManager = M.GetOrThrow<MineManager>();
         }
 
         public void Initialise(int layer)
         {
-            Initialise(sprite, maxHealth, layer);
-            
             damaged.AddListener(OnDamaged);
             
             exposed.AddListener(OnExposed);
+
+            chunkCollider = GetComponent<CircleCollider2D>();
+            
+            Initialise(sprite, maxHealth, layer, chunkCollider);
         }
 
         private void OnDamaged()
         {
-            if (Health <= triggerHealth && !detonated)
+            if (Health <= triggerHealth && !hasDetonated)
                 Detonate();
         }
 
         private void OnExposed()
         {
-            if (Exposure > defuseExposure && !detonated)
+            if (Exposure > defuseExposure && !hasDetonated)
                 Defuse();
         }
 
         private void Detonate()
         {
-            detonated = true;
+            hasDetonated = true;
             
             // Stop the mine blocking the rock underneath
             ClearChunkHealths();
 
             toolManager.UseTool(transform.position, tool);
 
-            mineManager.mineDetonated.Invoke();
+            detonated.Invoke(this);
             // TODO: Quick fix. Needs looking at again.
             gameObject.SetActive(false);
+            enabled = false;
 
             // destroyRequest.Invoke(this);
             
@@ -68,15 +73,17 @@ namespace ToolSystem.Mines
         
         private void Defuse()
         {
-            detonated = true;
+            hasDetonated = true;
 
             SpriteRenderer.sortingLayerName = defuseLayer;
             
             animator.SetTrigger(defuse);
-            mineManager.mineDefused.Invoke();
-            // TODO: destroy or disable object after animation/delay
+            
+            enabled = false;
+            defused.Invoke(this);
         }
 
+        // Called by the end of the defuse animation
         private void Destroy()
         {
             // TODO: Should Mine destroy itself or should it ask to be destroyed by its manager? 

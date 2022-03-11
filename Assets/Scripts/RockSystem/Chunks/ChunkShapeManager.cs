@@ -50,19 +50,25 @@ namespace RockSystem.Chunks
             }
         }
 
-        protected virtual T CreateChunkShape(Func<GameObject> instantiationFunction, Action<T> initialisationAction)
+        protected virtual T CreateChunkShape(Func<GameObject> instantiationFunction, Action<ChunkShape> preinitialisationAction, Action<T> initialisationAction)
         {
             var go = instantiationFunction();
 
             var chunkShape = go.GetComponent<T>();
             
             ChunkShapeGameObjects.Add(chunkShape, go);
+            
+
+
+            preinitialisationAction(chunkShape);
 
             initialisationAction(chunkShape);
             
             ChunkShapes.Add(chunkShape);
             
             // TODO: Should this just be handled by the ChunkShape? Leads to two way dependency
+            // TODO: Has been moved before initialisation to allow mines defused during initialisation to be removed from the xray
+            // TODO: Moved back because now artefacts don't have xrays
             ChunkManager.RegisterChunkShape(chunkShape);
 
             chunkShape.CanBeDamaged = ChunkShapesCanBeDamaged;

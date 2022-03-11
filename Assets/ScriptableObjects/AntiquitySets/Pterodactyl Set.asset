@@ -15,11 +15,10 @@ MonoBehaviour:
   setName: Pterodactyl
   sprite: {fileID: 21300000, guid: 8a7f5e2e3b381114d91d8bb1f229fc05, type: 3}
   prodID: 2
-  description: This was a cool flying dino
+  description: The largest species of flying animal to have ever existed, Pteradactyls
+    did not fly like birds. Instead, their skin-covered wings would carry them over
+    air currents to keep them in the skies.
   setItems:
   - {fileID: 11400000, guid: 8c9a4007cfb0ad34fbe3a5e22f6b1921, type: 2}
   - {fileID: 11400000, guid: cc03542e9167afa43a983bd3fadf5005, type: 2}
   - {fileID: 11400000, guid: 45d2e200828bd844fa0bd9e2125f2703, type: 2}
-  baseSetIncome: 0
-  baseSetCapacity: 0
-  setBonus: 1.3

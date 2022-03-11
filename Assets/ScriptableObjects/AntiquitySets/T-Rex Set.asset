@@ -15,11 +15,9 @@ MonoBehaviour:
   setName: T-Rex
   sprite: {fileID: 21300000, guid: a02d85f7c54326f47bdad4095fb6b6fe, type: 3}
   prodID: 0
-  description: This was a cool dino
+  description: The tyrant lizard king of prehistory. Despite his small arms, he's
+    a big thinker - having a brain twice the size of other giant carnivores!
   setItems:
   - {fileID: 11400000, guid: 9a06897d45b590c46acec2a92f93c518, type: 2}
   - {fileID: 11400000, guid: 6ecaa133c0eb1b2419192a352459ab30, type: 2}
   - {fileID: 11400000, guid: 7163e4dd79057984b9878943f94b7522, type: 2}
-  baseSetIncome: 1000
-  baseSetCapacity: 24000
-  setBonus: 1.3

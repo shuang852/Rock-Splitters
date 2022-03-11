@@ -36,7 +36,6 @@ namespace UI.Cleaning
 
             cleaningManager.cleaningStarted.AddListener(OnCleaningStarted);
             cleaningManager.cleaningEnded.AddListener(ShowFinalResults);
-            cleaningManager.cleaningStarted.AddListener(ShowCountdown);
             cleaningManager.artefactStatsCompleted.AddListener(ShowArtefactResults);
 
             canvas.worldCamera = Camera.main;
@@ -49,18 +48,22 @@ namespace UI.Cleaning
         private void OnCleaningStarted()
         {
             brushInput.enabled = true;
+            
+            ShowCountdown();
         }
 
         private async void ShowArtefactResults()
         {
             brushInput.enabled = false;
 
-            await UniTask.Delay(TimeSpan.FromSeconds(delayAfterArtefactCleaned));
-            
             var results = Instantiate(cleaningArtefactResultsDialoguePrefab, transform.parent)
                 .GetComponent<CleaningFossilResultsDialogue>();
             
-            await UniTask.Delay(TimeSpan.FromSeconds(results.TotalDuration));
+            await UniTask.Delay(TimeSpan.FromSeconds(delayAfterArtefactCleaned));
+            
+            await results.FadeInAndOut();
+
+            //await UniTask.Delay(TimeSpan.FromSeconds(results.TotalDuration));
             
             await cleaningArea.transform.DOMoveX(rockMoveWorldPosX, rockMoveDuration).SetEase(Ease.OutQuad)
                 .AsyncWaitForCompletion();
@@ -97,6 +100,7 @@ namespace UI.Cleaning
 
         protected override void OnClose() { }
 
+        // TODO: This is gross
         protected override void OnPromote()
         {
             if (!readyPromptShown) return;
@@ -112,7 +116,7 @@ namespace UI.Cleaning
         {
             cleaningManager.cleaningStarted.RemoveListener(OnCleaningStarted);
             cleaningManager.cleaningEnded.RemoveListener(ShowFinalResults);
-            cleaningManager.nextArtefactRockGenerated.RemoveListener(ShowCountdown);
+            cleaningManager.artefactStatsCompleted.RemoveListener(ShowArtefactResults);
         }
         
         public void DeselectToolButton(SelectToolButton selectToolButton)

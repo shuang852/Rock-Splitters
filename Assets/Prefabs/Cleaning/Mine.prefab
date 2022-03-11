@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7906109639662594215}
   - component: {fileID: 7906109639662594212}
   - component: {fileID: 2374823770123404492}
+  - component: {fileID: 8894799992345162882}
   m_Layer: 0
   m_Name: Mine
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 7906109639662594213}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: -1117476481
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: be7dbb847b4b5e44aa9aaafc048f09d2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2dfffed7406ecf6429ccf8e3831acb6c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -147,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e518e98f48af44ebb35f8ff9b2f4623d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: be7dbb847b4b5e44aa9aaafc048f09d2, type: 3}
+  sprite: {fileID: 21300000, guid: 2dfffed7406ecf6429ccf8e3831acb6c, type: 3}
   maxHealth: 10
   enableDebug: 0
   initialised:
@@ -162,12 +163,24 @@ MonoBehaviour:
   chunkDamaged:
     m_PersistentCalls:
       m_Calls: []
+  destroyed:
+    m_PersistentCalls:
+      m_Calls: []
+  destroyRequest:
+    m_PersistentCalls:
+      m_Calls: []
   layer: 0
   triggerHealth: 0.5
   defuseExposure: 0.9
   tool: {fileID: 11400000, guid: 77096765d37847b41bc4eb65fee5b8c7, type: 2}
   animator: {fileID: 2374823770123404492}
   defuseLayer: FX
+  detonated:
+    m_PersistentCalls:
+      m_Calls: []
+  defused:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &2374823770123404492
 Animator:
   serializedVersion: 3
@@ -187,3 +200,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!58 &8894799992345162882
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7906109639662594213}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.09

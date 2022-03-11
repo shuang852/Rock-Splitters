@@ -8,7 +8,7 @@ namespace Effects
     [RequireComponent(typeof(Camera))]
     public class CameraShake : MonoBehaviour
     {
-        [SerializeField, HideInInspector] private new Camera camera;
+        //[SerializeField, HideInInspector] private new Camera camera;
         
         [SerializeField] private float hammerAmount;
         [SerializeField] private float hammerDuration;
@@ -21,17 +21,26 @@ namespace Effects
         private Coroutine _coroutine;
         private Vector3 _rootPosition;
 
+        public const string PrefName = "CameraShakeEnabled";
+
         private ToolManager toolManager;
         
         private void Start()
         {
-            camera = GetComponent<Camera>();
+            //camera = GetComponent<Camera>();
             toolManager = M.GetOrThrow<ToolManager>();
             
             toolManager.toolDown.AddListener(ShakeOnce);
             toolManager.toolInUse.AddListener(ShakeContinuous);
+            
+            LoadSettings();
         }
-        
+
+        private void OnDestroy()
+        {
+            //SaveSettings();
+        }
+
         // TODO: make it more generic and support any values. Derive the shake amounts elsewhere
         [ContextMenu("Start")]
         private void ShakeOnce(Vector2 pos)
@@ -81,6 +90,19 @@ namespace Effects
 
             _coroutine = null;
             transform.position = _rootPosition;
+        }
+        
+        // private void SaveSettings()
+        // {
+        //     PlayerPrefs.SetInt(PrefName, ShakeEnabled ? 1 : 0);
+        // }
+
+        // TODO: Duplicated and should be removed. Saved in CameraShakeToggle
+        private void LoadSettings()
+        {
+            if (!PlayerPrefs.HasKey(PrefName)) return;
+
+            ShakeEnabled = PlayerPrefs.GetInt(PrefName) == 1;
         }
     }
 }

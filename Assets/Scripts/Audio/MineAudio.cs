@@ -1,6 +1,4 @@
-﻿using log4net.Config;
-using Managers;
-using RockSystem.Chunks;
+﻿using Managers;
 using ToolSystem.Mines;
 using UnityEngine;
 
@@ -20,8 +18,14 @@ namespace Audio
             mineManager.mineDefused.AddListener(PlayDefuse);
         }
 
-        private void PlayDefuse() => defuse.PlayOnce();
+        private void PlayDefuse(Mine mine) => defuse.PlayOnce();
         
-        private void PlayDetonated() => detonate.PlayOnce();
+        private void PlayDetonated(Mine mine) => detonate.PlayOnce();
+
+        private void OnDestroy()
+        {
+            mineManager.mineDetonated.RemoveListener(PlayDetonated);
+            mineManager.mineDefused.RemoveListener(PlayDefuse);
+        }
     }
 }

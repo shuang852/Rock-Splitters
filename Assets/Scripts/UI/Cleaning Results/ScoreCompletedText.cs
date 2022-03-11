@@ -38,7 +38,7 @@ namespace UI.Cleaning_Results
                 : Mathf
                     .Round(scoreManager.TotalArtefactsHealth / scoreManager.ArtefactsCleaned * 100)
                     .ToString(CultureInfo.InvariantCulture) + "%";
-            totalScoreText.text = scoreManager.Score.ToString(CultureInfo.InvariantCulture);
+            totalScoreText.text = scoreManager.TotalScore.ToString(CultureInfo.InvariantCulture);
             totalTimeText.text = timerManager.TotalTime.ToString(CultureInfo.InvariantCulture);
         }
 

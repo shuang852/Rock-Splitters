@@ -56,7 +56,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -252,42 +252,43 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1918354879554719969, guid: 3353b52d804da024eb0ab627847a8cc2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3353b52d804da024eb0ab627847a8cc2, type: 3}
+--- !u!1 &6690297144310395704 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5636085764327907736, guid: 3353b52d804da024eb0ab627847a8cc2, type: 3}
+  m_PrefabInstance: {fileID: 1364542215871320736}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8297663773450771822 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7046139827638620110, guid: 3353b52d804da024eb0ab627847a8cc2, type: 3}
   m_PrefabInstance: {fileID: 1364542215871320736}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8961460642389825399 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7976529231503082967, guid: 3353b52d804da024eb0ab627847a8cc2, type: 3}
-  m_PrefabInstance: {fileID: 1364542215871320736}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3144336491435222512 stripped
+--- !u!114 &5344106513516417994 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4129025201168168784, guid: 3353b52d804da024eb0ab627847a8cc2, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6396738082925150570, guid: 3353b52d804da024eb0ab627847a8cc2, type: 3}
   m_PrefabInstance: {fileID: 1364542215871320736}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8961460642389825399}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3135187923160878090
+--- !u!114 &845393101315917577
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8961460642389825399}
+  m_GameObject: {fileID: 6690297144310395704}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c98d79dce354ba2863c7d4e770447b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   countdownSteps: 3
-  stepDuration: 0.5
+  stepDuration: 0.7
   goString: Go!
-  text: {fileID: 3144336491435222512}
+  text: {fileID: 5344106513516417994}

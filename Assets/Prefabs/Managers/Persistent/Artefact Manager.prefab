@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7723853297229269752}
   - component: {fileID: 7723853297229269753}
   m_Layer: 0
-  m_Name: Antiquity Manager
+  m_Name: Artefact Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,7 +1,7 @@
+using System.Linq;
 using Managers;
 using Stored.Database;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Stored
 {
@@ -13,10 +13,17 @@ namespace Stored
         // public float TotalCapacity { private set;  get; }
         public ArtefactSetDatabase artefactSetDatabase;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            
+            LoadInventory();
+        }
+
         protected override void Start()
         {
             base.Start();
-            ValidateAllSets();
+            // ValidateAllSets();
         }
 
         public bool AddItem(Artefact item)
@@ -33,7 +40,7 @@ namespace Stored
             {
                 //Debug.Log("No item");
                 success = Inventory.AddItem(item);
-                item.artefactSet.ValidateSet(Inventory);
+                // item.artefactSet.ValidateSet(Inventory);
                 //CalculateStats();
             }
             return success;
@@ -53,7 +60,7 @@ namespace Stored
             // Don't think it is supported so not sure why I have it. Player can't go below 1 of an item.
             // Update the item set as it no longer contains the item.
             if (Inventory.Contains(item)) return success;
-            item.artefactSet.ValidateSet(Inventory);
+            // item.artefactSet.ValidateSet(Inventory);
             //CalculateStats();
 
             return success;
@@ -95,6 +102,34 @@ namespace Stored
             {
                 Debug.Log("Database is empty. Please manually assign!");
             }
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            SaveInventory();
+        }
+
+        private void LoadInventory()
+        {
+            if (!PlayerPrefs.HasKey("Inventory")) return;
+            
+            var saveData = JsonUtility.FromJson<InventorySaveData>(PlayerPrefs.GetString("Inventory"));
+            
+            foreach (var artefact in saveData.artefacts)
+            {
+                Inventory.AddItem(artefact);
+            }
+        }
+
+        private void SaveInventory()
+        {
+            var saveData = new InventorySaveData(Inventory.Items.ToList());
+
+            PlayerPrefs.SetString("Inventory", JsonUtility.ToJson(saveData));
+            
+            PlayerPrefs.Save();
         }
     }
 }
