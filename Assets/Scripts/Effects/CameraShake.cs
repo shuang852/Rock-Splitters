@@ -21,7 +21,7 @@ namespace Effects
         private Coroutine _coroutine;
         private Vector3 _rootPosition;
 
-        private readonly string prefName = "CameraShakeEnabled"; 
+        public const string PrefName = "CameraShakeEnabled";
 
         private ToolManager toolManager;
         
@@ -38,7 +38,7 @@ namespace Effects
 
         private void OnDestroy()
         {
-            SaveSettings();
+            //SaveSettings();
         }
 
         // TODO: make it more generic and support any values. Derive the shake amounts elsewhere
@@ -91,17 +91,18 @@ namespace Effects
             _coroutine = null;
             transform.position = _rootPosition;
         }
+        
+        // private void SaveSettings()
+        // {
+        //     PlayerPrefs.SetInt(PrefName, ShakeEnabled ? 1 : 0);
+        // }
 
-        private void SaveSettings()
-        {
-            PlayerPrefs.SetInt(prefName, ShakeEnabled ? 1 : 0);
-        }
-
+        // TODO: Duplicated and should be removed. Saved in CameraShakeToggle
         private void LoadSettings()
         {
-            if (!PlayerPrefs.HasKey(prefName)) return;
+            if (!PlayerPrefs.HasKey(PrefName)) return;
 
-            ShakeEnabled = PlayerPrefs.GetInt(prefName) == 1;
+            ShakeEnabled = PlayerPrefs.GetInt(PrefName) == 1;
         }
     }
 }

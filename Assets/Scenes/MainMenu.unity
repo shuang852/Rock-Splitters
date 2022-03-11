@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 809862391}
   - component: {fileID: 809862390}
   - component: {fileID: 809862389}
+  - component: {fileID: 809862392}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -212,6 +213,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &809862392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809862388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93c4f7b4d6ee4ac29d064c3d0395fb78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1868525965
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -342,9 +355,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1646694271019423222, guid: 4d73cbc5e75b846419fc4379e8ac8a09, type: 3}
-      propertyPath: m_text
-      value: Expeditions
+    - target: {fileID: 188575987762835285, guid: 4d73cbc5e75b846419fc4379e8ac8a09, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 188575987762835285, guid: 4d73cbc5e75b846419fc4379e8ac8a09, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 188575987762835285, guid: 4d73cbc5e75b846419fc4379e8ac8a09, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1646694271795414216, guid: 4d73cbc5e75b846419fc4379e8ac8a09, type: 3}
       propertyPath: m_RootOrder
@@ -394,8 +415,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Menu Dialogue
       objectReference: {fileID: 0}
-    - target: {fileID: 8896649225795318838, guid: 4d73cbc5e75b846419fc4379e8ac8a09, type: 3}
-      propertyPath: m_Interactable
+    - target: {fileID: 8089424360249835732, guid: 4d73cbc5e75b846419fc4379e8ac8a09, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8089424360249835732, guid: 4d73cbc5e75b846419fc4379e8ac8a09, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8089424360249835732, guid: 4d73cbc5e75b846419fc4379e8ac8a09, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
