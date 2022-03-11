@@ -47,7 +47,7 @@ namespace ToolSystem
 
         private void OnChunkShapeRegistered(ChunkShape chunkShape)
         {
-            GameObject go = new GameObject("X-Ray ChunkShape");
+            GameObject go = new GameObject($"X-Ray {chunkShape.name}");
             go.transform.parent = transform;
             gameObjects.Add(chunkShape, go);
             SpriteRenderer spriteRenderer = go.AddComponent<SpriteRenderer>();
@@ -65,6 +65,8 @@ namespace ToolSystem
             spriteTransform.localScale = shapeTransform.lossyScale;
             
             SetOpacity(spriteRenderer, 0);
+
+            spriteRenderer.enabled = chunkShape.enabled;
         }
 
         private void OnChunkShapeUnregistered(ChunkShape chunkShape)
@@ -85,7 +87,12 @@ namespace ToolSystem
         private void OnMineDisabled(Mine mine)
         {
             if (!gameObjects.ContainsKey(mine))
-                throw new ArgumentException($"The GameObject for {nameof(ChunkShape)} {mine} could not be found.");
+            {
+                //throw new ArgumentException($"The GameObject for {nameof(ChunkShape)} {mine} could not be found.");
+                Debug.LogWarning(
+                    $"The GameObject for {nameof(ChunkShape)} {mine} could not be found. Because the code bad.");
+                return;
+            }
 
             gameObjects[mine].SetActive(false);
         }

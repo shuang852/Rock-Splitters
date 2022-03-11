@@ -58,15 +58,18 @@ namespace RockSystem.Chunks
             
             ChunkShapeGameObjects.Add(chunkShape, go);
             
-            // TODO: Should this just be handled by the ChunkShape? Leads to two way dependency
-            // TODO: Has been moved before initialisation to allow mines defused during initialisation to be removed from the xray
-            ChunkManager.RegisterChunkShape(chunkShape);
+
 
             preinitialisationAction(chunkShape);
 
             initialisationAction(chunkShape);
             
             ChunkShapes.Add(chunkShape);
+            
+            // TODO: Should this just be handled by the ChunkShape? Leads to two way dependency
+            // TODO: Has been moved before initialisation to allow mines defused during initialisation to be removed from the xray
+            // TODO: Moved back because now artefacts don't have xrays
+            ChunkManager.RegisterChunkShape(chunkShape);
 
             chunkShape.CanBeDamaged = ChunkShapesCanBeDamaged;
             chunkShape.destroyRequest.AddListener(OnChunkShapeDestroyRequest);
