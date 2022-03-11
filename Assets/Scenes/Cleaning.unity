@@ -355,6 +355,18 @@ PrefabInstance:
       propertyPath: cleaningArea
       value: 
       objectReference: {fileID: 1700246440}
+    - target: {fileID: 8305336196870921414, guid: 6036648a57cf00c46b07af0386d2a4b5, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8305336196870921414, guid: 6036648a57cf00c46b07af0386d2a4b5, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2150871330291307017, guid: a3d7bc0cf6627454db28325a7365eb0b, type: 3}
+    - target: {fileID: 8305336196870921414, guid: 6036648a57cf00c46b07af0386d2a4b5, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8560033071678039148, guid: 6036648a57cf00c46b07af0386d2a4b5, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
