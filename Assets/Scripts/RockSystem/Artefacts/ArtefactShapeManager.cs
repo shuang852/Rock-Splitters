@@ -32,6 +32,7 @@ namespace RockSystem.Artefacts
             
             CreateChunkShape(
                 () => Instantiate(chunkShapePrefab, transform),
+                chunkShape => { },
                 artefactShape => artefactShape.Initialise(artefact)
             );
             
@@ -46,9 +47,9 @@ namespace RockSystem.Artefacts
             artefactChunkDamaged.Invoke((ArtefactShape) chunkShape, flatPosition);
         }
 
-        protected override ArtefactShape CreateChunkShape(Func<GameObject> instantiationFunction, Action<ArtefactShape> initialisationAction)
+        protected override ArtefactShape CreateChunkShape(Func<GameObject> instantiationFunction, Action<ChunkShape> preinitialisationAction, Action<ArtefactShape> initialisationAction)
         {
-            var artefactShape = base.CreateChunkShape(instantiationFunction, initialisationAction);
+            var artefactShape = base.CreateChunkShape(instantiationFunction, preinitialisationAction, initialisationAction);
             
             artefactShape.chunkDamaged.AddListener(OnArtefactShapeChunkDamaged);
 

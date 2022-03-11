@@ -77,6 +77,14 @@ namespace ToolSystem.Mines
                 
                 var chunkShape = CreateChunkShape(
                     () => Instantiate(chunkShapePrefab, randomPosInBox, Quaternion.identity, transform),
+                    chunkShape =>
+                    {
+                        Mine mine = (Mine) chunkShape;
+
+                        // TODO: Has been moved before initialisation to allow mines defused during initialisation to be removed from the xray
+                        mine.defused.AddListener(OnMineDefused);
+                        mine.detonated.AddListener(OnMineDetonated);
+                    },
                     mine => mine.Initialise(Random.Range(minLayer, ChunkManager.Size.z))
                 );
 
@@ -84,12 +92,9 @@ namespace ToolSystem.Mines
             }
         }
 
-        protected override Mine CreateChunkShape(Func<GameObject> instantiationFunction, Action<Mine> initialisationAction)
+        protected override Mine CreateChunkShape(Func<GameObject> instantiationFunction, Action<ChunkShape> preinitialisationAction, Action<Mine> initialisationAction)
         {
-            var chunkShape = base.CreateChunkShape(instantiationFunction, initialisationAction);
-            
-            chunkShape.defused.AddListener(OnMineDefused);
-            chunkShape.detonated.AddListener(OnMineDetonated);
+            var chunkShape = base.CreateChunkShape(instantiationFunction, preinitialisationAction, initialisationAction);
 
             return chunkShape;
         }
