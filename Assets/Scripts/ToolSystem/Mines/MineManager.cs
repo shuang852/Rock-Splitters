@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RockSystem.Chunks;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 namespace ToolSystem.Mines
 {
@@ -80,6 +82,34 @@ namespace ToolSystem.Mines
 
                 chunkShape.name = $"Mine {i + 1}";
             }
+        }
+
+        protected override Mine CreateChunkShape(Func<GameObject> instantiationFunction, Action<Mine> initialisationAction)
+        {
+            var chunkShape = base.CreateChunkShape(instantiationFunction, initialisationAction);
+            
+            chunkShape.defused.AddListener(OnMineDefused);
+            chunkShape.detonated.AddListener(OnMineDetonated);
+
+            return chunkShape;
+        }
+        
+        protected override void DestroyChunkShape(Mine mine)
+        {
+            base.DestroyChunkShape(mine);
+            
+            mine.defused.RemoveListener(OnMineDefused);
+            mine.detonated.RemoveListener(OnMineDetonated);
+        }
+
+        private void OnMineDefused(Mine mine)
+        {
+            mineDefused.Invoke();
+        }
+
+        private void OnMineDetonated(Mine mine)
+        {
+            mineDetonated.Invoke();
         }
 
         private Vector2 RandomPosInRect(Rect rect, Vector2 buffer)
