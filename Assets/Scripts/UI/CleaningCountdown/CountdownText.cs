@@ -2,6 +2,7 @@
 using Cleaning;
 using Cysharp.Threading.Tasks;
 using Managers;
+using TMPro;
 using UI.Core;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +14,7 @@ namespace UI.CleaningCountdown
         [SerializeField] private int countdownSteps;
         [SerializeField] private float stepDuration;
         [SerializeField] private string goString;
-        [SerializeField] private Text text;
+        [SerializeField] private TMP_Text text;
 
         private CleaningManager cleaningManager;
 

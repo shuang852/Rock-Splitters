@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace UI.Cleaning
 {
+    // TODO: Remove
     public class StartCleaningButton : DialogueComponent<CleaningDialogue>
     {
         private Button button;
