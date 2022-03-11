@@ -8,12 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: ddbb52029525352478d5ad4546b483cb
-  - enabled: 0
-    path: Assets/Scenes/Experimental/FossilExperiment.unity
-    guid: 9c813bb34d8219a64a0b6231ded1c570
-  - enabled: 0
-    path: Assets/Scenes/Experimental/FossilExperiment 1.unity
-    guid: a94f4cb5d2f811a4786893c01612c89a
   - enabled: 1
     path: Assets/Scenes/Cleaning.unity
     guid: 2ecb5c09760588746952a08e0ef85d6b
