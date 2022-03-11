@@ -29,6 +29,7 @@ namespace UI.Transitions
                 .AsyncWaitForCompletion();
             animatedDino.gameObject.SetActive(false);
             canvasGroup.blocksRaycasts = false;
+            canvasGroup.interactable = false;
         }
 
         /// <summary>
@@ -38,10 +39,11 @@ namespace UI.Transitions
         public async void TransitionOut(SceneReference sceneReference)
         {
             animatedDino.gameObject.SetActive(true);
+            canvasGroup.blocksRaycasts = true;
+            canvasGroup.interactable = true;
             await canvasGroup.DOFade(1, transitionDuration)
                 .SetEase(easeMode)
                 .AsyncWaitForCompletion();
-            canvasGroup.blocksRaycasts = true;
             await SceneManager.LoadSceneAsync(sceneReference);
         }
         
