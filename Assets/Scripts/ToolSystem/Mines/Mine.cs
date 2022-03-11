@@ -1,4 +1,4 @@
-﻿using Managers;
+using Managers;
 using RockSystem.Chunks;
 using UnityEngine;
 using UnityEngine.Events;
@@ -62,6 +62,7 @@ namespace ToolSystem.Mines
             detonated.Invoke(this);
             // TODO: Quick fix. Needs looking at again.
             gameObject.SetActive(false);
+            enabled = false;
 
             // destroyRequest.Invoke(this);
             
@@ -77,6 +78,8 @@ namespace ToolSystem.Mines
             SpriteRenderer.sortingLayerName = defuseLayer;
             
             animator.SetTrigger(defuse);
+            
+            enabled = false;
             defused.Invoke(this);
         }
 
